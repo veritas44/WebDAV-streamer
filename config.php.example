@@ -5,5 +5,7 @@ const PASSWORD = "";
 const START_FOLDER = "";
 
 const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full path to ffmpeg.exe
+
+//Please make sure the convert folder is writeable (chmod 0777):
 const CONVERT_FOLDER = ""; //Full system path
 const CONVERT_FOLDER_RELATIVE = ""; //Relative to the webpage

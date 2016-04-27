@@ -145,13 +145,9 @@ $requestURL = str_replace(' ', '%20', $requestURL);
 
     <script src="jplayer/jquery.jplayer.min.js"></script>
     <script src="jplayer/jplayer.playlist.js"></script>
-    <script src="jplayer/jquery.jplayer.inspector.js"></script>
-    <script src="jplayer/jquery.jplayer.inspector.js"></script>
 
     <script src="js/playlist.js"></script>
     <script src="js/filebrowser.js"></script>
-
-    <script src="js/sha1-min.js"></script>
 
 
     <script>
