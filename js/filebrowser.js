@@ -32,6 +32,13 @@ $(document).ready(function () {
    playlistArray = [];
 });
 
+function playVideo(file, name){
+    var url = "get_video.php?file=" + file;
+
+    $("#videoDiv").html("<video controls src='" + url + "' autoplay>");
+    $("#videoTitle").html(urldecode(name));
+}
+
 function addToPlaylist(file, name){
     var url = "get_file.php?file=" + file;
     jPlaylist.add({

@@ -137,6 +137,14 @@ $requestURL = str_replace(' ', '%20', $requestURL);
         </button>
     </div>
 
+    <div class="reveal" id="video" data-reveal>
+        <h3 id="videoTitle">Video</h3>
+        <div id="videoDiv" class="flex-video widescreen"></div>
+        <button class="close-button" data-close aria-label="Close reveal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <script src="js/codecs/aurora.js"></script>
     <script src="js/codecs/flac.js"></script>
 

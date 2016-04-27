@@ -54,10 +54,14 @@ echo "<div id='filebrowserTable'><table>";
     foreach($folders as $key => $value){
         if(array_key_exists('{DAV:}getcontentlength', $value)){
             //If there is a content length, it's likely to be a file.
-            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false || strpos($value["{DAV:}getcontenttype"], "video") !== false) {
+            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                 $isContent = true;
-                echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/page.png' alt='F'></td>
+                echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/music.png' alt='F'></td>
             <td><a href='#' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\")'>" . $value["{DAV:}displayname"] . "</a></td><td></td>
+            </tr>";
+            }elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
+                echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/film.png' alt='F'></td>
+            <td><a href='#' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\")'>" . $value["{DAV:}displayname"] . "</a></td><td></td>
             </tr>";
             }
         }
