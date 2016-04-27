@@ -35,7 +35,7 @@ $(document).ready(function () {
 function playVideo(file, name){
     var url = "get_video.php?file=" + file;
 
-    $("#videoDiv").html("<video controls src='" + url + "' autoplay>");
+    $("#videoPlayer").attr("src", url);
     $("#videoTitle").html(urldecode(name));
 }
 

@@ -125,7 +125,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
         </div>
     </div>
     <div class="reveal" id="about" data-reveal>
-        <h1>About</h1>
+        <h4>About</h4>
         <p class="lead">The story of a simple WebDAV streamer</p>
         <p>WebDAV streamer was created by Koenvh after searching for countless hours on the internet for a simple web audio player that supported WebDAV.<br>
             He could not find one, so he decided to create one himself. <br>
@@ -137,10 +137,12 @@ $requestURL = str_replace(' ', '%20', $requestURL);
         </button>
     </div>
 
-    <div class="reveal" id="video" data-reveal>
-        <h3 id="videoTitle">Video</h3>
-        <div id="videoDiv" class="flex-video widescreen"></div>
-        <button class="close-button" data-close aria-label="Close reveal" type="button">
+    <div class="reveal" id="video" data-reveal style="z-index: 501;">
+        <h4 id="videoTitle">Video</h4>
+        <div class="flex-video widescreen">
+            <video id="videoPlayer" controls src='' autoplay>
+        </div>
+        <button class="close-button" data-close aria-label="Close reveal" type="button" onclick="document.getElementById('videoPlayer').pause();">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
