@@ -24,7 +24,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
-    <link rel="stylesheet" type="text/css" href="js/jplayer/skin/blue.monday/css/jplayer.blue.monday.min.css">
+    <link rel="stylesheet" type="text/css" href="jplayer/skin/foundation/css/jplayer.blue.monday.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
@@ -32,7 +32,56 @@ $requestURL = str_replace(' ', '%20', $requestURL);
         <div class="top-bar-left">
             <ul class="menu">
                 <li class="menu-text">WebDAV streamer</li>
+                <li class="menu-text">
+                    <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                    <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+                        <div class="jp-type-playlist">
+                            <div class="jp-gui jp-interface">
+                                <div class="jp-controls">
+                                    <button class="jp-previous" role="button" tabindex="0">previous</button>
+                                    <button class="jp-play" role="button" tabindex="0">play</button>
+                                    <button class="jp-next" role="button" tabindex="0">next</button>
+                                    <button class="jp-stop" role="button" tabindex="0">stop</button>
+                                </div>
+                                <div class="jp-progress">
+                                    <div class="jp-seek-bar">
+                                        <div class="jp-play-bar"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-volume-controls">
+                                    <button class="jp-mute" role="button" tabindex="0">mute</button>
+                                    <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                                    <div class="jp-volume-bar">
+                                        <div class="jp-volume-bar-value"></div>
+                                    </div>
+                                </div>
+                                <div class="jp-time-holder">
+                                    <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                                    <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                                </div>
+                                <div class="jp-toggles">
+                                    <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                                    <button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
+                                </div>
+                            </div>
+
+                            <div class="jp-no-solution">
+                                <span>Update Required</span>
+                                To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!--
+                <li><button class="button" id="previous">Previous</button> </li>
+                <li><button class="button" id="play">Play</button><button class="button" id="pause">Pause</button> </li>
+                <li><button class="button" id="next">Next</button> </li>
+                <li><button class="button" id="stop">Stop</button> </li>
+                <li><span id="currentTime"></span> / <span id="duration"></span></li>
+                <li><button class="button" id="mute">Mute</button><button class="button" id="unmute">Unmute</button> </li>
+                -->
             </ul>
+
         </div>
         <div class="top-bar-right">
             <ul class="menu">
@@ -47,53 +96,14 @@ $requestURL = str_replace(' ', '%20', $requestURL);
 
         </div>
     </nav>
-    <div style="height: 10px;"></div>
     <div class="row" id="content">
         <div class="medium-6 columns" id="playlist">
+            <div style="height: 10px;"></div>
             <div class="blog-post">
                 <h3>Playlist</h3>
-                <div id="jquery_jplayer_1" class="jp-jplayer"></div>
-                <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
-                    <div class="jp-type-playlist">
-                        <div class="jp-gui jp-interface">
-                            <div class="jp-controls">
-                                <button class="jp-previous" role="button" tabindex="0">previous</button>
-                                <button class="jp-play" role="button" tabindex="0">play</button>
-                                <button class="jp-next" role="button" tabindex="0">next</button>
-                                <button class="jp-stop" role="button" tabindex="0">stop</button>
-                            </div>
-                            <div class="jp-progress">
-                                <div class="jp-seek-bar">
-                                    <div class="jp-play-bar"></div>
-                                </div>
-                            </div>
-                            <div class="jp-volume-controls">
-                                <button class="jp-mute" role="button" tabindex="0">mute</button>
-                                <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-                                <div class="jp-volume-bar">
-                                    <div class="jp-volume-bar-value"></div>
-                                </div>
-                            </div>
-                            <div class="jp-time-holder">
-                                <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-                                <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-                            </div>
-                            <div class="jp-toggles">
-                                <button class="jp-repeat" role="button" tabindex="0">repeat</button>
-                                <button class="jp-shuffle" role="button" tabindex="0">shuffle</button>
-                            </div>
-                        </div>
-                        <div class="jp-playlist" id="jp-playlist">
-                            <ul>
-                                <li>&nbsp;</li>
-                            </ul>
-                        </div>
-                        <div class="jp-no-solution">
-                            <span>Update Required</span>
-                            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-                        </div>
-                    </div>
-                </div>
+                <table class="jp-playlist" id="jp-playlist">
+
+                </table>
                 <!--table>
                 <thead>
                 <tr>
@@ -108,6 +118,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
             </div>
         </div>
         <div class="medium-6 columns">
+            <div style="height: 10px;"></div>
             <div class="blog-post" id="filebrowser">
 
             </div>
@@ -131,15 +142,16 @@ $requestURL = str_replace(' ', '%20', $requestURL);
 
     <script src="js/jquery-2.2.3.js"></script>
     <script src="js/foundation.min.js"></script>
+
+    <script src="jplayer/jquery.jplayer.min.js"></script>
+    <script src="jplayer/jplayer.playlist.js"></script>
+    <script src="jplayer/jquery.jplayer.inspector.js"></script>
+    <script src="jplayer/jquery.jplayer.inspector.js"></script>
+
     <script src="js/playlist.js"></script>
     <script src="js/filebrowser.js"></script>
 
     <script src="js/sha1-min.js"></script>
-
-    <script src="js/jplayer/jquery.jplayer.min.js"></script>
-    <script src="js/jplayer/jplayer.playlist.min.js"></script>
-    <script src="js/jplayer/jquery.jplayer.inspector.js"></script>
-    <script src="js/jplayer/jquery.jplayer.inspector.js"></script>
 
 
     <script>

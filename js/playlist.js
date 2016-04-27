@@ -10,7 +10,7 @@ $(document).ready(function(){
             autoPlay: true,
             enableRemoveControls: true
         },
-        swfPath: "./js/jplayer/jquery.jplayer.swf",
+        swfPath: "./jplayer/jquery.jplayer.swf",
         solution: "html,aurora,flash",
         supplied: "mp3,flac",
         wmode: "window",
@@ -20,5 +20,5 @@ $(document).ready(function(){
         keyEnabled: true
     });
 
-    $("#jplayer_inspector_1").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
+    //$("#jplayer_inspector_1").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});
 });

@@ -1,0 +1,9 @@
+<?php
+const BASE_URI = "";
+const USERNAME = "";
+const PASSWORD = "";
+const START_FOLDER = "";
+
+const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full path to ffmpeg.exe
+const CONVERT_FOLDER = ""; //Full system path
+const CONVERT_FOLDER_RELATIVE = ""; //Relative to the webpage

@@ -61,7 +61,7 @@
 
 		// Setup the css selectors for the extra interface items used by the playlist.
 		this.cssSelector.details = this.cssSelector.cssSelectorAncestor + " .jp-details"; // Note that jPlayer controls the text in the title element.
-		this.cssSelector.playlist = this.cssSelector.cssSelectorAncestor + " .jp-playlist";
+		this.cssSelector.playlist = " .jp-playlist";
 		this.cssSelector.next = this.cssSelector.cssSelectorAncestor + " .jp-next";
 		this.cssSelector.previous = this.cssSelector.cssSelectorAncestor + " .jp-previous";
 		this.cssSelector.shuffle = this.cssSelector.cssSelectorAncestor + " .jp-shuffle";
@@ -133,7 +133,7 @@
 		}
 
 		// Remove the empty <li> from the page HTML. Allows page to be valid HTML, while not interfereing with display animations
-		$(this.cssSelector.playlist + " ul").empty();
+		$(this.cssSelector.playlist).empty();
 
 		// Create .on() handlers for the playlist items along with the free media and remove controls.
 		this._createItemHandlers();
@@ -218,15 +218,15 @@
 			var self = this;
 
 			if(instant && !$.isFunction(instant)) {
-				$(this.cssSelector.playlist + " ul").empty();
+				$(this.cssSelector.playlist).empty();
 				$.each(this.playlist, function(i) {
-					$(self.cssSelector.playlist + " ul").append(self._createListItem(self.playlist[i]));
+					$(self.cssSelector.playlist).append(self._createListItem(self.playlist[i]));
 				});
 				this._updateControls();
 			} else {
-				var displayTime = $(this.cssSelector.playlist + " ul").children().length ? this.options.playlistOptions.displayTime : 0;
+				var displayTime = $(this.cssSelector.playlist).children().length ? this.options.playlistOptions.displayTime : 0;
 
-				$(this.cssSelector.playlist + " ul").slideUp(displayTime, function() {
+				$(this.cssSelector.playlist).slideUp(displayTime, function() {
 					var $this = $(this);
 					$(this).empty();
 					
@@ -249,10 +249,7 @@
 			var self = this;
 
 			// Wrap the <li> contents in a <div>
-			var listItem = "<li><div>";
-
-			// Create remove control
-			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'>&times;</a>";
+			var listItem = "<tr>";
 
 			// Create links to free media
 			if(media.free) {
@@ -272,8 +269,11 @@
 			}
 
 			// The title is given next in the HTML otherwise the float:right on the free media corrupts in IE6/7
-			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='0'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a>";
-			listItem += "</div></li>";
+			listItem += "<td><a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='0'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a></td>";
+
+			// Create remove control
+			listItem += "<td align='right'><a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'>Delete <img src='img/icons/cross.png' alt='Del'></a></td>";
+			listItem += "</tr>";
 
 			return listItem;
 		},
@@ -302,7 +302,9 @@
 			$(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.removeItemClass).on("click", "a." + this.options.playlistOptions.removeItemClass, function(e) {
 				e.preventDefault();
 				var index = $(this).parent().parent().index();
+				//alert(index);
 				self.remove(index);
+				//$("#jp-playlist tr").eq(index).remove();
 				self.blur(this);
 			});
 		},
@@ -331,7 +333,7 @@
 		_highlight: function(index) {
 			if(this.playlist.length && index !== undefined) {
 				$(this.cssSelector.playlist + " .jp-playlist-current").removeClass("jp-playlist-current");
-				$(this.cssSelector.playlist + " li:nth-child(" + (index + 1) + ")").addClass("jp-playlist-current").find(".jp-playlist-item").addClass("jp-playlist-current");
+				$(this.cssSelector.playlist + " tr:nth-child(" + (index + 1) + ")").addClass("jp-playlist-current").find(".jp-playlist-item").addClass("jp-playlist-current");
 				// $(this.cssSelector.details + " li").html("<span class='jp-title'>" + this.playlist[index].title + "</span>" + (this.playlist[index].artist ? " <span class='jp-artist'>by " + this.playlist[index].artist + "</span>" : ""));
 			}
 		},
@@ -340,7 +342,7 @@
 			this._init();
 		},
 		add: function(media, playNow) {
-			$(this.cssSelector.playlist + " ul").append(this._createListItem(media)).find("li:last-child").hide().slideDown(this.options.playlistOptions.addTime);
+			$(this.cssSelector.playlist).append(this._createListItem(media)).find("li:last-child").hide().slideDown(this.options.playlistOptions.addTime);
 			this._updateControls();
 			this.original.push(media);
 			this.playlist.push(media); // Both array elements share the same object pointer. Comforms with _initPlaylist(p) system.
@@ -371,7 +373,7 @@
 					if(0 <= index && index < this.playlist.length) {
 						this.removing = true;
 
-						$(this.cssSelector.playlist + " li:nth-child(" + (index + 1) + ")").slideUp(this.options.playlistOptions.removeTime, function() {
+						$(this.cssSelector.playlist + " tr:nth-child(" + (index + 1) + ")").slideUp(this.options.playlistOptions.removeTime, function() {
 							$(this).remove();
 
 							if(self.shuffled) {
@@ -466,7 +468,7 @@
 
 			if(shuffled || shuffled !== this.shuffled) {
 
-				$(this.cssSelector.playlist + " ul").slideUp(this.options.playlistOptions.shuffleTime, function() {
+				$(this.cssSelector.playlist).slideUp(this.options.playlistOptions.shuffleTime, function() {
 					self.shuffled = shuffled;
 					if(shuffled) {
 						self.playlist.sort(function() {
