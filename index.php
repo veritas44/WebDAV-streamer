@@ -31,7 +31,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
     <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
         <div class="top-bar-left">
             <ul class="menu">
-                <li class="menu-text">WebDAV streamer</li>
+                <li class="menu-text"><img src="img/logo.svg" alt="Logo" style="height: 30px; width: auto;"> WebDAV streamer</li>
                 <li class="menu-text">
                     <div id="jquery_jplayer_1" class="jp-jplayer"></div>
                     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
