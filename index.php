@@ -23,6 +23,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
     <title>WebDAV streamer</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
     <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
     <link rel="stylesheet" type="text/css" href="jplayer/skin/foundation/css/jplayer.blue.monday.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
