@@ -1,0 +1,11 @@
+
+
+1. Rename config.php.example to config.php
+2. Fill in config.php with your own server details
+3. Enjoy
+
+WebDAV streamer requires PHP 5.5 (or higher) with ffmpeg (or avconv).
+Windows builds can be found here: https://ffmpeg.zeranoe.com/builds/
+Any modern browser (IE/Firefox/Chrome/Opera/Safari) will work, mobile will work as well (although it has some quirks)
+
+Created by Koenvh - http://koenvh.nl

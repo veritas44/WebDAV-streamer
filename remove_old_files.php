@@ -13,7 +13,7 @@ if (file_exists(CONVERT_FOLDER)) {
             continue;
         }
         //Delete all files older than an hour
-        if (time() - $fileInfo->getCTime() >= 60 * 60) {
+        if (time() - $fileInfo->getCTime() >= 60 * 60 * 24) {
             unlink($fileInfo->getRealPath());
         }
     }

@@ -5,7 +5,10 @@
  * Date: 25-4-2016
  * Time: 12:45
  */
+//Set memory limit for larger files:
 ini_set("memory_limit","1600M");
+
+//Show all errors, because there shouldn't be any:
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 require_once ("SabreDAV/vendor/autoload.php");

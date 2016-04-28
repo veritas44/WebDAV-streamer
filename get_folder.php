@@ -34,13 +34,8 @@ try {
     ), 1);
     array_shift($folders);
 
-//echo var_dump($folders);
-
-//header('Content-Type: application/json');
-?>
-    <?php
     $isContent = false;
-echo "<div id='filebrowserTable'><table>";
+    echo "<div id='filebrowserTable'><table>";
     foreach($folders as $key => $value){
         if(!array_key_exists('{DAV:}getcontentlength', $value)){
             $isContent = true;
