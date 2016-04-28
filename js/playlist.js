@@ -16,7 +16,7 @@ $(document).ready(function(){
         wmode: "window",
         useStateClassSkin: true,
         autoBlur: false,
-        smoothPlayBar: true,
+        smoothPlayBar: false,
         keyEnabled: true
     });
 

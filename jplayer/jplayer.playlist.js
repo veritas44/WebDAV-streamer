@@ -272,7 +272,7 @@
 			listItem += "<td><a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='0'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a></td>";
 
 			// Create remove control
-			listItem += "<td align='right'><a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'>Delete <img src='img/icons/cross.png' alt='Del'></a></td>";
+			listItem += "<td align='right'><a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'><img src='img/icons/cross.png' alt='Del'></a></td>";
 			listItem += "</tr>";
 
 			return listItem;

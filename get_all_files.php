@@ -28,7 +28,7 @@ function doPropfind($folder){
             doPropfind($key);
         }
         if (array_key_exists('{DAV:}getcontentlength', $value)) {
-            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false || strpos($value["{DAV:}getcontenttype"], "video") !== false) {
+            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                 $scriptContent[] = array(urlencode($key), urlencode($value["{DAV:}displayname"]));
                 //$scriptContent .= "addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\");\n";
             }

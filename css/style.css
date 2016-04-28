@@ -27,6 +27,15 @@ body html {
 a.jp-playlist-current {
     color: #fff;
 }
+
+@media screen and (max-width: 768px) {
+    .top-bar {
+        position: relative;
+    }
+    #content {
+        top: 0;
+    }
+}
 /*
 .jp-controls .jp-progress .jp-volume-controls .jp-toggles .jp-type-playlist .jp-audio{
     display: block;
