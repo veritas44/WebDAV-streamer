@@ -7,15 +7,6 @@
  */
 
 require_once ("includes.php");
-
-$requestURL = 'Music/GTR2/24hrs.mp3';
-$requestURL = 'Music/Alistair Griffin - Just Drive.mp3';
-//$requestURL = 'Music/Monstercat/Monstercat 024/Monstercat - Monstercat 024 - 32 Presage (Album Mix).flac';
-
-$requestURL = str_replace(' ', '%20', $requestURL);
-//$response = $client->request('GET', $requestURL);
-//$response = $client->request('HEAD', $requestURL);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,6 +77,7 @@ $requestURL = str_replace(' ', '%20', $requestURL);
         </div>
         <div class="top-bar-right">
             <ul class="menu">
+                <li><a href="login.php?logout=1">Log out</a></li>
                 <li><a data-open="about">About</a></li>
                 <li><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
             </ul>

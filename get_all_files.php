@@ -18,18 +18,16 @@ $scriptContent = array();
 function doPropfind($folder){
     global $client, $scriptContent;
     $folders = $client->propFind($folder, array(
-        '{DAV:}displayname',
-        '{DAV:}getcontentlength',
         '{DAV:}getcontenttype'
     ), 1);
     array_shift($folders);
     foreach($folders as $key => $value){
-        if(!array_key_exists('{DAV:}getcontentlength', $value)){
+        if(!array_key_exists('{DAV:}getcontenttype', $value)){
             doPropfind($key);
         }
-        if (array_key_exists('{DAV:}getcontentlength', $value)) {
+        if (array_key_exists('{DAV:}getcontenttype', $value)) {
             if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
-                $scriptContent[] = array(urlencode($key), urlencode($value["{DAV:}displayname"]));
+                $scriptContent[] = array(urlencode($key), urlencode(readable_name($key)));
                 //$scriptContent .= "addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\");\n";
             }
         }

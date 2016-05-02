@@ -1,4 +1,5 @@
 <?php
+session_start();
 /**
  * Created by PhpStorm.
  * User: Koen
@@ -13,22 +14,41 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 require_once ("SabreDAV/vendor/autoload.php");
 require_once ("config.php");
+require_once ("auth.php");
+
+$username = $_SESSION["username"];
+$password = $_SESSION["password"];
+
+$auth = new Auth($users);
+if($auth->login($username, $password) == "success") {
+
+} else {
+    header("Location: login.php");
+    die();
+}
 //require_once ("FFMpeg/FFMpeg.php");
 //require_once ("FFMpeg/FFProbe.php");
 
 use Sabre\DAV\Client;
 
 $settings = array(
-    'baseUri' => BASE_URI,
-    'userName' => USERNAME,
-    'password' => PASSWORD
+    'baseUri' => $users[$auth->username]['base_uri'],
+    'userName' => $users[$auth->username]['username_webdav'],
+    'password' => $users[$auth->username]['password_webdav']
 );
 
-$startFolder = START_FOLDER;
+$startFolder = $users[$auth->username]['start_folder'];
 
 $client = new Client($settings);
 
 function encodeURIComponent($str) {
     $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
     return strtr(rawurlencode($str), $revert);
+}
+
+function readable_name($url){
+    $name = $url;
+    $name = basename($name);
+    $name = urldecode($name);
+    return $name;
 }

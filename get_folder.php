@@ -19,6 +19,7 @@ $currentURL = "";
 echo '<h3>Files';
 echo '<span class="float-right"><a href=\'#\' class="button" onclick="addAllToPlaylist()">Add all to playlist</a>
                 <a href="#" class="button" onclick="jPlaylist.remove()">Clear playlist</a></span></h3>';
+echo '<div style="height: 10px;"></div>';
 echo '<ul class="breadcrumbs">';
 foreach ($folderArray as $value){
     $currentURL = $currentURL . $value . "/";
@@ -28,35 +29,35 @@ echo '</ul>';
 
 try {
     $folders = $client->propFind($folder, array(
-        '{DAV:}displayname',
-        '{DAV:}getcontentlength',
         '{DAV:}getcontenttype'
     ), 1);
+
+    //var_dump($folders);
     array_shift($folders);
 
     $isContent = false;
     echo "<div id='filebrowserTable'><table>";
     foreach($folders as $key => $value){
-        if(!array_key_exists('{DAV:}getcontentlength', $value)){
+        if(!array_key_exists('{DAV:}getcontenttype', $value)){
             $isContent = true;
             //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
-            echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/folder.png' alt='F'></td>
-            <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . $value["{DAV:}displayname"] . "</a></td>
-            <td align=\"right\"><a href='#' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")'><img src='img/icons/add.png' alt='Add'></a></td>
+            echo "<tr><td width='25px' class='table-icon'><img src='img/icons/folder.png' alt='F'></td>
+            <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . readable_name($key) . "</a></td>
+            <td width='25px' class='table-icon' align=\"right\"><a href='#' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")'><img src='img/icons/add.png' alt='Add'></a></td>
             </tr>";
         }
     }
     foreach($folders as $key => $value){
-        if(array_key_exists('{DAV:}getcontentlength', $value)){
-            //If there is a content length, it's likely to be a file.
+        if(array_key_exists('{DAV:}getcontenttype', $value)){
+            //If there is a content type, it's likely to be a file.
             if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                 $isContent = true;
-                echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/music.png' alt='F'></td>
-            <td><a href='#' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\")'>" . $value["{DAV:}displayname"] . "</a></td><td></td>
+                echo "<tr><td width='25px' class='table-icon'><img src='img/icons/music.png' alt='F'></td>
+            <td><a href='#' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";
             }elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
-                echo "<tr><td width='25px' style='padding: 0;' class='text-center'><img src='img/icons/film.png' alt='F'></td>
-            <td><a href='#' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\")'>" . $value["{DAV:}displayname"] . "</a></td><td></td>
+                echo "<tr><td width='25px' class='table-icon'><img src='img/icons/film.png' alt='F'></td>
+            <td><a href='#' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";
             }
         }
