@@ -15,8 +15,16 @@ if(isset($_GET["logout"])){
     session_destroy();
 }
 
+$auth = new Auth($users);
+
+if(key_exists("autologin", $auth->users)){
+    $_SESSION["username"] = "autologin";
+    $_SESSION["password"] = $auth->users["autologin"]["password_streamer"];
+    header("Location: index.php");
+    die();
+}
+
 if(isset($_POST["username"]) && isset($_POST["password"])){
-    $auth = new Auth($users);
     if($auth->login($_POST["username"], $_POST["password"]) == "success"){
         $_SESSION["username"] = $_POST["username"];
         $_SESSION["password"] = $_POST["password"];

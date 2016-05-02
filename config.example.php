@@ -1,5 +1,6 @@
 <?php
 
+
 //Please enter all users and their details:
 $users = array(
     "bob" => array( //The username, pick anything you like. If you don't want authentication, rename bob to autologin
@@ -12,6 +13,6 @@ $users = array(
 );
 
 const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full path to ffmpeg.exe
-//Please make sure the convert folder is writeable (chmod 0777):
-const CONVERT_FOLDER = ""; //Full system path, make sure it is reacheable through your website. By default ""/your/path/to/www/out"
-const CONVERT_FOLDER_RELATIVE = ""; //Relative to the webpage, by default "out"
+//Please make sure the convert folder is writable (chmod 0777):
+const CONVERT_FOLDER = ""; //Full system path, make sure it is reachable through your website. By default ""/your/path/to/www/out", no trailing slash
+const CONVERT_FOLDER_RELATIVE = ""; //Relative to the webpage, by default "out", no trailing slash
