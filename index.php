@@ -154,6 +154,9 @@ require_once ("includes.php");
     <script>
         $(document).foundation();
         $(document).ready(function () {
+            //jPlaylist.setPlaylist(localStorage.getItem("playlist"));
+            alert(localStorage.getItem("playlist"));
+
             getDirectories("<?php echo urlencode($startFolder); ?>");
 
             $("#loading").show();
@@ -169,6 +172,10 @@ require_once ("includes.php");
             };
             xhttp.open("GET", "remove_old_files.php", true);
             xhttp.send();
+        });
+
+        $(window).unload(function() {
+            localStorage.setItem("playlist", JSON.stringify(jPlaylist.playlist));
         });
     </script>
 </body>

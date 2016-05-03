@@ -272,7 +272,11 @@
 			listItem += "<td><a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='0'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a></td>";
 
 			// Create remove control
-			listItem += "<td width='25px' class='table-icon' align='right'><a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'><img src='img/icons/cross.png' alt='Del'></a></td>";
+			listItem += "<td width='75px' class='table-icon' align='right'>" +
+				"<a href='javascript:;' class='up'><img src='img/icons/arrow_up.png'></a>" +
+				"<a href='javascript:;' class='down'><img src='img/icons/arrow_down.png'></a>" +
+				"<a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'><img src='img/icons/cross.png' alt='Del'></a>" +
+				"</td>";
 			listItem += "</tr>";
 
 			return listItem;
@@ -306,6 +310,37 @@
 				self.remove(index);
 				//$("#jp-playlist tr").eq(index).remove();
 				self.blur(this);
+			});
+
+			Array.prototype.move = function (old_index, new_index) {
+				if (new_index >= this.length) {
+					var k = new_index - this.length;
+					while ((k--) + 1) {
+						this.push(undefined);
+					}
+				}
+				this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+				return this; // for testing purposes
+			};
+
+			$(this.cssSelector.playlist).off("click", "a.up").on("click", "a.up", function(e) {
+				e.preventDefault();
+				var index = $(this).parent().parent().index();
+				//alert(index);
+				self.playlist.move(index, index - 1);
+				//$("#jp-playlist tr").eq(index).remove();
+				//self.blur(this);
+				self._refresh(true);
+			});
+
+			$(this.cssSelector.playlist).off("click", "a.down").on("click", "a.down", function(e) {
+				e.preventDefault();
+				var index = $(this).parent().parent().index();
+				//alert(index);
+				self.playlist.move(index, index + 1);
+				//$("#jp-playlist tr").eq(index).remove();
+				//self.blur(this);
+				self._refresh(true);
 			});
 		},
 		_updateControls: function() {
