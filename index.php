@@ -132,8 +132,8 @@ require_once ("includes.php");
     <div class="tiny reveal" id="savePlaylist" data-reveal style="z-index: 501;">
         <h5>Please enter a name for this playlist:</h5>
         <input type="text" placeholder="Enter a name..." id="playlistName">
-        <button onclick="savePlaylist()" class="button">Save playlist</button>
-        <button class="close-button" data-close aria-label="Close reveal" type="button" onclick="document.getElementById('videoPlayer').pause();">
+        <button onclick="savePlaylist()" data-close class="button">Save playlist</button>
+        <button class="close-button" data-close aria-label="Close reveal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -155,7 +155,7 @@ require_once ("includes.php");
         $(document).foundation();
         $(document).ready(function () {
             //jPlaylist.setPlaylist(localStorage.getItem("playlist"));
-            alert(localStorage.getItem("playlist"));
+            //alert(localStorage.getItem("playlist"));
 
             getDirectories("<?php echo urlencode($startFolder); ?>");
 

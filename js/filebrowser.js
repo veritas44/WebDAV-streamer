@@ -114,7 +114,7 @@ function savePlaylist() {
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = xhttp.responseText;
-            //alert(response);
+            alert(response);
             getDirectories(currentDirectory);
 
 
@@ -126,4 +126,27 @@ function savePlaylist() {
     xhttp.open("POST", "save_playlist.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("file=" + file + "&playlist=" + JSON.stringify(jPlaylist.playlist));
+}
+
+function removeFile(file) {
+    var r = confirm("Are you sure you want to delete this file?");
+    if (r == true) {
+        $("#loading").show();
+        //alert(currentPath);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var response = xhttp.responseText;
+                //alert(response);
+                getDirectories(currentDirectory);
+
+
+            }
+            if (xhttp.readyState == 4) {
+                $("#loading").hide();
+            }
+        };
+        xhttp.open("get", "remove_file.php?file=" + file, true);
+        xhttp.send();
+    }
 }

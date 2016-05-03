@@ -59,7 +59,8 @@ try {
             if($value["{DAV:}getcontenttype"] == "audio/x-scpls" || $value["{DAV:}getcontenttype"] == "audio/x-mpegurl"){
                 $isContent = true;
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
-            <td><a href='#' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
+            <td><a href='#' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td width='25px' class='table-icon' align=\"right\"><a href='#' onclick='removeFile(\"" . urlencode($key) . "\")'><img src='img/icons/cross.png' alt='Delete'></a></td>
             </tr>";
             }
             elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
