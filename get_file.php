@@ -9,7 +9,7 @@
 require_once ("includes.php");
 
 $requestURL = (($_GET["file"]));
-$md5name = md5($requestURL);
+$md5name = md5($auth->username . $requestURL);
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
     $response = $client->request('GET', $requestURL);
 
@@ -19,7 +19,6 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
     header('Content-length: ' . $response["headers"]["content-length"][0]);
     header('Cache-Control: no-cache');
     header("Content-Transfer-Encoding: binary");
-
 
     if ($response["headers"]["content-type"][0] == "audio/mpeg") {
         //header('Content-Type: audio/mpeg');

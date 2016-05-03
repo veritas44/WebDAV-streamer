@@ -9,7 +9,7 @@
 require_once ("includes.php");
 
 $requestURL = (($_GET["file"]));
-$md5name = md5($requestURL);
+$md5name = md5($auth->username . $requestURL);
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp4") == false) {
     $response = $client->request('GET', $requestURL);
 

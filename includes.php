@@ -14,7 +14,9 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 require_once ("SabreDAV/vendor/autoload.php");
 require_once ("config.php");
-require_once ("auth.php");
+require_once("class/auth.php");
+require_once("class/playlist.php");
+require_once("class/url_to_absolute.php");
 
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
@@ -51,4 +53,9 @@ function readable_name($url){
     $name = basename($name);
     $name = urldecode($name);
     return $name;
+}
+
+function starts_with($haystack, $needle) {
+    // search backwards starting from haystack length characters from the end
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
 }

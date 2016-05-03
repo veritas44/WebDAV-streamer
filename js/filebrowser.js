@@ -81,3 +81,49 @@ function addAllToPlaylist(currentPath) {
     xhttp.open("GET", "get_all_files.php?folder=" + currentPath, true);
     xhttp.send();
 }
+
+function openPlaylist(file, name) {
+    $("#loading").show();
+    //alert(currentPath);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = $.parseJSON(xhttp.responseText);
+            //alert(response);
+
+
+            for(var j = 0; j < response.length; j++){
+                //alert(j);
+                //alert(response[i][0]);
+                addToPlaylist(response[j][0], response[j][1]);
+            }
+        }
+        if(xhttp.readyState == 4){
+            $("#loading").hide();
+        }
+    };
+    xhttp.open("GET", "get_playlist.php?file=" + file, true);
+    xhttp.send();
+}
+
+function savePlaylist() {
+    var file = currentDirectory + $("#playlistName").val() + ".pls";
+    $("#loading").show();
+    //alert(currentPath);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            //alert(response);
+            getDirectories(currentDirectory);
+
+
+        }
+        if(xhttp.readyState == 4){
+            $("#loading").hide();
+        }
+    };
+    xhttp.open("POST", "save_playlist.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("file=" + file + "&playlist=" + JSON.stringify(jPlaylist.playlist));
+}

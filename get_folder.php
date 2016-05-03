@@ -16,11 +16,17 @@ $folderArray = explode('/', $folder);
 $folder = str_replace(' ', '%20', $folder);
 
 $currentURL = "";
-echo '<h3>Files';
-echo '<span class="float-right"><a href=\'#\' class="button" onclick="addAllToPlaylist()">Add all to playlist</a>
-                <a href="#" class="button" onclick="jPlaylist.remove()">Clear playlist</a></span></h3>';
-echo '<div style="height: 10px;"></div>';
-echo '<ul class="breadcrumbs">';
+?>
+    <h3>Files
+        <span class="text-right" style="float: right">
+            <a href="#" class="button" data-open="savePlaylist">Save playlist</a>
+            <a href="#" class="button" onclick="addAllToPlaylist()">Add all to playlist</a>
+            <a href="#" class="button" onclick="jPlaylist.remove()">Clear playlist</a>
+        </span>
+    </h3>
+    <div style="height: 10px;"></div>
+    <ul class="breadcrumbs">
+    <?php
 foreach ($folderArray as $value){
     $currentURL = $currentURL . $value . "/";
     echo '<li><a href="#" onclick="getDirectories(\'' . urlencode($currentURL) . '\')">' . $value . '</a></li>';
@@ -50,12 +56,19 @@ try {
     foreach($folders as $key => $value){
         if(array_key_exists('{DAV:}getcontenttype', $value)){
             //If there is a content type, it's likely to be a file.
-            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
+            if($value["{DAV:}getcontenttype"] == "audio/x-scpls" || $value["{DAV:}getcontenttype"] == "audio/x-mpegurl"){
+                $isContent = true;
+                echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
+            <td><a href='#' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
+            </tr>";
+            }
+            elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                 $isContent = true;
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/music.png' alt='F'></td>
             <td><a href='#' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";
-            }elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
+            }
+            elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/film.png' alt='F'></td>
             <td><a href='#' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";

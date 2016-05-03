@@ -97,17 +97,6 @@ require_once ("includes.php");
                 <table class="jp-playlist" id="jp-playlist">
 
                 </table>
-                <!--table>
-                <thead>
-                <tr>
-                    <th>Songs</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody id="playlist">
-
-                </tbody>
-            </table-->
             </div>
         </div>
         <div class="medium-6 columns">
@@ -135,6 +124,15 @@ require_once ("includes.php");
         <div class="flex-video widescreen">
             <video id="videoPlayer" controls src='' autoplay>
         </div>
+        <button class="close-button" data-close aria-label="Close reveal" type="button" onclick="document.getElementById('videoPlayer').pause();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="tiny reveal" id="savePlaylist" data-reveal style="z-index: 501;">
+        <h5>Please enter a name for this playlist:</h5>
+        <input type="text" placeholder="Enter a name..." id="playlistName">
+        <button onclick="savePlaylist()" class="button">Save playlist</button>
         <button class="close-button" data-close aria-label="Close reveal" type="button" onclick="document.getElementById('videoPlayer').pause();">
             <span aria-hidden="true">&times;</span>
         </button>

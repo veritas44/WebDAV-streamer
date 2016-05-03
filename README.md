@@ -1,7 +1,7 @@
 ## WebDAV streamer ##
 WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser. It only requires PHP and ffmpeg, and setting it up should not take too long.
 
-**How to set it up?**
+**How to set it up:**
 
  1. Rename config.example.php to config.php
  2. Fill in the variables with your own details

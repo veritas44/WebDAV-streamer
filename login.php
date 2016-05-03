@@ -7,7 +7,7 @@ session_start();
  * Time: 22:49
  */
 require_once ("config.php");
-require_once ("auth.php");
+require_once("class/auth.php");
 
 $message = "";
 
