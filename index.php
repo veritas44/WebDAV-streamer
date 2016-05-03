@@ -154,8 +154,13 @@ require_once ("includes.php");
     <script>
         $(document).foundation();
         $(document).ready(function () {
-            //jPlaylist.setPlaylist(localStorage.getItem("playlist"));
-            //alert(localStorage.getItem("playlist"));
+            try {
+                if(localStorage.getItem("playlist") != "[]") {
+                    jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem("playlist")));
+                }
+            } catch (Err){
+
+            }
 
             getDirectories("<?php echo urlencode($startFolder); ?>");
 
