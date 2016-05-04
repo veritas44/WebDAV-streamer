@@ -49,6 +49,7 @@ a.jp-playlist-current {
 @media screen and (max-width: 768px) {
     .top-bar {
         position: relative;
+        height: auto;
     }
     #content {
         top: 0;

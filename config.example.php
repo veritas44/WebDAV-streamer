@@ -9,7 +9,7 @@ $users = array(
         "username_webdav" => "", //This is your username you use to access your WebDAV share
         "password_webdav" => "", //This is your password you use to access your WebDAV share
         "start_folder" => "" //This is the start folder, if your WebDAV requires some path to access the files. For ownCloud this is /remote.php/webdav/
-    ) //You can add multiple users if you so desire
+    ) //You can add multiple users if you so desire, to do so, just add a comma here and start with another "alice" => array( etc.
 );
 
 const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full path to ffmpeg.exe

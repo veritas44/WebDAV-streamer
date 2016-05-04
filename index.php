@@ -193,7 +193,6 @@ require_once ("includes.php");
 
         jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
         {
-
             var current         = jPlaylist.current,
                 playlist        = jPlaylist.playlist;
             jQuery.each(playlist, function (index, obj){
@@ -202,7 +201,11 @@ require_once ("includes.php");
                     xhttp.onreadystatechange = function() {
                         if (xhttp.readyState == 4 && xhttp.status == 200) {
                             var response = $.parseJSON(xhttp.responseText);
-                            $("#playInfo").html((response["title"] ? response["title"] : obj.title) + (response["album"] ? " // " + response["album"] : "") + (response["artist"] ? " // " + response["artist"] : ""));
+                            $("#playInfo").html("<div style='color: #666;'>"
+                                + (response["title"] ? response["title"] : obj.title) +
+                                (response["album"] ? " <br> " + response["album"] : "") +
+                                (response["artist"] ? " <br> " + response["artist"] : "") +
+                            "</div>");
                             $("title").html((response["title"] ? response["title"] : obj.title));
                         }
                         if(xhttp.readyState == 4){
