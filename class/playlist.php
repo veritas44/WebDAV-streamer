@@ -65,13 +65,15 @@ class Playlist
         $handle = fopen($this->file, "r");
         $fileArray = array();
         while (($line = fgets($handle)) !== false) {
-            if($line == ""){
+            if($this->remove_linebreaks($line) == ""){
                 continue;
             }
             if(starts_with($line, "#EXT")){
                 continue;
             }
-            $fullPath = (str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", $this->remove_linebreaks($line))));
+            $line = $this->remove_linebreaks($line);
+            $line = str_replace("\\", "/", $line);
+            $fullPath = (str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", $line)));
             $fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = urlencode($fullPath);
             $nameOnly = $this->remove_linebreaks($line);

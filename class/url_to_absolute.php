@@ -297,6 +297,7 @@ function split_url( $url, $decode=FALSE)
 	$xurl          = '^(' . $xscheme . ':)?' .  $xapath . '?' .
 	                 '(\?' . $xqueryfrag . ')?(#' . $xqueryfrag . ')?$';
 
+	$parts = array();
 
 	// Split the URL into components.
 	if ( !preg_match( '!' . $xurl . '!', $url, $m ) )

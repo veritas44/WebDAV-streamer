@@ -191,8 +191,7 @@ require_once ("includes.php");
             localStorage.setItem("current", jPlaylist.current);
         });
 
-        jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
-        {
+        function refreshTitle() {
             var current         = jPlaylist.current,
                 playlist        = jPlaylist.playlist;
             jQuery.each(playlist, function (index, obj){
@@ -205,7 +204,7 @@ require_once ("includes.php");
                                 + (response["title"] ? response["title"] : obj.title) +
                                 (response["album"] ? " <br> " + response["album"] : "") +
                                 (response["artist"] ? " <br> " + response["artist"] : "") +
-                            "</div>");
+                                "</div>");
                             $("title").html((response["title"] ? response["title"] : obj.title));
                         }
                         if(xhttp.readyState == 4){
@@ -216,7 +215,14 @@ require_once ("includes.php");
                     xhttp.send();
                 } // if condition end
             });
+        }
+
+        jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
+        {
+            refreshTitle();
         });
+
+        setTimeout(refreshTitle(), 10000);
     </script>
 </body>
 </html>
