@@ -16,9 +16,16 @@ body html {
 
 .top-bar {
     position: fixed;
+    height: 100px;
     width: 100%;
     margin:0 auto;
     z-index: 50;
+
+}
+
+#content {
+    position: relative;
+    top: 100px;
 }
 
 .jp-interface {
@@ -29,6 +36,32 @@ body html {
     padding: 0 4px 0 4px;
     text-align: center;
     vertical-align: middle;
+}
+
+.jp-playlist-current {
+    background-color: #2199e8 !important;
+    color: #fff;
+}
+a.jp-playlist-current {
+    color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+    .top-bar {
+        position: relative;
+    }
+    #content {
+        top: 0;
+    }
+    .menu-text {
+        display: block !important;
+    }
+    .jp-gui {
+        max-width: 100%;
+    }
+    .jp-controls {
+        width: 100% !important;
+    }
 }
 /*
 
@@ -68,36 +101,6 @@ body html {
     left: auto !important;
 }
 */
-
-#content {
-    position: relative;
-    top: 120px;
-}
-.jp-playlist-current {
-    background-color: #2199e8 !important;
-    color: #fff;
-}
-a.jp-playlist-current {
-    color: #fff;
-}
-
-@media screen and (max-width: 768px) {
-    .top-bar {
-        position: relative;
-    }
-    #content {
-        top: 0;
-    }
-    .menu-text {
-        display: block !important;
-    }
-    .jp-gui {
-        max-width: 100%;
-    }
-    .jp-controls {
-        width: 100% !important;
-    }
-}
 /*
 .jp-controls .jp-progress .jp-volume-controls .jp-toggles .jp-type-playlist .jp-audio{
     display: block;

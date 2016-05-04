@@ -108,6 +108,7 @@ function openPlaylist(file, name) {
 
 function savePlaylist() {
     var file = currentDirectory + $("#playlistName").val() + ".pls";
+    $("#playlistName").val("");
     $("#loading").show();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();

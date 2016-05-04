@@ -64,7 +64,7 @@ require_once ("includes.php");
                         </div>
                     </div>
                 </li>
-                <li class="menu-text" id="playInfo" style="color: #1a1a1a;">
+                <li class="menu-text" id="playInfo">
 
                 </li>
                 <!--
@@ -160,6 +160,10 @@ require_once ("includes.php");
             try {
                 if(localStorage.getItem("playlist") != "[]") {
                     jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem("playlist")));
+                    if(localStorage.getItem("current") < jPlaylist.original.length) {
+                        //alert(localStorage.getItem("current") + jPlaylist.original.length);
+                        jPlaylist.select(parseInt(localStorage.getItem("current")));
+                    }
                 }
             } catch (Err){
 
@@ -184,6 +188,7 @@ require_once ("includes.php");
 
         $(window).unload(function() {
             localStorage.setItem("playlist", JSON.stringify(jPlaylist.playlist));
+            localStorage.setItem("current", jPlaylist.current);
         });
 
         jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
@@ -197,8 +202,8 @@ require_once ("includes.php");
                     xhttp.onreadystatechange = function() {
                         if (xhttp.readyState == 4 && xhttp.status == 200) {
                             var response = $.parseJSON(xhttp.responseText);
-                            $("#playInfo").html(response["title"] + " // " + response["album"] + " // " + response["artist"]);
-                            $("title").html(response["title"] + " - " + response["artist"]);
+                            $("#playInfo").html((response["title"] ? response["title"] : obj.title) + (response["album"] ? " // " + response["album"] : "") + (response["artist"] ? " // " + response["artist"] : ""));
+                            $("title").html((response["title"] ? response["title"] : obj.title));
                         }
                         if(xhttp.readyState == 4){
                             $("#loading").hide();

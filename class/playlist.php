@@ -56,6 +56,8 @@ class Playlist
         $plsPlaylist .= "NumberOfEntries=" . $i;
 
         //echo $plsPlaylist;
+        $this->file = str_replace(' ', '%20', $this->file);
+        //echo $this->file;
         return $client->request('PUT', $this->file, $plsPlaylist);
     }
 

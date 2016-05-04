@@ -331,6 +331,10 @@
 				//$("#jp-playlist tr").eq(index).remove();
 				//self.blur(this);
 				self._refresh(true);
+				if(index == self.current){
+					self.current = self.current - 1;
+				}
+				self._highlight(self.current);
 			});
 
 			$(this.cssSelector.playlist).off("click", "a.down").on("click", "a.down", function(e) {
@@ -341,6 +345,10 @@
 				//$("#jp-playlist tr").eq(index).remove();
 				//self.blur(this);
 				self._refresh(true);
+				if(index == self.current){
+					self.current = self.current + 1;
+				}
+				self._highlight(self.current);
 			});
 		},
 		_updateControls: function() {

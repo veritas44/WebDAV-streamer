@@ -15,7 +15,7 @@ $response = $client->request('GET', $requestURL);
 header("HTTP/1.0 " . $response["statusCode"]);
 //header('Content-Type: audio/mpeg');
 //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
-header('Content-length: ' . $response["headers"]["content-length"][0]);
+//header('Content-length: ' . $response["headers"]["content-length"][0]);
 header('Cache-Control: no-cache');
 header("Content-Transfer-Encoding: binary");
 

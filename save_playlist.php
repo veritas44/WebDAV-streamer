@@ -12,8 +12,10 @@ $file = $_POST["file"];
 $jsonPlaylist = $_POST["playlist"];
 
 $playlist = new Playlist($file, $file);
-if($playlist->savePLS($jsonPlaylist)["body"] == "Created") {
+$response = $playlist->savePLS($jsonPlaylist);
+if($response["body"] == "Created") {
     echo "Succesfully created the playlist";
 } else {
     echo "Something went wrong";
+    //print_r($response);
 }

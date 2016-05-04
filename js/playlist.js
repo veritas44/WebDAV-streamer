@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     ], {
         playlistOptions: {
-            autoPlay: true,
+            autoPlay: false,
             enableRemoveControls: true
         },
         swfPath: "./jplayer/jquery.jplayer.swf",
