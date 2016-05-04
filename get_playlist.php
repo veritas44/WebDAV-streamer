@@ -19,17 +19,18 @@ header("HTTP/1.0 " . $response["statusCode"]);
 header('Cache-Control: no-cache');
 header("Content-Transfer-Encoding: binary");
 
-if ($response["headers"]["content-type"][0] == "audio/x-scpls") {
+if (pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "pls") {
     $filename = CONVERT_FOLDER . "/" . $md5name . ".pls";
     file_put_contents($filename, $response["body"]);
     $playlist = new Playlist($filename, $requestURL);
     header('Content-Type: application/json');
     echo json_encode($playlist->openPLS());
-} 
-if ($response["headers"]["content-type"][0] == "audio/x-mpegurl") {
+} elseif (pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "m3u" || pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "m3u8") {
     $filename = CONVERT_FOLDER . "/" . $md5name . ".m3u";
     file_put_contents($filename, $response["body"]);
     $playlist = new Playlist($filename, $requestURL);
     header('Content-Type: application/json');
     echo json_encode($playlist->openM3U());
+} else {
+    echo "Extension invalid (" . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) . ")";
 }

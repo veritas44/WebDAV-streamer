@@ -26,11 +26,13 @@ class Playlist
         $items = parse_ini_file($this->file, true, INI_SCANNER_RAW);
         //var_dump($items);
         $fileArray = array();
-        for($i = 1; $i <= $items["playlist"]["NumberOfEntries"]; $i++){
-            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["File" . $i]))));
+        $items = array_change_key_case($items);
+        $items["playlist"] = array_change_key_case($items["playlist"]);
+        for($i = 1; $i <= $items["playlist"]["numberofentries"]; $i++){
+            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["file" . $i]))));
             $fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = urlencode($fullPath);
-            $nameOnly = $this->remove_linebreaks($items["playlist"]["File" . $i]);
+            $nameOnly = $this->remove_linebreaks($items["playlist"]["file" . $i]);
             //$nameOnly = str_replace(' ', '%20', $nameOnly);
             $nameOnly = basename($nameOnly);
             $nameOnly = urlencode($nameOnly);

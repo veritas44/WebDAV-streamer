@@ -146,6 +146,7 @@ require_once ("includes.php");
 
     <script src="js/jquery-2.2.3.js"></script>
     <script src="js/foundation.min.js"></script>
+    <script src="js/jsmediatags.js"></script>
 
     <script src="jplayer/jquery.jplayer.min.js"></script>
     <script src="jplayer/jplayer.playlist.js"></script>
@@ -196,23 +197,22 @@ require_once ("includes.php");
                 playlist        = jPlaylist.playlist;
             jQuery.each(playlist, function (index, obj){
                 if (index == current){
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function() {
-                        if (xhttp.readyState == 4 && xhttp.status == 200) {
-                            var response = $.parseJSON(xhttp.responseText);
+                    var jsmediatags = window.jsmediatags;
+                    jsmediatags.read(obj.mp3, {
+                        onSuccess: function(tag) {
                             $("#playInfo").html("<div style='color: #666;'>"
-                                + (response["title"] ? response["title"] : obj.title) +
-                                (response["album"] ? " <br> " + response["album"] : "") +
-                                (response["artist"] ? " <br> " + response["artist"] : "") +
+                                + (tag.tags.title ? tag.tags.title : obj.title) +
+                                (tag.tags.album ? " <br> " + tag.tags.album : "") +
+                                (tag.tags.artist ? " <br> " + tag.tags.artist : "") +
                                 "</div>");
-                            $("title").html((response["title"] ? response["title"] : obj.title));
+                            $("title").html((tag.tags.title ? tag.tags.title : obj.title));
+                        },
+                        onError: function(error) {
+                            console.log(error);
+                            $("#playInfo").html("<div style='color: #666;'>" + obj.title + "</div>");
+                            $("title").html(obj.title);
                         }
-                        if(xhttp.readyState == 4){
-                            $("#loading").hide();
-                        }
-                    };
-                    xhttp.open("GET", obj.mp3 + "&txt=true", true);
-                    xhttp.send();
+                    });
                 } // if condition end
             });
         }
@@ -226,3 +226,4 @@ require_once ("includes.php");
     </script>
 </body>
 </html>
+
