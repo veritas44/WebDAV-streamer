@@ -19,9 +19,9 @@ $currentURL = "";
 ?>
     <h3>Files
         <span class="text-right" style="float: right">
-            <a href="#" class="button" data-open="savePlaylist">Save playlist</a>
-            <a href="#" class="button" onclick="addAllToPlaylist()">Add all to playlist</a>
-            <a href="#" class="button" onclick="jPlaylist.remove()">Clear playlist</a>
+            <a href="javascript:;" class="button" data-open="savePlaylist">Save playlist</a>
+            <a href="javascript:;" class="button" onclick="addAllToPlaylist()">Add all to playlist</a>
+            <a href="javascript:;" class="button" onclick="jPlaylist.remove()">Clear playlist</a>
         </span>
     </h3>
     <div style="height: 10px;"></div>
@@ -49,7 +49,7 @@ try {
             //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
             echo "<tr><td width='25px' class='table-icon'><img src='img/icons/folder.png' alt='F'></td>
             <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . readable_name($key) . "</a></td>
-            <td width='25px' class='table-icon' align=\"right\"><a href='#' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")'><img src='img/icons/add.png' alt='Add'></a></td>
+            <td width='25px' class='table-icon' align=\"right\"><a href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")'><img src='img/icons/add.png' alt='Add'></a></td>
             </tr>";
         }
     }
@@ -59,19 +59,19 @@ try {
             if($value["{DAV:}getcontenttype"] == "audio/x-scpls" || $value["{DAV:}getcontenttype"] == "audio/x-mpegurl"){
                 $isContent = true;
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
-            <td><a href='#' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
-            <td width='25px' class='table-icon' align=\"right\"><a href='#' onclick='removeFile(\"" . urlencode($key) . "\")'><img src='img/icons/cross.png' alt='Delete'></a></td>
+            <td><a href='javascript:;' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td width='25px' class='table-icon' align=\"right\"><a href='javascript:;' onclick='removeFile(\"" . urlencode($key) . "\")'><img src='img/icons/cross.png' alt='Delete'></a></td>
             </tr>";
             }
             elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                 $isContent = true;
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/music.png' alt='F'></td>
-            <td><a href='#' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
+            <td><a href='javascript:;' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";
             }
             elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/film.png' alt='F'></td>
-            <td><a href='#' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
+            <td><a href='javascript:;' data-open=\"video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td><td></td>
             </tr>";
             }
         }
