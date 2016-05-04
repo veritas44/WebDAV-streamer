@@ -27,7 +27,7 @@ class Playlist
         //var_dump($items);
         $fileArray = array();
         for($i = 1; $i <= $items["playlist"]["NumberOfEntries"]; $i++){
-            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", $items["playlist"]["File" . $i])));
+            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["File" . $i]))));
             $fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = urlencode($fullPath);
             $nameOnly = $this->remove_linebreaks($items["playlist"]["File" . $i]);
