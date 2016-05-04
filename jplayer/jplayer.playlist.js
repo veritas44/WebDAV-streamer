@@ -538,15 +538,20 @@ function shuffle(array) {
 							return 0.5 - Math.random();
 						});
 						self.playlist.move(self.playlist.indexOf(nowSelected), 0);
+						self._refresh(true); // Instant
+						self._highlight(0);
+						self.current = 0;
 					} else {
+						var nowSelected = self.playlist[self.current];
 						self._originalPlaylist();
+						self._refresh(true); // Instant
+						self._highlight(self.playlist.indexOf(nowSelected));
 					}
-					self._refresh(true); // Instant
 
 
 					if(playNow || !$(self.cssSelector.jPlayer).data("jPlayer").status.paused) {
 						//self.play(0);
-					 	self._highlight(0);
+
 					} else {
 						self.select(0);
 					}
