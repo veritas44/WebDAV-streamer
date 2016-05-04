@@ -8,8 +8,9 @@
 
 require_once ("includes.php");
 
-$file = $_POST["file"];
-$jsonPlaylist = $_POST["playlist"];
+$file = urldecode($_POST["file"]);
+$jsonPlaylist = urldecode($_POST["playlist"]);
+//echo $jsonPlaylist;
 
 $playlist = new Playlist($file, $file);
 $response = $playlist->savePLS($jsonPlaylist);
