@@ -12,9 +12,10 @@ ini_set("memory_limit","1600M");
 //Show all errors, because there shouldn't be any:
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
-require_once ("SabreDAV/vendor/autoload.php");
-require_once ("config.php");
+require_once("SabreDAV/vendor/autoload.php");
+require_once("config.php");
 require_once("class/auth.php");
+require_once("getid3/getid3.php");
 require_once("class/playlist.php");
 require_once("class/url_to_absolute.php");
 

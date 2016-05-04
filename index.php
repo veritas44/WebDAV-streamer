@@ -64,6 +64,9 @@ require_once ("includes.php");
                         </div>
                     </div>
                 </li>
+                <li class="menu-text" id="playInfo" style="color: #1a1a1a;">
+
+                </li>
                 <!--
                 <li><button class="button" id="previous">Previous</button> </li>
                 <li><button class="button" id="play">Play</button><button class="button" id="pause">Pause</button> </li>
@@ -181,6 +184,30 @@ require_once ("includes.php");
 
         $(window).unload(function() {
             localStorage.setItem("playlist", JSON.stringify(jPlaylist.playlist));
+        });
+
+        jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
+        {
+
+            var current         = jPlaylist.current,
+                playlist        = jPlaylist.playlist;
+            jQuery.each(playlist, function (index, obj){
+                if (index == current){
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4 && xhttp.status == 200) {
+                            var response = $.parseJSON(xhttp.responseText);
+                            $("#playInfo").html(response["title"] + " // " + response["album"] + " // " + response["artist"]);
+                            $("title").html(response["title"] + " - " + response["artist"]);
+                        }
+                        if(xhttp.readyState == 4){
+                            $("#loading").hide();
+                        }
+                    };
+                    xhttp.open("GET", obj.mp3 + "&txt=true", true);
+                    xhttp.send();
+                } // if condition end
+            });
         });
     </script>
 </body>
