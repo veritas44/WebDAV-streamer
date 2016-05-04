@@ -17,6 +17,25 @@
 
 /*global jPlayerPlaylist:true */
 
+function shuffle(array) {
+	var currentIndex = array.length, temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+}
+
 (function($, undefined) {
 
 	jPlayerPlaylist = function(cssSelector, playlist, options) {
@@ -514,19 +533,24 @@
 				$(this.cssSelector.playlist).slideUp(this.options.playlistOptions.shuffleTime, function() {
 					self.shuffled = shuffled;
 					if(shuffled) {
+						var nowSelected = self.playlist[self.current];
 						self.playlist.sort(function() {
 							return 0.5 - Math.random();
 						});
+						self.playlist.move(self.playlist.indexOf(nowSelected), 0);
 					} else {
 						self._originalPlaylist();
 					}
 					self._refresh(true); // Instant
 
+
 					if(playNow || !$(self.cssSelector.jPlayer).data("jPlayer").status.paused) {
-						self.play(0);
+						//self.play(0);
+					 	self._highlight(0);
 					} else {
 						self.select(0);
 					}
+
 
 					$(this).slideDown(self.options.playlistOptions.shuffleTime);
 				});

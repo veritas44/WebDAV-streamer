@@ -188,7 +188,7 @@ require_once ("includes.php");
         });
 
         $(window).unload(function() {
-            localStorage.setItem("playlist", JSON.stringify(jPlaylist.playlist));
+            localStorage.setItem("playlist", JSON.stringify(jPlaylist.original));
             localStorage.setItem("current", jPlaylist.current);
         });
 
