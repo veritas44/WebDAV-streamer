@@ -205,12 +205,12 @@ require_once ("includes.php");
                                 (tag.tags.album ? " <br> " + tag.tags.album : "") +
                                 (tag.tags.artist ? " <br> " + tag.tags.artist : "") +
                                 "</div>");
-                            $("title").html((tag.tags.title ? tag.tags.title : obj.title));
+                            $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
                         },
                         onError: function(error) {
                             console.log(error);
                             $("#playInfo").html("<div style='color: #666;'>" + obj.title + "</div>");
-                            $("title").html(obj.title);
+                            $("title").html(obj.title + " - WebDAV streamer");
                         }
                     });
                 } // if condition end

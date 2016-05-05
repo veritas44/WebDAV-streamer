@@ -32,9 +32,13 @@ class Playlist
             $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["file" . $i]))));
             $fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = urlencode($fullPath);
-            $nameOnly = $this->remove_linebreaks($items["playlist"]["file" . $i]);
-            //$nameOnly = str_replace(' ', '%20', $nameOnly);
-            $nameOnly = basename($nameOnly);
+            if(array_key_exists("title" . $i, $items["playlist"])){
+                $nameOnly = $this->remove_linebreaks($items["playlist"]["title" . $i]);
+            } else {
+                $nameOnly = $this->remove_linebreaks($items["playlist"]["file" . $i]);
+                //$nameOnly = str_replace(' ', '%20', $nameOnly);
+                $nameOnly = basename($nameOnly);
+            }
             $nameOnly = urlencode($nameOnly);
             $fileArray[] = array($fullPath, $nameOnly);
         }
@@ -66,11 +70,17 @@ class Playlist
     function openM3U(){
         $handle = fopen($this->file, "r");
         $fileArray = array();
+        $currentSong = "";
         while (($line = fgets($handle)) !== false) {
             if($this->remove_linebreaks($line) == ""){
                 continue;
             }
             if(starts_with($line, "#EXT")){
+                if(starts_with($line, "#EXTINF")){
+                    $currentSong = explode(",", $line)[1];
+                } else {
+                    $currentSong = "";
+                }
                 continue;
             }
             $line = $this->remove_linebreaks($line);
@@ -78,9 +88,13 @@ class Playlist
             $fullPath = (str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", $line)));
             $fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = urlencode($fullPath);
-            $nameOnly = $this->remove_linebreaks($line);
-            //$nameOnly = str_replace(' ', '%20', $nameOnly);
-            $nameOnly = basename($nameOnly);
+            if(empty($currentSong)){
+                $nameOnly = $this->remove_linebreaks($line);
+                //$nameOnly = str_replace(' ', '%20', $nameOnly);
+                $nameOnly = basename($nameOnly);
+            } else {
+                $nameOnly = $currentSong;
+            }
             $nameOnly = urlencode($nameOnly);
             $fileArray[] = array($fullPath, $nameOnly);
         }

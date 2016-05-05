@@ -127,7 +127,7 @@ function savePlaylist() {
     xhttp.open("POST", "save_playlist.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("file=" + encodeURIComponent(file) + "&playlist=" + encodeURIComponent(JSON.stringify(jPlaylist.playlist)));
-    console.log(JSON.stringify(jPlaylist.playlist));
+    //console.log(JSON.stringify(jPlaylist.playlist));
 }
 
 function removeFile(file) {

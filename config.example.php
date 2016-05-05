@@ -12,6 +12,7 @@ $users = array(
     ) //You can add multiple users if you so desire, to do so, just add a comma here and start with another "alice" => array( etc.
 );
 
+//Please bear in mind that Windows installations require a double backslash (\\) instead of a single backslash.
 const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full path to ffmpeg.exe
 //Please make sure the convert folder is writable (chmod 0777):
 const CONVERT_FOLDER = ""; //Full system path, make sure it is reachable through your website. By default ""/your/path/to/www/out", no trailing slash
