@@ -156,18 +156,20 @@ require_once ("includes.php");
 
 
     <script>
+        var currentUser;
         $(document).foundation();
         $(document).ready(function () {
+            currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
             try {
-                if(localStorage.getItem("playlist") != "[]") {
-                    jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem("playlist")));
-                    if(localStorage.getItem("current") < jPlaylist.original.length) {
+                if(localStorage.getItem(currentUser + "playlist") != "[]") {
+                    jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem(currentUser + "playlist")));
+                    if(localStorage.getItem(currentUser + "current") < jPlaylist.original.length) {
                         //alert(localStorage.getItem("current") + jPlaylist.original.length);
-                        jPlaylist.select(parseInt(localStorage.getItem("current")));
+                        jPlaylist.select(parseInt(localStorage.getItem(currentUser + "current")));
                     }
                 }
             } catch (Err){
-
+                console.log(Err);
             }
 
             getDirectories("<?php echo urlencode($startFolder); ?>");
@@ -188,8 +190,8 @@ require_once ("includes.php");
         });
 
         $(window).unload(function() {
-            localStorage.setItem("playlist", JSON.stringify(jPlaylist.original));
-            localStorage.setItem("current", jPlaylist.current);
+            localStorage.setItem(currentUser + "playlist", JSON.stringify(jPlaylist.original));
+            localStorage.setItem(currentUser + "current", jPlaylist.current);
         });
 
         function refreshTitle() {
