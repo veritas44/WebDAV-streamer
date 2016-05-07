@@ -141,9 +141,6 @@ require_once ("includes.php");
         </button>
     </div>
 
-    <script src="js/codecs/aurora.js"></script>
-    <script src="js/codecs/flac.js"></script>
-
     <script src="js/jquery-2.2.3.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/jsmediatags.js"></script>

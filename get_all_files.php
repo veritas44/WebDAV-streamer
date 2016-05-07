@@ -27,8 +27,10 @@ function doPropfind($folder){
         }
         if (array_key_exists('{DAV:}getcontenttype', $value)) {
             if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
-                $scriptContent[] = array(urlencode($key), urlencode(readable_name($key)));
-                //$scriptContent .= "addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\");\n";
+                if(pathinfo(urldecode($key), PATHINFO_EXTENSION) != "pls" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u8") {
+                    $scriptContent[] = array(urlencode($key), urlencode(readable_name($key)));
+                    //$scriptContent .= "addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode($value["{DAV:}displayname"]) . "\");\n";
+                }
             }
         }
     }

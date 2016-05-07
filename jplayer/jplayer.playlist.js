@@ -546,6 +546,7 @@ function shuffle(array) {
 						self._originalPlaylist();
 						self._refresh(true); // Instant
 						self._highlight(self.playlist.indexOf(nowSelected));
+						self.current = self.playlist.indexOf(nowSelected);
 					}
 
 

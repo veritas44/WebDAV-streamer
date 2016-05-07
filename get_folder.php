@@ -56,7 +56,7 @@ try {
     foreach($folders as $key => $value){
         if(array_key_exists('{DAV:}getcontenttype', $value)){
             //If there is a content type, it's likely to be a file.
-            if($value["{DAV:}getcontenttype"] == "audio/x-scpls" || $value["{DAV:}getcontenttype"] == "audio/x-mpegurl"){
+            if(pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "pls" || pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "m3u" || pathinfo(urldecode($requestURL), PATHINFO_EXTENSION) == "m3u8"){
                 $isContent = true;
                 echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
             <td><a href='javascript:;' onclick='openPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
