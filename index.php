@@ -156,20 +156,28 @@ require_once ("includes.php");
         var currentUser;
         $(document).foundation();
         $(document).ready(function () {
+            getDirectories("<?php echo urlencode($startFolder); ?>");
             currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
             try {
-                if(localStorage.getItem(currentUser + "playlist") != "[]") {
-                    jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem(currentUser + "playlist")));
+                if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
+                    jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem(currentUser + "original")));
+                    jPlaylist.shuffled = Boolean(localStorage.getItem(currentUser + "shuffled"));
+                    if(jPlaylist.shuffled){
+                        jPlaylist.playlist = jQuery.parseJSON(localStorage.getItem(currentUser + "playlist"))
+                    }
                     if(localStorage.getItem(currentUser + "current") < jPlaylist.original.length) {
                         //alert(localStorage.getItem("current") + jPlaylist.original.length);
                         jPlaylist.select(parseInt(localStorage.getItem(currentUser + "current")));
+                    }
+                    if(localStorage.getItem(currentUser + "directory") !== null){
+                        getDirectories(localStorage.getItem(currentUser + "directory"));
                     }
                 }
             } catch (Err){
                 console.log(Err);
             }
 
-            getDirectories("<?php echo urlencode($startFolder); ?>");
+
 
             $("#loading").show();
             var xhttp = new XMLHttpRequest();
@@ -187,8 +195,11 @@ require_once ("includes.php");
         });
 
         $(window).unload(function() {
-            localStorage.setItem(currentUser + "playlist", JSON.stringify(jPlaylist.original));
+            localStorage.setItem(currentUser + "original", JSON.stringify(jPlaylist.original));
+            localStorage.setItem(currentUser + "playlist", JSON.stringify(jPlaylist.playlist));
             localStorage.setItem(currentUser + "current", jPlaylist.current);
+            localStorage.setItem(currentUser + "shuffled", jPlaylist.shuffled);
+            localStorage.setItem(currentUser + "directory", currentDirectory);
         });
 
         function refreshTitle() {

@@ -16,13 +16,11 @@ if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
 //die("Poor you");
 
 $md5name = md5($auth->username . $requestURL);
+$extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
+print_r($_GET);
+$supportedMimeTypes = json_decode($_GET["support"], true);
 
-//if(isset($_GET["txt"])){
-//    header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp3.txt");
-//    die();
-//}
-
-if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
+if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     $response = $client->request('GET', $requestURL);
 
     header("HTTP/1.0 " . $response["statusCode"]);
@@ -32,28 +30,19 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
     header('Cache-Control: no-cache');
     header("Content-Transfer-Encoding: binary");
 
-    if ($response["headers"]["content-type"][0] == "audio/mpeg") {
-        //header('Content-Type: audio/mpeg');
-        //echo $response["body"];
-        //die();
-        file_put_contents(CONVERT_FOLDER . "/" . $md5name . ".mp3", $response["body"]);
+    //var_dump(array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes));
+    //echo $supportedMimeTypes[$response["headers"]["content-type"][0]];
+    //die();
+    if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
+        file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $response["body"]);
     } else {
-        //header('Content-Type: audio/mpeg');
-        //echo $response["body"];
-        //die();
-        //Generate a random name:
-        file_put_contents(CONVERT_FOLDER . "/" . $md5name . "", $response["body"]);
-        shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+        $extension = ".mp3";
+        if (file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
+            file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+        }
     }
 }
-//$tagReader = new getID3();
-//$tags = $tagReader->analyze(CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp3");
-//getid3_lib::CopyTagsToComments($tags);
-//var_dump($tags);
-//$tagsArray["album"] = $tags["comments"]["album"][0];
-//$tagsArray["artist"] = $tags["comments"]["artist"][0];
-//$tagsArray["title"] = $tags["comments"]["title"][0];
-//file_put_contents(CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp3.txt", json_encode($tagsArray));
-header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp3");
+
+header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . $extension);
 die();
-//echo var_dump($response);

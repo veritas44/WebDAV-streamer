@@ -6,6 +6,7 @@ function urldecode(str) {
 }
 
 var currentDirectory;
+var supportedMimeTypes;
 
 function getDirectories(currentPath) {
     //alert(decodeURIComponent(currentPath));
@@ -30,6 +31,7 @@ var playlistArray;
 
 $(document).ready(function () {
    playlistArray = [];
+    supportedMimeTypes = determineSupportedAudio();
 });
 
 function playVideo(file, name){
@@ -40,7 +42,8 @@ function playVideo(file, name){
 }
 
 function addToPlaylist(file, name){
-    var url = "get_file.php?file=" + file;
+    var url = "get_file.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedMimeTypes));
+    console.log(url);
     jPlaylist.add({
         title: urldecode(name),
         mp3: url
@@ -151,4 +154,27 @@ function removeFile(file) {
         xhttp.open("get", "remove_file.php?file=" + file, true);
         xhttp.send();
     }
+}
+
+function determineSupportedAudio() {
+    var mimeTypes = {
+        "audio/mpeg": false,
+        "audio/x-mpeg": false,
+        "audio/mp4": false,
+        "audio/ogg": false,
+        "audio/webm": false,
+        "audio/wav": false,
+        "audio/x-wav": false,
+        "audio/aac": false,
+        "audio/flac": false
+    };
+    var aud = document.createElement('audio');
+    for (var key in mimeTypes) {
+        if (!mimeTypes.hasOwnProperty(key)) continue;
+        if (aud.canPlayType(key) == "probably" || aud.canPlayType(key) == "maybe"){
+            mimeTypes[key] = true;
+        }
+    }
+    //console.log(mimeTypes);
+    return mimeTypes;
 }
