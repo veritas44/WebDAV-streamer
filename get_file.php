@@ -36,6 +36,7 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
         file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $response["body"]);
     } else {
+        //die($response["headers"]["content-type"][0]);
         $extension = ".mp3";
         if (file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
             file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);

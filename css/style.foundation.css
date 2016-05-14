@@ -8,41 +8,24 @@ body html {
     max-width: 100%;
 }
 .jp-audio{
-    /*width: 100% !important;*/
+    width: 100% !important;
 }
 .jp-gui{
     box-sizing: border-box;
 }
 
-.navbar-default {
-    background-color: #e6e6e6;
-}
+.top-bar {
+    position: fixed;
+    height: 100px;
+    width: 100%;
+    margin:0 auto;
+    z-index: 50;
 
-.nav-full {
-    height: 100% !important;
-    vertical-align: middle;
-}
-
-.nav-logo {
-    height: 85px;
-    display:table-cell;
-    vertical-align : middle;
-}
-
-.dataTables_filter {
-    display: none;
-}
-
-.table-striped > tbody > tr:nth-of-type(even) {
-    background-color: #fff;
-}
-.table-hover > tbody > tr:hover {
-    background-color: #f5f5f5;
 }
 
 #content {
     position: relative;
-    top: 75px;
+    top: 100px;
 }
 
 .jp-interface {
@@ -55,26 +38,6 @@ body html {
     vertical-align: middle;
 }
 
-.btn, .form-control, .modal-content, .panel {
-    border-radius: 0;
-}
-
-.blue {
-    background-color: #2199e8;
-    color: #fff;
-    border: none;
-}
-
-.blue:hover {
-    transition: background-color 0.5s ease;
-    background-color: #1585cf;
-    color: #fff;
-}
-
-table.dataTable.no-footer {
-    border-bottom: none !important;
-}
-
 .jp-playlist-current {
     background-color: #2199e8 !important;
     color: #fff;
@@ -84,9 +47,9 @@ a.jp-playlist-current {
 }
 
 @media screen and (max-width: 768px) {
-    .navbar {
-        position: relative !important;
-        height: auto !important;
+    .top-bar {
+        position: relative;
+        height: auto;
     }
     #content {
         top: 0;
@@ -99,12 +62,6 @@ a.jp-playlist-current {
     }
     .jp-controls {
         width: 100% !important;
-    }
-}
-
-@media (min-width: 1300px) {
-    .container {
-        width: 100%;
     }
 }
 /*
