@@ -85,7 +85,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
     <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto;"> WebDAV streamer</h4>
+                    <img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto; float: left"><h4 style="vertical-align: middle;"> &nbsp;WebDAV streamer</h4>
                 </div>
                 <div class="panel-body">
                     <form method="post" action="login.php">
@@ -103,7 +103,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
                             <div class="form-group">
                                 <input class="form-control" type="password" name="password" placeholder="Password" />
                             </div>
-                            <input class="btn btn-lg btn-success btn-block blue" type="submit" value="Login">
+                            <input class="btn btn-lg btn-block blue" type="submit" value="Login">
                         </fieldset>
                     </form>
                 </div>

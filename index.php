@@ -22,7 +22,7 @@ require_once ("includes.php");
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" style="height: 85px">
+<nav id="navhead" class="navbar navbar-default navbar-fixed-top" style="height: 85px">
     <div class="container" style="height: 100%">
         <div id="navbar" class="nav-full" style="height: 100% !important;">
             <ul class="nav navbar-nav nav-full">

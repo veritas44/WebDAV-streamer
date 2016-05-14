@@ -17,23 +17,29 @@ $folder = str_replace(' ', '%20', $folder);
 
 $currentURL = "";
 ?>
-    <h3>Files
-        <span class="text-right form-inline" style="float: right">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Files</h3>
+        </div>
+        <div class="col-md-9 text-right form-inline" style="margin-top: 20px; margin-bottom: 10px;">
             <input aria-controls="filebrowserTable" placeholder="Search" class="form-control input-sm" type="search" id="searchbox">
             <a href="javascript:;" class="btn btn-default blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</a>
             <a href="javascript:;" class="btn btn-default blue" onclick="addAllToPlaylist()">Add all to playlist</a>
             <a href="javascript:;" class="btn btn-default blue" onclick="jPlaylist.remove()">Clear playlist</a>
-        </span>
-    </h3>
-    <div style="height: 10px;"></div>
-    <ol class="breadcrumb">
-        <?php
-        foreach ($folderArray as $value){
-            $currentURL = $currentURL . $value . "/";
-            echo '<li><a href="#" onclick="getDirectories(\'' . urlencode($currentURL) . '\')">' . $value . '</a></li>';
-        }
-        ?>
-    </ol>
+        </div>
+    </div>
+
+    <div style="height: 5px;"></div>
+    <div class="row">
+        <ol class="breadcrumb">
+            <?php
+            foreach ($folderArray as $value){
+                $currentURL = $currentURL . $value . "/";
+                echo '<li><a href="#" onclick="getDirectories(\'' . urlencode($currentURL) . '\')">' . $value . '</a></li>';
+            }
+            ?>
+        </ol>
+    </div>
 <?php
 
 try {

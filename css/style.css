@@ -29,6 +29,12 @@ body html {
     vertical-align : middle;
 }
 
+.nav-logo > h4, .nav-logo > div {
+    display: block;
+    padding: 10px 15px;
+    line-height: 20px;
+}
+
 .dataTables_filter {
     display: none;
 }
@@ -102,9 +108,15 @@ a.jp-playlist-current {
     }
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 700px) {
     .container {
         width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    #playInfo {
+        display: none;
     }
 }
 /*
