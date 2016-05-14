@@ -165,9 +165,7 @@ function determineSupportedAudio() {
     var mimeTypes = {
         "audio/mpeg": false,
         "audio/x-mpeg": false,
-        "audio/mp4": false,
         "audio/ogg": false,
-        "audio/x-ogg": false,
         "audio/x-vorbis+ogg": false,
         "audio/webm": false,
         "audio/wav": false,

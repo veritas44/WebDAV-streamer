@@ -132,11 +132,11 @@ require_once ("includes.php");
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="videoTitle">Video</h4>
             </div>
-            <div class="modal-body">
+
                 <div class="embed-responsive embed-responsive-16by9">
                     <video id="videoPlayer" class="embed-responsive-item" controls src='' autoplay>
                 </div>
-            </div>
+
         </div>
     </div>
 </div>
@@ -183,7 +183,6 @@ require_once ("includes.php");
     var currentUser;
     //$(document).foundation();
     $(document).ready(function () {
-        getDirectories("<?php echo urlencode($startFolder); ?>");
         currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
         try {
             if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
@@ -196,12 +195,14 @@ require_once ("includes.php");
                     //alert(localStorage.getItem("current") + jPlaylist.original.length);
                     jPlaylist.select(parseInt(localStorage.getItem(currentUser + "current")));
                 }
-                if(localStorage.getItem(currentUser + "directory") !== null){
-                    getDirectories(localStorage.getItem(currentUser + "directory"));
-                }
             }
         } catch (Err){
             console.log(Err);
+        }
+        if(localStorage.getItem(currentUser + "directory") != null) {
+            getDirectories(localStorage.getItem(currentUser + "directory"));
+        } else {
+            getDirectories("<?php echo urlencode($startFolder); ?>");
         }
 
         $("#loading").show();
@@ -259,10 +260,10 @@ require_once ("includes.php");
 
     setTimeout(refreshTitle(), 10000);
 
-    $(document).on('hide.bs.modal','#video', function () {
-        document.getElementById("video").pause();
+    jQuery(".modal-backdrop, #video .close, #video .btn").live("click", function() {
         console.log("Paused");
-    })
+        document.getElementById("videoPlayer").pause();
+    });
 </script>
 </body>
 </html>
