@@ -142,17 +142,25 @@ require_once ("includes.php");
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="savePlaylist">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Please enter a name for this playlist:</h4>
             </div>
             <div class="modal-body">
-                <div class="form-inline">
-                <input type="text" placeholder="Enter a name..." id="playlistName" class="form-control input-sm">
-                <button onclick="savePlaylist()" data-close class="btn btn-default blue">Save playlist</button>
-                    </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Enter a name..." id="playlistName" class="form-control input-sm">
+                </div>
+                <div class="form-group">
+                    <select id="playlistType" class="form-control">
+                        <option value="pls">PLS</option>
+                        <option value="m3u">M3U</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button onclick="savePlaylist()" data-close class="btn btn-default blue">Save playlist</button>
+                </div>
             </div>
         </div>
     </div>

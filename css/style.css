@@ -55,7 +55,7 @@ body html {
     vertical-align: middle;
 }
 
-.btn, .form-control, .modal-content, .panel {
+.btn, .form-control, .modal-content, .panel, .alert {
     border-radius: 0;
 }
 

@@ -102,6 +102,25 @@ class Playlist
         return $fileArray;
     }
 
+    function saveM3U($jsonPlaylist){
+        global $client;
+        $decodedPlaylist = json_decode($jsonPlaylist, true);
+        $m3uPlaylist = "";
+        foreach ($decodedPlaylist as $item){
+            $file = $item["mp3"];
+            $file = strstr($file, "get_file.php?file=");
+            $file = str_replace("get_file.php?file=", "", $file);
+            $file = $this->getRelativePath(urldecode($this->file), urldecode($file));
+
+            $m3uPlaylist .= $file . "\n";
+        }
+
+        //echo $plsPlaylist;
+        $this->file = str_replace(' ', '%20', $this->file);
+        //echo $this->file;
+        return $client->request('PUT', $this->file, $m3uPlaylist);
+    }
+
     function getRelativePath($from, $to)
     {
         // some compatibility fixes for Windows paths

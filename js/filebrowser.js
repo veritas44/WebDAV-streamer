@@ -110,7 +110,14 @@ function openPlaylist(file, name) {
 }
 
 function savePlaylist() {
-    var file = currentDirectory + $("#playlistName").val() + ".pls";
+    var purifiedPlaylist = [];
+    jPlaylist.playlist.forEach(function (entry) {
+        entry.mp3 = entry.mp3.split("&support=")[0];
+        purifiedPlaylist[purifiedPlaylist.length] = entry;
+    });
+
+    var type = $("#playlistType").val();
+    var file = currentDirectory + $("#playlistName").val() + "." + type;
     $("#playlistName").val("");
     $("#loading").show();
     //alert(currentPath);
@@ -120,8 +127,6 @@ function savePlaylist() {
             var response = xhttp.responseText;
             alert(response);
             getDirectories(currentDirectory);
-
-
         }
         if(xhttp.readyState == 4){
             $("#loading").hide();
@@ -129,7 +134,7 @@ function savePlaylist() {
     };
     xhttp.open("POST", "save_playlist.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("file=" + encodeURIComponent(file) + "&playlist=" + encodeURIComponent(JSON.stringify(jPlaylist.playlist)));
+    xhttp.send("type=" + type + "&file=" + encodeURIComponent(file) + "&playlist=" + encodeURIComponent(JSON.stringify(purifiedPlaylist)));
     //console.log(JSON.stringify(jPlaylist.playlist));
 }
 

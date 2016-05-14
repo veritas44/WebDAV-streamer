@@ -13,7 +13,12 @@ $jsonPlaylist = urldecode($_POST["playlist"]);
 //echo $jsonPlaylist;
 
 $playlist = new Playlist($file, $file);
-$response = $playlist->savePLS($jsonPlaylist);
+if($_POST["type"] == "m3u"){
+    //echo $jsonPlaylist;
+    $response = $playlist->saveM3U($jsonPlaylist);
+} else {
+    $response = $playlist->savePLS($jsonPlaylist);
+}
 if($response["body"] == "Created") {
     echo "Succesfully created the playlist";
 } else {

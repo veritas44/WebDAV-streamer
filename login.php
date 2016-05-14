@@ -52,15 +52,30 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
     <style>
         html, body {
             height: 100%;
+            width: 100%;
             background: #e6e6e6;
         }
         .container {
             position: absolute;
+            width: 500px;
             top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
         }
         #particles {
             height: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                width: 100%;
+            }
+
+            .col-md-4 {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -68,35 +83,31 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
 <!-- Source: http://bootsnipp.com/snippets/featured/parallax-login-form -->
 <div id="particles">
     <div class="container">
-        <div class="row vertical-offset-100">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto;"> WebDAV streamer</h4>
-                    </div>
-                    <div class="panel-body">
-                        <form method="post" action="login.php">
-                            <?php
-                            if($message != "") {
-                                echo '<div class="alert alert-warning">';
-                                echo $message;
-                                echo '</div>';
-                            }
-                            ?>
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="username" placeholder="Username" value="<?php echo (isset($_POST["username"]) ? $_POST["username"] : ""); ?>"/>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" name="password" placeholder="Password" />
-                                </div>
-                                <input class="btn btn-lg btn-success btn-block blue" type="submit" value="Login">
-                            </fieldset>
-                        </form>
-                    </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto;"> WebDAV streamer</h4>
                 </div>
-            </div>
-        </div>
+                <div class="panel-body">
+                    <form method="post" action="login.php">
+                        <?php
+                        if($message != "") {
+                            echo '<div class="alert alert-warning">';
+                            echo $message;
+                            echo '</div>';
+                        }
+                        ?>
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="username" placeholder="Username" value="<?php echo (isset($_POST["username"]) ? $_POST["username"] : ""); ?>"/>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="password" placeholder="Password" />
+                            </div>
+                            <input class="btn btn-lg btn-success btn-block blue" type="submit" value="Login">
+                        </fieldset>
+                    </form>
+                </div>
+                </div>
     </div>
 </div>
 <script>
