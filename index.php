@@ -258,12 +258,12 @@ require_once ("includes.php");
         refreshTitle();
     });
 
-    setTimeout(refreshTitle(), 10000);
-
-    jQuery(".modal-backdrop, #video .close, #video .btn").live("click", function() {
+    jQuery('#video').bind('hidden.bs.modal', function (event) {
         console.log("Paused");
         document.getElementById("videoPlayer").pause();
     });
+
+    setTimeout(refreshTitle(), 10000);
 </script>
 </body>
 </html>

@@ -25,7 +25,7 @@ get Spotify.
 
 **What does it work with?**
 
-Basically every cloud storage that provides WebDAV access... A few examples:
+Nearly every cloud storage that provides WebDAV access... A few examples:
 * ownCloud (including all ownCloud hosters like STACK)
 * Box.net
 * Cloud Drive
@@ -39,9 +39,9 @@ Basically every cloud storage that provides WebDAV access... A few examples:
 * Synology NASes
 * And many more...
 
-Basically, if it supports WebDAV, it will probably work. (If it doesn't, please contact me.)
+If it supports WebDAV, it will probably work. (If it doesn't, please contact me.)
 
-Please bear in mind that running this on a hosting with bandwidth limiter is not recommended,
+Please bear in mind that running this with a bandwidth limiter is not recommended,
 because it first downloads the file, and then streams it, so the bandwidth used will be double the file size.
 
 If you need any assistance or have a great idea, please contact me.

@@ -48,7 +48,6 @@ function addToPlaylist(file, name){
         title: urldecode(name),
         mp3: url
     });
-
     //playlistArray.push(url);
     //playlistNamesArray.push(urldecode(name));
 

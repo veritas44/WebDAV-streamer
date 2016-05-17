@@ -122,6 +122,6 @@ try {
     <?php
 }catch(Exception $e){
     echo $e->getMessage();
-    echo '<hr>You shouldn\'t be here! <a href="#" onclick="getDirectories(\'' . urlencode($startFolder) . '\')">Go back to the root</a> or 
+    echo '<hr>You shouldn\'t be here! <a href="#" onclick="getDirectories(\'' . urlencode($startFolder) . '\')">Go back to start</a> or 
     <a href="#" onclick="getDirectories(\'' . $_GET["folder"] . '\')">try loading the resource again</a>';
 }
