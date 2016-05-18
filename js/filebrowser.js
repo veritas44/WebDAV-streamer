@@ -6,7 +6,8 @@ function urldecode(str) {
 }
 
 var currentDirectory;
-var supportedMimeTypes;
+var supportedAudioMimeTypes;
+var supportedVideoMimeTypes;
 
 function getDirectories(currentPath) {
     //alert(decodeURIComponent(currentPath));
@@ -31,18 +32,19 @@ var playlistArray;
 
 $(document).ready(function () {
    playlistArray = [];
-    supportedMimeTypes = determineSupportedAudio();
+    supportedAudioMimeTypes = determineSupportedAudio();
+    supportedVideoMimeTypes = determineSupportedVideo();
 });
 
 function playVideo(file, name){
-    var url = "get_video.php?file=" + file;
-
+    var url = "get_video.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedVideoMimeTypes));
+    console.log(url);
     $("#videoPlayer").attr("src", url);
     $("#videoTitle").html(urldecode(name));
 }
 
 function addToPlaylist(file, name){
-    var url = "get_file.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedMimeTypes));
+    var url = "get_file.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedAudioMimeTypes));
     console.log(url);
     jPlaylist.add({
         title: urldecode(name),
@@ -173,6 +175,23 @@ function determineSupportedAudio() {
         "audio/flac": false
     };
     var aud = document.createElement('audio');
+    for (var key in mimeTypes) {
+        if (!mimeTypes.hasOwnProperty(key)) continue;
+        if (aud.canPlayType(key) == "probably" || aud.canPlayType(key) == "maybe"){
+            mimeTypes[key] = true;
+        }
+    }
+    //console.log(mimeTypes);
+    return mimeTypes;
+}
+
+function determineSupportedVideo() {
+    var mimeTypes = {
+        "video/mp4": false,
+        "video/ogg": false,
+        "video/webm": false
+    };
+    var aud = document.createElement('video');
     for (var key in mimeTypes) {
         if (!mimeTypes.hasOwnProperty(key)) continue;
         if (aud.canPlayType(key) == "probably" || aud.canPlayType(key) == "maybe"){

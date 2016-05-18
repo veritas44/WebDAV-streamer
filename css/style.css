@@ -103,11 +103,11 @@ a.jp-playlist-current {
     .jp-gui {
         max-width: 100%;
     }
-    .jp-audio {
+    .jp-audio, .jp-controls {
         width: 340px !important;
     }
     .jp-progress, .jp-time-holder {
-        width: 100px !important;
+        width: 120px !important;
     }
     .jp-current-time, .jp-duration {
         width: auto !important;
@@ -117,7 +117,7 @@ a.jp-playlist-current {
         left: 248px !important;
     }
     .jp-toggles {
-        left: 280px !important;
+        left: 295px !important;
         top: 30px !important;
     }
 }

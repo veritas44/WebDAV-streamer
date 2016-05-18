@@ -10,6 +10,7 @@ session_start();
 ini_set("memory_limit","1600M");
 ini_set('session.cookie_lifetime',84600);
 ini_set('session.gc_maxlifetime',84600);
+set_time_limit (120);
 
 //Show all errors, because there shouldn't be any:
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
@@ -60,4 +61,29 @@ function readable_name($url){
 function starts_with($haystack, $needle) {
     // search backwards starting from haystack length characters from the end
     return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+
+define('CHUNK_SIZE', 1024*1024);
+function readfile_chunked($filename, $retbytes = TRUE) {
+    $buffer = '';
+    $cnt =0;
+    // $handle = fopen($filename, 'rb');
+    $handle = fopen($filename, 'rb');
+    if ($handle === false) {
+        return false;
+    }
+    while (!feof($handle)) {
+        $buffer = fread($handle, CHUNK_SIZE);
+        echo $buffer;
+        ob_flush();
+        flush();
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+    }
+    $status = fclose($handle);
+    if ($retbytes && $status) {
+        return $cnt; // return num. bytes delivered like readfile() does.
+    }
+    return $status;
 }
