@@ -41,6 +41,7 @@ function playVideo(file, name){
     console.log(url);
     $("#videoPlayer").attr("src", url);
     $("#videoTitle").html(urldecode(name));
+    document.getElementById("videoPlayer").play();
 }
 
 function addToPlaylist(file, name){
@@ -189,7 +190,8 @@ function determineSupportedVideo() {
     var mimeTypes = {
         "video/mp4": false,
         "video/ogg": false,
-        "video/webm": false
+        "video/webm": false,
+        "video/x-flv": false
     };
     var aud = document.createElement('video');
     for (var key in mimeTypes) {
