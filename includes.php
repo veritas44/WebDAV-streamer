@@ -37,12 +37,12 @@ if($auth->login($username, $password) == "success") {
 use Sabre\DAV\Client;
 
 $settings = array(
-    'baseUri' => $users[$auth->username]['base_uri'],
-    'userName' => $users[$auth->username]['username_webdav'],
-    'password' => $users[$auth->username]['password_webdav']
+    'baseUri' => $auth->users[$auth->username]['base_uri'],
+    'userName' => $auth->users[$auth->username]['username_webdav'],
+    'password' => $auth->users[$auth->username]['password_webdav']
 );
 
-$startFolder = $users[$auth->username]['start_folder'];
+$startFolder = $auth->users[$auth->username]['start_folder'];
 
 $client = new Client($settings);
 
