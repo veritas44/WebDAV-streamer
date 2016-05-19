@@ -94,6 +94,11 @@ table tr.sorting-row td, table tr.sorting-row a {
     color: #fff !important;
 }
 
+td.sorter{
+    background: url('../img/icons/arrow_ns.png') no-repeat center;
+    background-size: 16px 16px;
+}
+
 a.jp-playlist-current {
     color: #fff;
 }

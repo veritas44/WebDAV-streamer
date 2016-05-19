@@ -271,6 +271,8 @@ function shuffle(array) {
 			// Wrap the <li> contents in a <div>
 			var listItem = "<tr>";
 
+			listItem += "<td width='25px' class='sorter'></td>";
+
 			// Create links to free media
 			if(media.free) {
 				var first = true;

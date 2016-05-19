@@ -47,6 +47,7 @@ $(document).ready(function () {
 
 function initSorting() {
     $('#jp-playlist').rowSorter({
+        handler: 'td.sorter',
         onDragStart: function(tbody, row, index)
         {
             //log('index: ' + index);
@@ -57,7 +58,9 @@ function initSorting() {
             //log('old_index: ' + old_index + ', new_index: ' + new_index);
             //console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
             jPlaylist.playlist.move(old_index, new_index);
-            jPlaylist.original.move(old_index, new_index);
+            if(jPlaylist.shuffled == false) {
+                jPlaylist.original.move(old_index, new_index);
+            }
             if(jPlaylist.current == old_index){
                 jPlaylist.current = new_index;
             }
