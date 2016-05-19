@@ -168,6 +168,7 @@ require_once ("includes.php");
 
 <script>
     var currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
+    var defaultDirectory = "<?php echo urlencode($startFolder); ?>";
 </script>
 
 <script src="js/jquery-2.2.3.js"></script>
