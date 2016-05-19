@@ -176,6 +176,7 @@ require_once ("includes.php");
 <script src="js/dataTables.bootstrap.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/jsmediatags.js"></script>
+<script src="js/RowSorter.js"></script>
 
 <script src="jplayer/jquery.jplayer.min.js"></script>
 <script src="jplayer/jplayer.playlist.js"></script>

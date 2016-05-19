@@ -1,6 +1,6 @@
 //$(document).foundation();
 $(document).ready(function () {
-    
+    $("#loading").show();
     try {
         if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
             jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem(currentUser + "original")));
@@ -11,7 +11,8 @@ $(document).ready(function () {
                 //console.log(jPlaylist.playlist.indexOf(jQuery.parseJSON(localStorage.getItem(currentUser + "current"))));
                 jPlaylist.select(parseInt(localStorage.getItem(currentUser + "current")));
             }
-            if(Boolean(localStorage.getItem(currentUser + "shuffled"))){
+
+            if(localStorage.getItem(currentUser + "shuffled") === "true"){
                 jPlaylist.shuffle();
                 jPlaylist._updateControls();
             }
@@ -30,7 +31,6 @@ $(document).ready(function () {
         getDirectories(defaultDirectory);
     }
 
-    $("#loading").show();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -45,11 +45,33 @@ $(document).ready(function () {
     xhttp.send();
 });
 
+function initSorting() {
+    $('#jp-playlist').rowSorter({
+        onDragStart: function(tbody, row, index)
+        {
+            //log('index: ' + index);
+            //console.log('onDragStart: active row\'s index is ' + index);
+        },
+        onDrop: function(tbody, row, new_index, old_index)
+        {
+            //log('old_index: ' + old_index + ', new_index: ' + new_index);
+            //console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
+            jPlaylist.playlist.move(old_index, new_index);
+            jPlaylist.original.move(old_index, new_index);
+            if(jPlaylist.current == old_index){
+                jPlaylist.current = new_index;
+            }
+        }
+    });
+
+    return "Done";
+}
+
 $(window).unload(function() {
+    localStorage.setItem(currentUser + "shuffled", jPlaylist.shuffled);
     localStorage.setItem(currentUser + "original", JSON.stringify(jPlaylist.original));
     localStorage.setItem(currentUser + "playlist", JSON.stringify(jPlaylist.playlist));
     localStorage.setItem(currentUser + "current", jPlaylist.original.indexOf(jPlaylist.playlist[jPlaylist.current]));
-    localStorage.setItem(currentUser + "shuffled", jPlaylist.shuffled);
     localStorage.setItem(currentUser + "directory", currentDirectory);
 });
 

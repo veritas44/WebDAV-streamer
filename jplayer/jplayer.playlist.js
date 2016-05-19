@@ -219,6 +219,7 @@ function shuffle(array) {
 			this.removing = false;
 			this.original = $.extend(true, [], playlist); // Copy the Array of Objects
 			this._originalPlaylist();
+			initSorting();
 		},
 		_originalPlaylist: function() {
 			var self = this;
@@ -291,9 +292,9 @@ function shuffle(array) {
 			listItem += "<td><a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='0'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a></td>";
 
 			// Create remove control
-			listItem += "<td width='75px' class='table-icon' align='right'>" +
-				"<a href='javascript:;' class='up'><img src='img/icons/arrow_up.png'></a>" +
-				"<a href='javascript:;' class='down'><img src='img/icons/arrow_down.png'></a>" +
+			listItem += "<td width='25px' class='table-icon' align='right'>" +
+				//"<a href='javascript:;' class='up'><img src='img/icons/arrow_up.png'></a>" +
+				//"<a href='javascript:;' class='down'><img src='img/icons/arrow_down.png'></a>" +
 				"<a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'><img src='img/icons/cross.png' alt='Del'></a>" +
 				"</td>";
 			listItem += "</tr>";
