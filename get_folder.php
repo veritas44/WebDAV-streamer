@@ -10,11 +10,12 @@ require_once("includes.php");
 
 $folder = "";
 if(isset($_GET["folder"])) {
-    $folder = urldecode($_GET["folder"]);
+    //$folder = urldecode($_GET["folder"]);
+    $folder = $_GET["folder"];
 }
-$folderArray = explode('/', $folder);
-$folder = sabre_urlencode($folder);
-
+$folderArray = explode('/', urldecode($folder));
+$folder = str_replace(' ', '%20', $folder);
+//$folder = sabre_urlencode($folder);
 $currentURL = "";
 ?>
     <div class="row">
@@ -33,6 +34,8 @@ $currentURL = "";
     <div class="row">
         <ol class="breadcrumb">
             <?php
+            //echo $folder;
+            //echo $_GET["folder"];
             foreach ($folderArray as $value){
                 $currentURL = $currentURL . $value . "/";
                 echo '<li><a href="#" onclick="getDirectories(\'' . urlencode($currentURL) . '\')">' . $value . '</a></li>';
