@@ -17,7 +17,8 @@ $(document).ready(function(){
         useStateClassSkin: true,
         autoBlur: false,
         smoothPlayBar: false,
-        keyEnabled: true
+        keyEnabled: true,
+        loop: true
     });
 
     //$("#jplayer_inspector_1").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});

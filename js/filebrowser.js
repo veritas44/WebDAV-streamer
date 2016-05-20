@@ -111,6 +111,9 @@ function openPlaylist(file, name, replace) {
                 //alert(response[i][0]);
                 addToPlaylist(response[j][0], response[j][1]);
             }
+            if(replace == true){
+                jPlaylist.select(0);
+            }
         }
         if(xhttp.readyState == 4){
             $("#loading").hide();
@@ -225,6 +228,7 @@ function openFavourite (file, name, type) {
             break;
         case "audio":
             addToPlaylist(file, name);
+            jPlaylist.play(jPlaylist.playlist.length - 1);
             break;
     }
     $("#favouriteFiles").modal("hide");
@@ -251,6 +255,9 @@ function addFavourite(file, name, type) {
          favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
     } catch (e) {
         console.log(e);
+        favouriteFiles = [];
+    }
+    if(favouriteFiles == null){
         favouriteFiles = [];
     }
     favouriteFiles.push(

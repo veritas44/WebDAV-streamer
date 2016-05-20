@@ -203,11 +203,6 @@ require_once ("includes.php");
     </div>
 </div>
 
-<script>
-    var currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
-    var defaultDirectory = "<?php echo urlencode($startFolder); ?>";
-</script>
-
 <script src="js/jquery-2.2.3.js"></script>
 <script src="js/jquery.dataTables.js"></script>
 <script src="js/dataTables.bootstrap.js"></script>
@@ -222,6 +217,16 @@ require_once ("includes.php");
 <script src="js/filebrowser.js"></script>
 
 <script src="index.js"></script>
+
+<script>
+    var currentUser = "";
+    var defaultDirectory = "";
+    $(document).ready(function () {
+        currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
+        defaultDirectory = "<?php echo urlencode($startFolder); ?>";
+        initialize();
+    });
+</script>
 </body>
 </html>
 

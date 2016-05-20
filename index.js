@@ -1,5 +1,5 @@
 //$(document).foundation();
-$(document).ready(function () {
+function initialize() {
     $("#loading").show();
     try {
         if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
@@ -43,7 +43,7 @@ $(document).ready(function () {
     };
     xhttp.open("GET", "remove_old_files.php", true);
     xhttp.send();
-});
+}
 
 function initSorting() {
     $('#jp-playlist').rowSorter({
