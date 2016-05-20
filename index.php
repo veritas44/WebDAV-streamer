@@ -72,6 +72,7 @@ require_once ("includes.php");
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right nav-full">
+                <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#favouriteFiles">Favourite files</a></li>
                 <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
                 <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
                 <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
@@ -92,7 +93,7 @@ require_once ("includes.php");
         <div class="col-lg-6" id="playlist">
             <div style="height: 10px;"></div>
             <div class="blog-post">
-                <h3>Playlist</h3>
+                <h3>Playlist <span style="float: right;"><button class="btn blue" onclick="jPlaylist.shuffle(true, false);">Reshuffle</button> </span> </h3>
                 <table class="jp-playlist table table-striped table-hover" id="jp-playlist">
 
                 </table>
@@ -162,6 +163,42 @@ require_once ("includes.php");
                     <button onclick="savePlaylist()" data-close class="btn btn-default blue">Save playlist</button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="replacePlaylist">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">What do you want to do with this playlist?</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <button class="btn blue" data-dismiss="modal" onclick="openPlaylist(playlistFile, playlistName, true)">Replace current playlist</button>
+                    <button class="btn blue" data-dismiss="modal" onclick="openPlaylist(playlistFile, playlistName, false)">Add to current playlist</button>
+                    <!--button class="btn" data-dismiss="modal">Cancel</button-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="favouriteFiles">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Favourite files:</h4>
+            </div>
+
+            <div class="modal-body">
+                <table class="table table-striped table-hover" id="favouriteTable">
+                    <tr><td>Nothing yet, add a favourite by clicking on the star</td></tr>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>

@@ -8,6 +8,8 @@ function urldecode(str) {
 var currentDirectory;
 var supportedAudioMimeTypes;
 var supportedVideoMimeTypes;
+var playlistName;
+var playlistFile;
 
 function getDirectories(currentPath) {
     //alert(decodeURIComponent(currentPath));
@@ -87,7 +89,13 @@ function addAllToPlaylist(currentPath) {
     xhttp.send();
 }
 
-function openPlaylist(file, name) {
+function setPlaylist(file, name) {
+    playlistName = name;
+    playlistFile = file;
+}
+
+function openPlaylist(file, name, replace) {
+    if (typeof replace === 'undefined') { replace = false; }
     $("#loading").show();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();
@@ -95,8 +103,9 @@ function openPlaylist(file, name) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = $.parseJSON(xhttp.responseText);
             //alert(response);
-
-
+            if(replace == true){
+                jPlaylist.remove();
+            }
             for(var j = 0; j < response.length; j++){
                 //alert(j);
                 //alert(response[i][0]);
@@ -202,4 +211,66 @@ function determineSupportedVideo() {
     }
     //console.log(mimeTypes);
     return mimeTypes;
+}
+
+function openFavourite (file, name, type) {
+    switch (type) {
+        case "playlist":
+            setPlaylist(file, name);
+            $("#replacePlaylist").modal('show');
+            break;
+        case "video":
+            playVideo(file, name);
+            $("#video").modal('show');
+            break;
+        case "audio":
+            addToPlaylist(file, name);
+            break;
+    }
+    $("#favouriteFiles").modal("hide");
+}
+
+function populateFavouriteFiles() {
+    try {
+        var favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+        var tableContent = "";
+        for(var i = 0; i < favouriteFiles.length; i++){
+            tableContent += "<tr>" +
+                "<td><a href='javascript:;' onclick='openFavourite(\"" + favouriteFiles[i].file + "\",\"" + encodeURIComponent(favouriteFiles[i].name) + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
+                "<td align='right'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())'><img src='img/icons/cross.png' alt='Del'></a></td>";
+        }
+        $("#favouriteTable").html(tableContent);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+function addFavourite(file, name, type) {
+    var favouriteFiles;
+    try {
+         favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+    } catch (e) {
+        console.log(e);
+        favouriteFiles = [];
+    }
+    favouriteFiles.push(
+        {
+            file: file,
+            name: urldecode(name),
+            type: type
+        });
+    console.log(favouriteFiles);
+    localStorage.setItem("favouriteFiles", JSON.stringify(favouriteFiles));
+    populateFavouriteFiles();
+}
+
+function removeFavourite(index) {
+    try {
+        var favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+        favouriteFiles.splice(index, 1);
+        localStorage.setItem("favouriteFiles", JSON.stringify(favouriteFiles));
+        populateFavouriteFiles();
+    } catch (e) {
+        console.log(e);
+    }
 }

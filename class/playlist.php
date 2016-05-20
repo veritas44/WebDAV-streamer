@@ -64,7 +64,7 @@ class Playlist
         //echo $plsPlaylist;
         $this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
-        return $client->request('PUT', $this->file, $plsPlaylist);
+        return $client->request('PUT', sabre_urlencode($this->file), $plsPlaylist);
     }
 
     function openM3U(){
@@ -118,7 +118,7 @@ class Playlist
         //echo $plsPlaylist;
         $this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
-        return $client->request('PUT', $this->file, $m3uPlaylist);
+        return $client->request('PUT', sabre_urlencode($this->file), $m3uPlaylist);
     }
 
     function getRelativePath($from, $to)

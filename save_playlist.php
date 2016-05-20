@@ -19,9 +19,11 @@ if($_POST["type"] == "m3u"){
 } else {
     $response = $playlist->savePLS($jsonPlaylist);
 }
-if($response["body"] == "Created") {
+if($response["statusCode"] < 400) {
     echo "Succesfully created the playlist";
 } else {
-    echo "Something went wrong";
-    //print_r($response);
+    echo "Something went wrong\n\nDetails:";
+    echo $file . "\n";
+    echo $jsonPlaylist . "\n";
+    print_r($response);
 }

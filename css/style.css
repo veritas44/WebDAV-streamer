@@ -57,7 +57,7 @@ body html {
 
 .table-icon {
     padding: 0 4px 0 4px;
-    text-align: center;
+    text-align: right;
     vertical-align: middle;
 }
 
@@ -86,17 +86,18 @@ table.dataTable.no-footer {
     color: #fff;
 }
 
-table.sorting-table {
-    cursor: move;
-}
 table tr.sorting-row td, table tr.sorting-row a {
     background-color: #337ab7 !important;
     color: #fff !important;
 }
 
-td.sorter{
+td.sorter {
     background: url('../img/icons/arrow_ns.png') no-repeat center;
     background-size: 16px 16px;
+}
+
+table.sorting-table {
+    cursor: grabbing;
 }
 
 a.jp-playlist-current {

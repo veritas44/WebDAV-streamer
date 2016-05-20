@@ -16,11 +16,9 @@ $(document).ready(function () {
                 jPlaylist.shuffle();
                 jPlaylist._updateControls();
             }
-            /*
-            if(jPlaylist.shuffled){
-                jPlaylist.playlist = jQuery.parseJSON(localStorage.getItem(currentUser + "playlist"))
+            if(localStorage.getItem(currentUser + "looped") === "true"){
+                console.log(jPlaylist.loop);
             }
-            */
         }
     } catch (Err){
         console.log(Err);
@@ -30,6 +28,8 @@ $(document).ready(function () {
     } else {
         getDirectories(defaultDirectory);
     }
+
+    populateFavouriteFiles();
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -72,6 +72,7 @@ function initSorting() {
 
 $(window).unload(function() {
     localStorage.setItem(currentUser + "shuffled", jPlaylist.shuffled);
+    localStorage.setItem(currentUser + "looped", jPlaylist.loop);
     localStorage.setItem(currentUser + "original", JSON.stringify(jPlaylist.original));
     localStorage.setItem(currentUser + "playlist", JSON.stringify(jPlaylist.playlist));
     localStorage.setItem(currentUser + "current", jPlaylist.original.indexOf(jPlaylist.playlist[jPlaylist.current]));
