@@ -17,12 +17,14 @@ $supportedMimeTypes = json_decode($_GET["support"], true);
 
 if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
     header("HTTP/1.0 " . $response["statusCode"]);
-    header('Content-Type: ' . $response["headers"]["content-type"][0]);
-    header('Content-Disposition: filename="' . $md5name . $extension . '"');
-    header('Content-length: ' . $response["headers"]["content-length"][0]);
-    //header('Cache-Control: no-cache');
+    //header('Content-Type: ' . $response["headers"]["content-type"][0]);
+    //header('Content-Disposition: filename="' . $md5name . $extension . '"');
+    //header('Content-length: ' . $response["headers"]["content-length"][0]);
+    header('Cache-Control: no-cache');
     header("Content-Transfer-Encoding: binary");
-    die($client->request('GET', $requestURL)["body"]);
+    file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $client->request('GET', $requestURL)["body"]);
+    header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . $extension);
+    die();
 } else {
     if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp4") == false) {
         $response = $client->request('GET', $requestURL);
