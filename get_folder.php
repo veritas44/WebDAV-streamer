@@ -13,6 +13,7 @@ if(isset($_GET["folder"])) {
     //$folder = urldecode($_GET["folder"]);
     $folder = $_GET["folder"];
 }
+$folder = utf8_encode($folder);
 $folderArray = explode('/', urldecode($folder));
 $folder = str_replace(' ', '%20', $folder);
 //$folder = sabre_urlencode($folder);
@@ -50,6 +51,7 @@ try {
         '{DAV:}getcontenttype'
     ), 1);
 
+    //print_r($folders);
     //var_dump($folders);
     array_shift($folders);
 

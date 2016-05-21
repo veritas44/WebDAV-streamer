@@ -216,6 +216,40 @@ function determineSupportedVideo() {
     return mimeTypes;
 }
 
+function getFavourites() {
+    var xhttp = new XMLHttpRequest();
+    var returnData = "[]";
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            //console.log(xhttp.responseText);
+            returnData = xhttp.responseText;
+            console.log("GETFAVOURITES: " + xhttp.responseText);
+        } else {
+            returnData = "[]";
+        }
+    };
+    xhttp.open("POST", "favourites.php", false);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=open");
+    return returnData;
+}
+
+function saveFavourites(favourites) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            if(response == "success"){
+
+            }
+        }
+    };
+    xhttp.open("POST", "favourites.php", false);
+    xhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    xhttp.send(JSON.stringify(favourites));
+    console.log("SAVEFAVOURITES: " + JSON.stringify(favourites));
+}
+
 function openFavourite (file, name, type) {
     switch (type) {
         case "playlist":
@@ -236,14 +270,31 @@ function openFavourite (file, name, type) {
 
 function populateFavouriteFiles() {
     try {
-        var favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+        var favouriteFiles = jQuery.parseJSON(getFavourites());
         var tableContent = "";
         for(var i = 0; i < favouriteFiles.length; i++){
+            //console.log(favouriteFiles[i].file);
             tableContent += "<tr>" +
-                "<td><a href='javascript:;' onclick='openFavourite(\"" + favouriteFiles[i].file + "\",\"" + encodeURIComponent(favouriteFiles[i].name) + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
+                "<td class='sorter'></td>" +
+                "<td><a href='javascript:;' onclick='openFavourite(\"" + (favouriteFiles[i].file) + "\",\"" + encodeURIComponent(favouriteFiles[i].name) + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
                 "<td align='right'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())'><img src='img/icons/cross.png' alt='Del'></a></td>";
         }
         $("#favouriteTable").html(tableContent);
+        $('#favouriteTable').rowSorter({
+            handler: 'td.sorter',
+            onDragStart: function(tbody, row, index)
+            {
+                //log('index: ' + index);
+                //console.log('onDragStart: active row\'s index is ' + index);
+            },
+            onDrop: function(tbody, row, new_index, old_index)
+            {
+                //log('old_index: ' + old_index + ', new_index: ' + new_index);
+                //console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
+                favouriteFiles.move(old_index, new_index);
+                saveFavourites(favouriteFiles);
+            }
+        });
     } catch (e) {
         console.log(e);
     }
@@ -252,7 +303,7 @@ function populateFavouriteFiles() {
 function addFavourite(file, name, type) {
     var favouriteFiles;
     try {
-         favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+         favouriteFiles = jQuery.parseJSON(getFavourites());
     } catch (e) {
         console.log(e);
         favouriteFiles = [];
@@ -266,16 +317,17 @@ function addFavourite(file, name, type) {
             name: urldecode(name),
             type: type
         });
-    console.log(favouriteFiles);
-    localStorage.setItem("favouriteFiles", JSON.stringify(favouriteFiles));
+    //console.log(favouriteFiles);
+    saveFavourites(favouriteFiles);
+    console.log("ADDFAVOURITE: " + favouriteFiles);
     populateFavouriteFiles();
 }
 
 function removeFavourite(index) {
     try {
-        var favouriteFiles = jQuery.parseJSON(localStorage.getItem("favouriteFiles"));
+        var favouriteFiles = jQuery.parseJSON(getFavourites());
         favouriteFiles.splice(index, 1);
-        localStorage.setItem("favouriteFiles", JSON.stringify(favouriteFiles));
+        saveFavourites(favouriteFiles);
         populateFavouriteFiles();
     } catch (e) {
         console.log(e);

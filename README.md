@@ -6,7 +6,9 @@ It only requires PHP and ffmpeg, and setting it up should not take too long.
 
  1. Rename config.example.php to config.php
  2. Fill in the variables with your own details
- 3. Enjoy
+ 3. Chmod the ffmpeg folder to allow ffmpeg to write data to it.
+ 4. Chmod the favourites folder to allow writing
+ 5. Enjoy
 
 **Comparison between Spotify and WebDAV streamer:**
 
@@ -43,6 +45,12 @@ If it supports WebDAV, it will probably work. (If it doesn't, please contact me.
 
 Please bear in mind that running this with a bandwidth limiter is not recommended,
 because it first downloads the file, and then streams it, so the bandwidth used will be double the file size.
+
+**Requirements:**
+
+* PHP 5.5 with curl and sqlite3
+* A modern browser
+* ffmpeg or avconv
 
 If you need any assistance or have a great idea, please contact me.
 

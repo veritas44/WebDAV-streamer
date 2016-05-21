@@ -8,7 +8,7 @@
 
 require_once ("includes.php");
 
-$requestURL = (($_GET["file"]));
+$requestURL = utf8_encode(($_GET["file"]));
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
     header('Location: ' . urldecode($requestURL));
     die();
