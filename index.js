@@ -87,7 +87,7 @@ function refreshTitle() {
             var jsmediatags = window.jsmediatags;
             jsmediatags.read(obj.mp3, {
                 onSuccess: function(tag) {
-                    $("#playInfo").html("<div style='color: #666;'>"
+                    $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>"
                         + (tag.tags.title ? tag.tags.title : obj.title) +
                         (tag.tags.album ? " <br> " + tag.tags.album : "") +
                         (tag.tags.artist ? " <br> " + tag.tags.artist : "") +
@@ -96,7 +96,7 @@ function refreshTitle() {
                 },
                 onError: function(error) {
                     console.log(error);
-                    $("#playInfo").html("<div style='color: #666;'>" + obj.title + "</div>");
+                    $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</div>");
                     $("title").html(obj.title + " - WebDAV streamer");
                 }
             });
