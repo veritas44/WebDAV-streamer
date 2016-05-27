@@ -6,26 +6,25 @@
  * Time: 14:30
  */
 require_once ("includes.php");
-$fileFriendlyUsername = preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username);
-const FAVOURITES_FOLDER = "./favourites/";
+$database = new Database();
+$database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
 if($_POST["action"] == "open"){
     try {
         header('Content-Type: application/json');
-        if(file_exists(FAVOURITES_FOLDER . $fileFriendlyUsername)) {
-            echo file_get_contents(FAVOURITES_FOLDER . $fileFriendlyUsername);
-        } else {
-            $newFile = fopen(FAVOURITES_FOLDER . $fileFriendlyUsername, "w");
-            fwrite($newFile, "[]");
-            fclose($newFile);
+        $favourites = $database->get_data($username)["favourites"]["favourites"];
+        if(empty($favourites)) {
             echo "[]";
+        }else{
+            echo $favourites;
         }
     }  catch (Exception $e){
         echo $e->getMessage();
     }
 }elseif(isset($_POST)){
     try {
-        file_put_contents(FAVOURITES_FOLDER . $fileFriendlyUsername, file_get_contents('php://input'));
+        $database->update_favourites($username, file_get_contents('php://input'));
+        //file_put_contents(FAVOURITES_FOLDER . $fileFriendlyUsername, file_get_contents('php://input'));
         echo "success";
     } catch (Exception $e){
         echo $e->getMessage();

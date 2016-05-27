@@ -4,10 +4,8 @@ It only requires PHP and ffmpeg, and setting it up should not take too long.
 
 **How to set it up:**
 
- 1. Rename config.example.php to config.php
+ 1. Open http://your-url/install.php
  2. Fill in the variables with your own details
- 3. Chmod the ffmpeg folder to allow ffmpeg to write data to it.
- 4. Chmod the favourites folder to allow writing
  5. Enjoy
 
 **Comparison between Spotify and WebDAV streamer:**

@@ -7,6 +7,7 @@ session_start();
  * Time: 22:49
  */
 require_once ("config.php");
+require_once("class/database.php");
 require_once("class/auth.php");
 
 $message = "";
@@ -15,14 +16,16 @@ if(isset($_GET["logout"])){
     session_destroy();
 }
 
-$auth = new Auth($users);
+$auth = new Auth();
 
+/*
 if(key_exists("autologin", $auth->users)){
     $_SESSION["username"] = "autologin";
     $_SESSION["password"] = $auth->users["autologin"]["password_streamer"];
     header("Location: index.php");
     die();
 }
+*/
 
 if(isset($_POST["username"]) && isset($_POST["password"])){
     if($auth->login($_POST["username"], $_POST["password"]) == "success"){
@@ -46,9 +49,6 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script src="js/jquery.particleground.js"></script>
-    <script>
-
-    </script>
     <style>
         html, body {
             height: 100%;

@@ -2,20 +2,24 @@
 
 class Auth {
     var $username;
-    var $users;
+    var $database;
+    var $userData;
 
-    function __construct($users)
+    function __construct()
     {
-        $this->users = array_change_key_case($users);
+        $this->database = new Database();
+        $this->database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
     }
 
     function login($username, $password){
-        if(key_exists(strtolower($username), $this->users)){
-            if($this->users[strtolower($username)]["password_streamer"] == $password){
-                $this->username = strtolower($username);
-                return "success";
-            }
+        $this->userData = $userData = $this->database->get_data(strtolower($username));
+        $hashed_password = hash('sha256', $userData["users"]["salt"] . $password);
+
+        if($userData["users"]["password_streamer"] == $hashed_password){
+            $this->username = strtolower($username);
+            return "success";
+        } else {
+            return "failed";
         }
-        return "failed";
     }
 }

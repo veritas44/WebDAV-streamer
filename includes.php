@@ -17,6 +17,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 require_once("SabreDAV/vendor/autoload.php");
 require_once("config.php");
+require_once("class/database.php");
 require_once("class/auth.php");
 require_once("class/playlist.php");
 require_once("class/url_to_absolute.php");
@@ -24,7 +25,7 @@ require_once("class/url_to_absolute.php");
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
 
-$auth = new Auth($users);
+$auth = new Auth();
 if($auth->login($username, $password) == "success") {
 
 } else {
@@ -37,12 +38,12 @@ if($auth->login($username, $password) == "success") {
 use Sabre\DAV\Client;
 
 $settings = array(
-    'baseUri' => $auth->users[$auth->username]['base_uri'],
-    'userName' => $auth->users[$auth->username]['username_webdav'],
-    'password' => $auth->users[$auth->username]['password_webdav']
+    'baseUri' => $auth->userData["users"]['base_uri'],
+    'userName' => $auth->userData["users"]['username_webdav'],
+    'password' => $auth->userData["users"]['password_webdav']
 );
 
-$startFolder = $auth->users[$auth->username]['start_folder'];
+$startFolder = $auth->userData["users"]['start_folder'];
 
 $client = new Client($settings);
 

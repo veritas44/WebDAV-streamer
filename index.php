@@ -7,6 +7,24 @@
  */
 
 require_once ("includes.php");
+
+$password_change_response = "none";
+if(isset($_POST["newpass1"])){
+    $newpass1 = $_POST["newpass1"];
+    $newpass2 = $_POST["newpass2"];
+
+    if($newpass1 == $newpass2){
+        $database = new Database();
+        $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
+        $database->update_user($username, "password_streamer", $newpass1, true);
+        $password_change_response = "Successfully updated the password";
+        header("Refresh:0");
+        die();
+    } else {
+        $password_change_response = "Passwords did not match! <script>alert('Passwords did not match!');</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -73,6 +91,7 @@ require_once ("includes.php");
             </ul>
             <ul class="nav navbar-nav navbar-right nav-full">
                 <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#favouriteFiles">Favourite files</a></li>
+                <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#changePassword">Change password</a></li>
                 <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
                 <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
                 <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
@@ -197,6 +216,35 @@ require_once ("includes.php");
                 <table class="table table-striped table-hover" id="favouriteTable">
                     <tr><td>Nothing yet, add a favourite by clicking on the star</td></tr>
                 </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="changePassword">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Change password:</h4>
+            </div>
+
+            <div class="modal-body">
+                <form action="" method="post">
+                    <?php
+                    if($password_change_response != "none"){
+                        echo "<div class='alert alert-warning'>$password_change_response</div>";
+                    }
+                    ?>
+                    <div class="form-group">
+                        <input type="password" placeholder="New password" name="newpass1" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="New password (again)" name="newpass2" class="form-control input-sm">
+                    </div>
+                    <input type="submit" class="btn blue" value="Change password">
+                </form>
             </div>
 
         </div>
