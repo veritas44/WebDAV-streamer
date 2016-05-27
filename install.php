@@ -52,7 +52,7 @@ if(isset($_POST["ff-ffmpeg"])){
     $folder_writable = true;
 
     try {
-        $testfile = fopen($convert_folder . "writing.test", "w") or $folder_writable = false;
+        $testfile = fopen($convert_folder . DIRECTORY_SEPARATOR . "writing.test", "w") or $folder_writable = false;
         fclose($testfile);
     } catch (Exception $e) {
         $folder_writable = false;
@@ -114,16 +114,21 @@ if(isset($_POST["a-username-streamer"])){
 
         $client = new Client($settings);
 
-        $client->request('GET');
+        $response = $client->request("GET", Sabre\HTTP\URLUtil::encodePath($a_start_folder));
 
-        require_once ("config.php");
+        if($response["statusCode"] >= 400){
+            $add_user_response = "WebDAV authentication went wrong";
+        } else {
 
-        $database = new Database();
-        $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
-        $database->init_database();
-        $database->add_user($a_username_streamer, $a_password_streamer,$a_base_uri,$a_username_webdav,$a_password_webdav,$a_start_folder, 1);
+            require_once("config.php");
 
-        $add_user_response = "success";
+            $database = new Database();
+            $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+            $database->init_database();
+            $database->add_user($a_username_streamer, $a_password_streamer, $a_base_uri, $a_username_webdav, $a_password_webdav, $a_start_folder, 1);
+
+            $add_user_response = "success";
+        }
     }catch (Exception $e){
         $add_user_response =  $e->getMessage();
     }
@@ -226,7 +231,7 @@ if(isset($_POST["a-username-streamer"])){
                         if($ff_response != "none") {
                             if($ff_response == "success"){
                                 echo    '<div class="alert alert-info">Please try to play the following audio file to verify that FFmpeg works:' .
-                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls></audio></div>';
+                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls autoplay></audio></div>';
                             }else {
                                 echo '<div class="alert alert-danger">' . $ff_response . '</div>';
                             }
@@ -320,7 +325,7 @@ if(isset($_POST["a-username-streamer"])){
                     </form>
                     <hr>
                     <a href="#step4" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard">Previous</a>
-                    <a href="index.php" class="nav-tabs btn blue wizard" style="float: right;">Go to home</a>
+                    <!--a href="index.php" class="nav-tabs btn blue wizard" style="float: right;">Go to home</a-->
                 </div>
             </div>
         </div>

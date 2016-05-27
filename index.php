@@ -40,7 +40,7 @@ if(isset($_POST["newpass1"])){
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<nav id="navhead" class="navbar navbar-default navbar-fixed-top" style="height: 85px">
+<nav id="navhead" class="navbar navbar-default navbar-fixed-top" >
     <div class="container" style="height: 100%">
         <div id="navbar" class="nav-full" style="height: 100% !important;">
             <ul class="nav navbar-nav nav-full">
@@ -91,10 +91,15 @@ if(isset($_POST["newpass1"])){
             </ul>
             <ul class="nav navbar-nav navbar-right nav-full">
                 <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#favouriteFiles">Favourite files</a></li>
-                <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#changePassword">Change password</a></li>
-                <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
-                <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
-                <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#changePassword">Change password</a></li>
+                        <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
+                        <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
+                        <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <!--
