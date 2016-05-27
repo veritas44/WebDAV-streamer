@@ -94,6 +94,7 @@ if(isset($_POST["newpass1"])){
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
                     <ul class="dropdown-menu">
+                        <li class="nav-full"><a href="manage_users.php" target="_blank">Manage users</a></li>
                         <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#changePassword">Change password</a></li>
                         <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
                         <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
