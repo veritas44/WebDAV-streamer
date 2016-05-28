@@ -100,37 +100,42 @@ $add_user_response = "none";
 if(isset($_POST["a-username-streamer"])){
     $a_username_streamer = $_POST["a-username-streamer"];
     $a_password_streamer = $_POST["a-password-streamer"];
+    $a_password_streamer2 = $_POST["a-password-streamer2"];
     $a_base_uri = $_POST["a-base-uri"];
     $a_username_webdav = $_POST["a-username-webdav"];
     $a_password_webdav = $_POST["a-password-webdav"];
     $a_start_folder = $_POST["a-start-folder"];
 
-    try {
-        $settings = array(
-            'baseUri' => $a_base_uri,
-            'userName' => $a_username_webdav,
-            'password' => $a_password_webdav
-        );
+    if($a_password_streamer == $a_password_streamer2) {
+        try {
+            $settings = array(
+                'baseUri' => $a_base_uri,
+                'userName' => $a_username_webdav,
+                'password' => $a_password_webdav
+            );
 
-        $client = new Client($settings);
+            $client = new Client($settings);
 
-        $response = $client->request("GET", Sabre\HTTP\URLUtil::encodePath($a_start_folder));
+            $response = $client->request("GET", Sabre\HTTP\URLUtil::encodePath($a_start_folder));
 
-        if($response["statusCode"] >= 400){
-            $add_user_response = "WebDAV authentication went wrong";
-        } else {
+            if ($response["statusCode"] >= 400) {
+                $add_user_response = "WebDAV authentication went wrong";
+            } else {
 
-            require_once("config.php");
+                require_once("config.php");
 
-            $database = new Database();
-            $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
-            $database->init_database();
-            $database->add_user($a_username_streamer, $a_password_streamer, $a_base_uri, $a_username_webdav, $a_password_webdav, $a_start_folder, 1);
+                $database = new Database();
+                $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+                $database->init_database();
+                $database->add_user($a_username_streamer, $a_password_streamer, $a_base_uri, $a_username_webdav, $a_password_webdav, $a_start_folder, 1);
 
-            $add_user_response = "success";
+                $add_user_response = "success";
+            }
+        } catch (Exception $e) {
+            $add_user_response = $e->getMessage();
         }
-    }catch (Exception $e){
-        $add_user_response =  $e->getMessage();
+    } else {
+        $add_user_response = "Passwords do not match!";
     }
 }
 ?>
@@ -306,6 +311,9 @@ if(isset($_POST["a-username-streamer"])){
                             </div>
                             <div class="form-group">
                                 <input class="form-control" type="password" name="a-password-streamer" placeholder="Password for the streamer" />
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" name="a-password-streamer2" placeholder="Password for the streamer (repeat)" />
                             </div>
                             <hr>
                             <div class="form-group">

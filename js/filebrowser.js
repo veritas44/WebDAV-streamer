@@ -280,9 +280,10 @@ function populateFavouriteFiles() {
                 "<td align='right'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())'><img src='img/icons/cross.png' alt='Del'></a></td>";
         }
         $("#favouriteTable").html(tableContent);
+        $.rowSorter.destroy('#favouriteTable');
         $('#favouriteTable').rowSorter({
             handler: 'td.sorter',
-            onDragStart: function(tbody, row, index)
+            onDragStart: function(tbody, row, ind,ex)
             {
                 //log('index: ' + index);
                 //console.log('onDragStart: active row\'s index is ' + index);
