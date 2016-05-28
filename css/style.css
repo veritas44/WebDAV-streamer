@@ -92,7 +92,7 @@ table tr.sorting-row td, table tr.sorting-row a {
 }
 
 td.sorter {
-    background: url('../img/icons/arrow_ns.png') no-repeat center;
+    background: url('../img/drag_icon.png') no-repeat center;
     background-size: 16px 16px;
 }
 

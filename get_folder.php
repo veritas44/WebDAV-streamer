@@ -25,9 +25,9 @@ $currentURL = "";
         </div>
         <div class="col-md-9 text-right form-inline" style="margin-top: 20px; margin-bottom: 10px;">
             <input aria-controls="filebrowserTable" placeholder="Search" class="form-control input-sm" type="search" id="searchbox">
-            <a href="javascript:;" class="btn btn-default blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</a>
-            <a href="javascript:;" class="btn btn-default blue" onclick="addAllToPlaylist()">Add all to playlist</a>
-            <a href="javascript:;" class="btn btn-default blue" onclick="jPlaylist.remove()">Clear playlist</a>
+            <a href="javascript:;" class="btn blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</a>
+            <a href="javascript:;" class="btn blue" onclick="addAllToPlaylist()">Add all to playlist</a>
+            <a href="javascript:;" class="btn blue" onclick="jPlaylist.remove()">Clear playlist</a>
         </div>
     </div>
 
@@ -75,7 +75,7 @@ try {
                     //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
                     echo "<tr><td width='25px' class='table-icon'><img src='img/icons/folder.png' alt='F'></td>
             <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . readable_name($key) . "</a></td>
-            <td width='25px' class='table-icon' align=\"right\"><a href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")'><img src='img/icons/add.png' alt='Add'></a></td>
+            <td width='25px' class='table-icon' align=\"right\"><a class='btn btn-xs btn-default' href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")' title='Add all files to the playlist'><span class='glyphicon glyphicon-plus-sign'></span></td>
             </tr>";
                 }
             }
@@ -87,8 +87,8 @@ try {
                         echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
             <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#replacePlaylist\" onclick='setPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
-                <a href='javascript:;' onclick='removeFile(\"" . urlencode($key) . "\")'><img src='img/icons/cross.png' alt='Delete'></a> 
-                <a href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"playlist\")'><img src='img/icons/star.png' alt='Favourite'></a>
+                <a class='btn btn-xs btn-default' href='javascript:;' onclick='removeFile(\"" . urlencode($key) . "\")' title='Remove this playlist'><span class='glyphicon glyphicon-remove'></span></a> 
+                <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"playlist\")' title='Favourite this playlist'><span class='glyphicon glyphicon-star'></span></a>
             </td>
             </tr>";
                     }
@@ -97,7 +97,7 @@ try {
                         echo "<tr><td width='25px' class='table-icon'><img src='img/icons/music.png' alt='F'></td>
             <td><a href='javascript:;' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
-                <a href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"audio\")'><img src='img/icons/star.png' alt='Favourite'></a>
+                <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
             </td>
             </tr>";
                     }
@@ -106,7 +106,7 @@ try {
                         echo "<tr><td width='25px' class='table-icon'><img src='img/icons/film.png' alt='F'></td>
             <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
-                <a href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"video\")'><img src='img/icons/star.png' alt='Favourite'></a>
+                <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"video\")' title='Favourite this video'><span class='glyphicon glyphicon-star'></span></a>
             </td>
             </tr>";
                     }

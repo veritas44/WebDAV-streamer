@@ -9,6 +9,9 @@ require_once ("includes.php");
 
 if (file_exists(CONVERT_FOLDER)) {
     foreach (new DirectoryIterator(CONVERT_FOLDER) as $fileInfo) {
+        if($fileInfo->getFilename() == "demo.flac"){
+            continue;
+        }
         if ($fileInfo->isDot()) {
             continue;
         }
