@@ -275,9 +275,9 @@ function populateFavouriteFiles() {
         for(var i = 0; i < favouriteFiles.length; i++){
             //console.log(favouriteFiles[i].file);
             tableContent += "<tr>" +
-                "<td class='sorter'></td>" +
+                "<td class='sorter' width='25px'></td>" +
                 "<td><a href='javascript:;' onclick='openFavourite(\"" + (favouriteFiles[i].file) + "\",\"" + encodeURIComponent(favouriteFiles[i].name) + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
-                "<td align='right'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())' title='Remove from favourites' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove'></span></a> </td>";
+                "<td align='right' width='75px'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())' title='Remove from favourites' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove'></span></a> </td>";
         }
         $("#favouriteTable").html(tableContent);
         $.rowSorter.destroy('#favouriteTable');

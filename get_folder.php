@@ -73,7 +73,7 @@ try {
                 if(!array_key_exists('{DAV:}getcontenttype', $value)){
                     $isContent = true;
                     //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
-                    echo "<tr><td width='25px' class='table-icon'><img src='img/icons/folder.png' alt='F'></td>
+                    echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-folder-open'></span> </td>
             <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . readable_name($key) . "</a></td>
             <td width='25px' class='table-icon' align=\"right\"><a class='btn btn-xs btn-default' href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")' title='Add all files to the playlist'><span class='glyphicon glyphicon-plus-sign'></span></td>
             </tr>";
@@ -84,7 +84,7 @@ try {
                     //If there is a content type, it's likely to be a file.
                     if(pathinfo(urldecode($key), PATHINFO_EXTENSION) == "pls" || pathinfo(urldecode($key), PATHINFO_EXTENSION) == "m3u" || pathinfo(urldecode($key), PATHINFO_EXTENSION) == "m3u8"){
                         $isContent = true;
-                        echo "<tr><td width='25px' class='table-icon'><img src='img/icons/page_forward.png' alt='F'></td>
+                        echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-list'></span></td>
             <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#replacePlaylist\" onclick='setPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='removeFile(\"" . urlencode($key) . "\")' title='Remove this playlist'><span class='glyphicon glyphicon-remove'></span></a> 
@@ -94,7 +94,7 @@ try {
                     }
                     elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                         $isContent = true;
-                        echo "<tr><td width='25px' class='table-icon'><img src='img/icons/music.png' alt='F'></td>
+                        echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-music'></span></td>
             <td><a href='javascript:;' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
@@ -103,7 +103,7 @@ try {
                     }
                     elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
                         $isContent = true;
-                        echo "<tr><td width='25px' class='table-icon'><img src='img/icons/film.png' alt='F'></td>
+                        echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-film'></span></td>
             <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"video\")' title='Favourite this video'><span class='glyphicon glyphicon-star'></span></a>
