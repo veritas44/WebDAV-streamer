@@ -25,9 +25,7 @@ $currentURL = "";
         </div>
         <div class="col-md-9 text-right form-inline" style="margin-top: 20px; margin-bottom: 10px;">
             <input aria-controls="filebrowserTable" placeholder="Search" class="form-control input-sm" type="search" id="searchbox">
-            <a href="javascript:;" class="btn blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</a>
             <a href="javascript:;" class="btn blue" onclick="addAllToPlaylist()">Add all to playlist</a>
-            <a href="javascript:;" class="btn blue" onclick="jPlaylist.remove()">Clear playlist</a>
         </div>
     </div>
 

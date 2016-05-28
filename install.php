@@ -221,7 +221,7 @@ if(isset($_POST["a-username-streamer"])){
                             <div class="form-group">
                                 <input class="form-control" type="password" name="db-password" placeholder="Database password" value="<?php echo $db_password; ?>" />
                             </div>
-                            <input type="submit" class="btn btn-md btn-block btn-success" value="Test connection">
+                            <input type="submit" class="btn btn-md btn-block btn-success" value="Test & save connection">
                         </fieldset>
                     </form>
                     <hr>
@@ -252,7 +252,7 @@ if(isset($_POST["a-username-streamer"])){
                             <div class="form-group">
                                 <input class="form-control" type="text" name="ff-convert-folder-relative" placeholder="Relative path to the output folder (eg. 'output')" value="<?php echo $convert_folder_relative; ?>"/>
                             </div>
-                            <input type="submit" class="btn btn-md btn-block btn-success" value="Test settings">
+                            <input type="submit" class="btn btn-md btn-block btn-success" value="Test & save settings">
                         </fieldset>
                     </form>
                     <hr>

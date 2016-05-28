@@ -98,8 +98,8 @@ if(isset($_POST["newpass1"])){
                         <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#changePassword">Change password</a></li>
                         <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
                         <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
-                        <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
                     </ul>
+                <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
                 </li>
             </ul>
         </div>
@@ -118,7 +118,11 @@ if(isset($_POST["newpass1"])){
         <div class="col-lg-6" id="playlist">
             <div style="height: 10px;"></div>
             <div class="blog-post">
-                <h3>Playlist <span style="float: right;"><button class="btn blue" onclick="jPlaylist.shuffle(true, false);">Reshuffle</button> </span> </h3>
+                <h3>Playlist <span style="float: right;">
+                        <button class="btn blue" onclick="jPlaylist.shuffle(true, false);">Reshuffle</button>
+                        <button href="javascript:;" class="btn blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</button>
+                        <button href="javascript:;" class="btn blue" onclick="jPlaylist.remove()">Clear playlist</button>
+                    </span> </h3>
                 <table class="jp-playlist table table-striped table-hover" id="jp-playlist">
 
                 </table>
@@ -276,9 +280,11 @@ if(isset($_POST["newpass1"])){
 <script>
     var currentUser = "";
     var defaultDirectory = "";
+    var outputDirectory = "";
     $(document).ready(function () {
         currentUser = "<?php echo preg_replace("/[^a-zA-Z0-9]+/", "", $auth->username); ?>";
         defaultDirectory = "<?php echo urlencode($startFolder); ?>";
+        outputDirectory = "<?php echo CONVERT_FOLDER_RELATIVE; ?>";
         initialize();
     });
 </script>

@@ -61,7 +61,7 @@ function refreshVideoProgress(url) {
 
 function playVideo(file, name){
     var url = "get_video.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedVideoMimeTypes));
-    var progress = "output/progress.txt";
+    var progress = outputDirectory + "/progress.txt";
     //var progress = "output/" + $.md5(currentUser + file) + ".progress";
 
     var videoPlayer = $("#videoPlayer");
@@ -185,6 +185,7 @@ function savePlaylist() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = xhttp.responseText;
             alert(response);
+            $("#savePlaylist").modal("hide");
             getDirectories(currentDirectory);
         }
         if(xhttp.readyState == 4){

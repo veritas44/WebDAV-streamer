@@ -62,7 +62,7 @@ class Playlist
         $plsPlaylist .= "NumberOfEntries=" . $i;
 
         //echo $plsPlaylist;
-        $this->file = str_replace(' ', '%20', $this->file);
+        //$this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
         return $client->request('PUT', sabre_urlencode($this->file), $plsPlaylist);
     }
@@ -116,7 +116,7 @@ class Playlist
         }
 
         //echo $plsPlaylist;
-        $this->file = str_replace(' ', '%20', $this->file);
+        //$this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
         return $client->request('PUT', sabre_urlencode($this->file), $m3uPlaylist);
     }
