@@ -15,6 +15,8 @@ $extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
 $md5name = md5($auth->username . $requestURL);
 $supportedMimeTypes = json_decode($_GET["support"], true);
 
+file_put_contents(CONVERT_FOLDER . "/" . "progress.txt", "Loading " . urldecode($_GET["file"]) . "\r\n");
+
 if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
     header("HTTP/1.0 " . $response["statusCode"]);
     //header('Content-Type: ' . $response["headers"]["content-type"][0]);
@@ -47,7 +49,7 @@ if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeType
             //echo $response["body"];
             //Generate a random name:
             file_put_contents(CONVERT_FOLDER . "/" . $md5name . "", $response["body"]);
-            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto " . CONVERT_FOLDER . "/" . $md5name . ".mp4"); // 1>" . CONVERT_FOLDER . "/" . $md5name . ".progress 2>&1
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto " . CONVERT_FOLDER . "/" . $md5name . ".mp4 1>" . CONVERT_FOLDER . "/progress.txt 2>&1"); // 1>" . CONVERT_FOLDER . "/" . $md5name . ".progress 2>&1
         }
     }
     header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp4");

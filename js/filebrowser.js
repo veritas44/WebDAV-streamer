@@ -38,13 +38,58 @@ $(document).ready(function () {
     supportedVideoMimeTypes = determineSupportedVideo();
 });
 
+function refreshVideoProgress(url) {
+    try {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var videoProgress = $("#videoProgress");
+                var response = xhttp.responseText;
+                videoProgress.html(response);
+                if (videoProgress.length) {
+                    videoProgress.scrollTop(videoProgress[0].scrollHeight - videoProgress.height());
+                }
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    } catch (err) {
+        console.log(err);
+    }
+    console.log("Refreshed");
+}
+
 function playVideo(file, name){
     var url = "get_video.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedVideoMimeTypes));
+    var progress = "output/progress.txt";
+    //var progress = "output/" + $.md5(currentUser + file) + ".progress";
+
+    var videoPlayer = $("#videoPlayer");
+    var videoProgress = $("#videoProgress");
+
+    //refreshVideoProgress(progress);
+    var videoProgressTimeout = setInterval("refreshVideoProgress('" + progress + "')", 2000);
+    videoProgress.show();
+    //videoPlayer.hide();
+
+    videoPlayer.on("canplay", function () {
+        //alert("Loaded!");
+        videoProgress.hide();
+        //videoPlayer.show();
+        clearInterval(videoProgressTimeout);
+    });
+
     console.log(url);
-    $("#videoPlayer").attr("src", url);
+
+    videoPlayer.attr("src", url);
+
     $("#videoTitle").html(urldecode(name));
     document.getElementById("videoPlayer").play();
+
+
 }
+
+
 
 function addToPlaylist(file, name){
     var url = "get_file.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedAudioMimeTypes));

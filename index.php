@@ -158,11 +158,12 @@ if(isset($_POST["newpass1"])){
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="videoTitle">Video</h4>
             </div>
-
+            <div style="height: 100%; width: 100%; background-color: black;">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <video id="videoPlayer" class="embed-responsive-item" controls src='' autoplay>
+                    <video id="videoPlayer" class="embed-responsive-item" controls src='' autoplay></video>
                 </div>
-
+                <textarea id="videoProgress" class="shell" style="height: 100%; width: 100%;" readonly></textarea>
+            </div>
         </div>
     </div>
 </div>

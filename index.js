@@ -114,4 +114,4 @@ jQuery('#video').bind('hidden.bs.modal', function (event) {
     document.getElementById("videoPlayer").pause();
 });
 
-setTimeout(refreshTitle(), 10000);
+setInterval("refreshTitle", 10000);
