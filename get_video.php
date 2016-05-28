@@ -45,7 +45,6 @@ if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeType
         } else {
             //header('Content-Type: audio/mpeg');
             //echo $response["body"];
-            die("TEST");
             //Generate a random name:
             file_put_contents(CONVERT_FOLDER . "/" . $md5name . "", $response["body"]);
             shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto " . CONVERT_FOLDER . "/" . $md5name . ".mp4");
