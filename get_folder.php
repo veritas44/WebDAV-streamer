@@ -74,7 +74,7 @@ try {
                     //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
                     echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-folder-open'></span> </td>
             <td><a href='#' onclick='getDirectories(\"" . urlencode($key) . "\")'>" . readable_name($key) . "</a></td>
-            <td width='25px' class='table-icon' align=\"right\"><a class='btn btn-xs btn-default' href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")' title='Add all files to the playlist'><span class='glyphicon glyphicon-plus-sign'></span></td>
+            <td width='75px' class='table-icon' align=\"right\"><a class='btn btn-xs btn-default' href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($key) . "\")' title='Add all files to the playlist'><span class='glyphicon glyphicon-plus-sign'></span></td>
             </tr>";
                 }
             }

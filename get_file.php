@@ -8,7 +8,7 @@
 
 require_once ("includes.php");
 
-$requestURL = Sabre\HTTP\encodePath(($_GET["file"]));
+$requestURL = (($_GET["file"]));
 
 //die($requestURL);
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
@@ -19,7 +19,7 @@ if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
 
 $md5name = md5($auth->username . $requestURL);
 $extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
-print_r($_GET);
+//print_r($_GET);
 $supportedMimeTypes = json_decode($_GET["support"], true);
 
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
@@ -38,7 +38,7 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
         file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $response["body"]);
     } else {
-        //die($response["headers"]["content-type"][0]);
+        //die(print_r($response));
         $extension = ".mp3";
         if (file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
             file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);

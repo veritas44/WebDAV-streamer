@@ -1,21 +1,56 @@
-body html {
+body, html {
     width: 100%;
+    height: 100%;
+    background-image: linear-gradient(45deg, rgba(194, 210, 221, 0.5) 1%, rgba(33, 153, 232, 0.5) 100%), linear-gradient(-45deg, #CCD0D5 0%, rgba(217, 230, 185, 0.5) 80%);
+    /*background-image: url("../img/background.svg");*/
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left top;
+}
+.footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 40px;
+    background-color: rgba(240, 240, 240, 0.8);
+    vertical-align: middle;
+}
+.btn-footer {
+    height: 100%;
+    width: 50%;
+    justify-content:center;
+    align-content:center;
 }
 .sticky{
     max-width: 500px;
 }
 .row{
     max-width: 100%;
+    margin: 0;
 }
+.breadcrumb {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+.col-sm-12{
+    padding: 0;
+}
+
 .jp-audio{
     /*width: 100% !important;*/
+    background-color: transparent;
 }
 .jp-gui{
     box-sizing: border-box;
 }
 
 .navbar-default {
-    background-color: #e6e6e6;
+    background-color: rgba(240, 240, 240, 0.8);
+    -webkit-box-shadow: 0 4px 4px -2px #3c3c3c;
+    -moz-box-shadow: 0 4px 4px -2px #3c3c3c;
+    box-shadow: 0 4px 4px -2px #3c3c3c;
 }
 
 .nav-full {
@@ -35,15 +70,16 @@ body html {
     line-height: 20px;
 }
 
-.dataTables_filter {
-    display: none;
+.blog-post {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    border-radius: 2px;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.table-striped > tbody > tr:nth-of-type(even) {
-    background-color: #fff;
-}
-.table-hover > tbody > tr:hover {
-    background-color: #f5f5f5;
+.dataTables_filter {
+    display: none;
 }
 
 #content {
@@ -53,12 +89,25 @@ body html {
 
 .jp-interface {
     height: auto !important;
+    background-color: transparent;
 }
 
 .table-icon {
     padding: 0 4px 0 4px;
     text-align: right;
     vertical-align: middle;
+}
+.table-striped > tbody > tr:nth-of-type(2n+1){
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: rgba(230, 230, 230, 0.5);
+}
+.table-hover > tbody > tr:hover {
+    background-color: #f5f5f5;
+}
+.jp-playlist {
+    background-color: transparent;
 }
 
 .btn, .form-control, .modal-content, .panel, .alert {
@@ -113,6 +162,12 @@ a.jp-playlist-current {
 }
 
 @media screen and (max-width: 768px) {
+    body {
+        margin-bottom: 40px;
+    }
+    .footer {
+        display: block;
+    }
     .navbar {
         position: relative !important;
         height: auto !important;
@@ -121,7 +176,7 @@ a.jp-playlist-current {
         top: 0;
     }
     .menu-text {
-        display: block !important;
+        display: inline-block !important;
     }
     .jp-gui {
         max-width: 100%;
@@ -143,8 +198,11 @@ a.jp-playlist-current {
         left: 295px !important;
         top: 30px !important;
     }
-    .nav-logo {
-        height: 30px;
+    #logo {
+        display: none;
+    }
+    .blue {
+        padding: 4px 8px;
     }
 }
 

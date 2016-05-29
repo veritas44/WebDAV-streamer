@@ -40,11 +40,11 @@ if(isset($_POST["newpass1"])){
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<nav id="navhead" class="navbar navbar-default navbar-fixed-top" >
+<nav id="navhead" class="navbar navbar-default navbar-fixed-top">
     <div class="container" style="height: 100%">
         <div id="navbar" class="nav-full" style="height: 100% !important;">
             <ul class="nav navbar-nav nav-full">
-                <li class="nav-full"><div class="nav-logo"><h4><img src="img/logo.svg" alt="Logo" style="height: 30px; width: auto;" > WebDAV streamer</h4></div></li>
+                <li class="nav-full" id="logo"><div class="nav-logo"><h4><img src="img/logo.svg" alt="Logo" style="height: 30px; width: auto;" > WebDAV streamer</h4></div></li>
                 <li class="nav-full">
                     <div id="jquery_jplayer_1" class="jp-jplayer"></div>
                     <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
@@ -114,27 +114,34 @@ if(isset($_POST["newpass1"])){
 
     </div>
 </nav>
-    <div class="row" id="content" style="margin: 0">
-        <div class="col-lg-6" id="playlist">
-            <div style="height: 10px;"></div>
-            <div class="blog-post">
-                <h3>Playlist <span style="float: right;">
-                        <button class="btn blue" onclick="jPlaylist.shuffle(true, false);">Reshuffle</button>
-                        <button href="javascript:;" class="btn blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</button>
-                        <button href="javascript:;" class="btn blue" onclick="jPlaylist.remove()">Clear playlist</button>
-                    </span> </h3>
-                <table class="jp-playlist table table-striped table-hover" id="jp-playlist">
-
-                </table>
+<div class="row" id="content" style="margin: 0">
+    <div class="col-lg-6" id="playlist">
+        <div style="height: 10px;"></div>
+        <div class="blog-post">
+            <div class="col-md-3">
+                <h3>Playlist</h3>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div style="height: 10px;"></div>
-            <div class="blog-post" id="filebrowser">
-
+            <div class="col-md-9 text-right form-inline" style="margin-top: 20px; margin-bottom: 10px;">
+                <button class="btn blue" onclick="jPlaylist.shuffle(true, false);">Reshuffle</button>
+                <button href="javascript:;" class="btn blue" data-toggle="modal" data-target="#savePlaylist">Save playlist</button>
+                <button href="javascript:;" class="btn blue" onclick="jPlaylist.remove()">Clear playlist</button>
             </div>
+            <table class="jp-playlist table table-striped table-hover" id="jp-playlist">
+
+            </table>
         </div>
     </div>
+    <div class="col-lg-6">
+        <div style="height: 10px;"></div>
+        <div class="blog-post" id="filebrowser">
+
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <a href="#navhead" class="btn blue btn-footer">Player</a><a href="#filebrowser" class="btn blue btn-footer">File browser</a>
+</footer>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="about">
     <div class="modal-dialog modal-lg">
