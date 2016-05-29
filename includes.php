@@ -67,5 +67,6 @@ function starts_with($haystack, $needle) {
 function sabre_urlencode($str){
     $str = implode('/', array_map('urlencode', explode('/', $str)));
     $str = str_replace("%20", " ", $str);
+    //$str = str_replace("+", " ", $str);
     return $str;
 }

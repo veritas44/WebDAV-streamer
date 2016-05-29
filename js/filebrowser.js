@@ -2,7 +2,13 @@
  * Created by Koen on 25-4-2016.
  */
 function urldecode(str) {
-    return decodeURIComponent((str+'').replace(/\+/g, '%20'));
+    try {
+        return decodeURIComponent((str + '').replace(/\+/g, '%20'));
+    } catch (err) {
+        console.log(err);
+        console.log(str);
+        return str;
+    }
 }
 
 var currentDirectory;
@@ -207,7 +213,7 @@ function removeFile(file) {
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var response = xhttp.responseText;
-                //alert(response);
+                alert(response);
                 getDirectories(currentDirectory);
 
 

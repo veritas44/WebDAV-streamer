@@ -8,7 +8,7 @@
 
 require_once ("includes.php");
 
-$requestURL = utf8_encode(($_GET["file"]));
+$requestURL = Sabre\HTTP\encodePath($_GET["file"]);
 $response = $client->request('HEAD', $requestURL);
 
 $extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);

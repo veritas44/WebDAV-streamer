@@ -8,7 +8,9 @@
 
 require_once ("includes.php");
 
-$requestURL = utf8_encode(($_GET["file"]));
+$requestURL = Sabre\HTTP\encodePath(($_GET["file"]));
+
+//die($requestURL);
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
     header('Location: ' . urldecode($requestURL));
     die();

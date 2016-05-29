@@ -29,9 +29,9 @@ class Playlist
         $items = array_change_key_case($items);
         $items["playlist"] = array_change_key_case($items["playlist"]);
         for($i = 1; $i <= $items["playlist"]["numberofentries"]; $i++){
-            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["file" . $i]))));
-            $fullPath = str_replace(' ', '%20', $fullPath);
-            $fullPath = urlencode($fullPath);
+            $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", rel2abs("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["file" . $i]))));
+            //$fullPath = str_replace(' ', '%20', $fullPath);
+            $fullPath = Sabre\HTTP\encodePath($fullPath);
             if(array_key_exists("title" . $i, $items["playlist"])){
                 $nameOnly = $this->remove_linebreaks($items["playlist"]["title" . $i]);
             } else {
@@ -64,7 +64,8 @@ class Playlist
         //echo $plsPlaylist;
         //$this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
-        return $client->request('PUT', sabre_urlencode($this->file), $plsPlaylist);
+        $this->file = Sabre\HTTP\encodePath($this->file);
+        return $client->request('PUT', $this->file, $plsPlaylist);
     }
 
     function openM3U(){
@@ -85,9 +86,10 @@ class Playlist
             }
             $line = $this->remove_linebreaks($line);
             $line = str_replace("\\", "/", $line);
-            $fullPath = (str_replace("http://dummy", "", url_to_absolute("http://dummy" . $this->folder . "/", $line)));
-            $fullPath = str_replace(' ', '%20', $fullPath);
-            $fullPath = urlencode($fullPath);
+            $fullPath = (str_replace("http://dummy", "", rel2abs("http://dummy" . $this->folder . "/", $line)));
+            //$fullPath = str_replace(' ', '%20', $fullPath);
+            //$fullPath = urlencode($fullPath);
+            $fullPath = Sabre\HTTP\encodePath($fullPath);
             if(empty($currentSong)){
                 $nameOnly = $this->remove_linebreaks($line);
                 //$nameOnly = str_replace(' ', '%20', $nameOnly);
@@ -118,7 +120,9 @@ class Playlist
         //echo $plsPlaylist;
         //$this->file = str_replace(' ', '%20', $this->file);
         //echo $this->file;
-        return $client->request('PUT', sabre_urlencode($this->file), $m3uPlaylist);
+        $this->file = Sabre\HTTP\encodePath($this->file);
+        //$this->file = str_replace("+", "%20", $this->file);
+        return $client->request('PUT', $this->file, $m3uPlaylist);
     }
 
     function getRelativePath($from, $to)

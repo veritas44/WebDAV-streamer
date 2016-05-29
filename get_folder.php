@@ -37,7 +37,7 @@ $currentURL = "";
             //echo $_GET["folder"];
             foreach ($folderArray as $value){
                 $currentURL = $currentURL . $value . "/";
-                echo '<li><a href="#" onclick="getDirectories(\'' . urlencode($currentURL) . '\')">' . $value . '</a></li>';
+                echo '<li><a href="#" onclick="getDirectories(\'' . urlencode(Sabre\HTTP\encodePath($currentURL)) . '\')">' . $value . '</a></li>';
             }
             ?>
         </ol>
@@ -68,6 +68,7 @@ try {
 
             <?php
             foreach($folders as $key => $value){
+                //echo $key;
                 if(!array_key_exists('{DAV:}getcontenttype', $value)){
                     $isContent = true;
                     //If there is no content length, it's likely to be a folder. This loop makes sure the folders show first.
@@ -83,7 +84,7 @@ try {
                     if(pathinfo(urldecode($key), PATHINFO_EXTENSION) == "pls" || pathinfo(urldecode($key), PATHINFO_EXTENSION) == "m3u" || pathinfo(urldecode($key), PATHINFO_EXTENSION) == "m3u8"){
                         $isContent = true;
                         echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-list'></span></td>
-            <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#replacePlaylist\" onclick='setPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#replacePlaylist\" onclick='setPlaylist(\"" . Sabre\HTTP\encodePath($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='removeFile(\"" . urlencode($key) . "\")' title='Remove this playlist'><span class='glyphicon glyphicon-remove'></span></a> 
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"playlist\")' title='Favourite this playlist'><span class='glyphicon glyphicon-star'></span></a>
@@ -93,7 +94,7 @@ try {
                     elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                         $isContent = true;
                         echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-music'></span></td>
-            <td><a href='javascript:;' onclick='addToPlaylist(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td><a href='javascript:;' onclick='addToPlaylist(\"" . ($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
             </td>
@@ -102,7 +103,7 @@ try {
                     elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
                         $isContent = true;
                         echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-film'></span></td>
-            <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#video\" onclick='playVideo(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#video\" onclick='playVideo(\"" . Sabre\HTTP\encodePath($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"video\")' title='Favourite this video'><span class='glyphicon glyphicon-star'></span></a>
             </td>

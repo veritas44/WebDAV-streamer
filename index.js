@@ -93,11 +93,13 @@ function refreshTitle() {
                         (tag.tags.artist ? " <br> " + tag.tags.artist : "") +
                         "</div>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
+                    clearInterval(titleInterval);
                 },
                 onError: function(error) {
                     console.log(error);
                     $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</div>");
                     $("title").html(obj.title + " - WebDAV streamer");
+                    titleInterval = setInterval("refreshTitle", 10000);
                 }
             });
         } // if condition end
@@ -114,4 +116,4 @@ jQuery('#video').bind('hidden.bs.modal', function (event) {
     document.getElementById("videoPlayer").pause();
 });
 
-setInterval("refreshTitle", 10000);
+var titleInterval = setInterval("refreshTitle", 10000);

@@ -8,11 +8,13 @@
 
 require_once ("includes.php");
 
-$requestURL = (($_GET["file"]));
+$requestURL = Sabre\HTTP\encodePath(urldecode($_GET["file"]));
 
 $response = $client->request("DELETE", $requestURL);
 if($response["statusCode"] < 400){
     //Nothing yet, but this is success.
+    echo "Successfully removed this file!";
 } else {
+    echo "Could not remove this file: " . $requestURL;
     //This is a fail.
 }

@@ -8,7 +8,8 @@
 
 require_once ("includes.php");
 
-$file = urldecode($_POST["file"]);
+$file = urldecode(Sabre\HTTP\decodePath($_POST["file"]));
+echo $file;
 $jsonPlaylist = urldecode($_POST["playlist"]);
 //echo $jsonPlaylist;
 
