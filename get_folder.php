@@ -94,7 +94,7 @@ try {
                     elseif(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
                         $isContent = true;
                         echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-music'></span></td>
-            <td><a href='javascript:;' onclick='addToPlaylist(\"" . ($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td><a href='javascript:;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
             </td>

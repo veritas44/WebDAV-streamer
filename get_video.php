@@ -32,6 +32,9 @@ if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeType
         $response = $client->request('GET', $requestURL);
 
         header("HTTP/1.0 " . $response["statusCode"]);
+        if($response["statusCode"] >= 400){
+            die($response["statusCode"]);
+        }
         //header('Content-Type: audio/mpeg');
         //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
         header('Content-length: ' . $response["headers"]["content-length"][0]);

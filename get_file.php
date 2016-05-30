@@ -8,7 +8,7 @@
 
 require_once ("includes.php");
 
-$requestURL = (($_GET["file"]));
+$requestURL = ($_GET["file"]);
 
 //die($requestURL);
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
@@ -26,6 +26,10 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     $response = $client->request('GET', $requestURL);
 
     header("HTTP/1.0 " . $response["statusCode"]);
+    if($response["statusCode"] >= 400){
+        echo print_r($response);
+        die();
+    }
     //header('Content-Type: audio/mpeg');
     //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
     header('Content-length: ' . $response["headers"]["content-length"][0]);
