@@ -32,6 +32,7 @@ class Playlist
             $fullPath = $this->remove_linebreaks(str_replace("http://dummy", "", rel2abs("http://dummy" . $this->folder . "/", str_replace("\\", "/", $items["playlist"]["file" . $i]))));
             //$fullPath = str_replace(' ', '%20', $fullPath);
             $fullPath = Sabre\HTTP\encodePath($fullPath);
+            $fullPath = Sabre\HTTP\encodePath($fullPath);
             if(array_key_exists("title" . $i, $items["playlist"])){
                 $nameOnly = $this->remove_linebreaks($items["playlist"]["title" . $i]);
             } else {
@@ -89,6 +90,7 @@ class Playlist
             $fullPath = (str_replace("http://dummy", "", rel2abs("http://dummy" . $this->folder . "/", $line)));
             //$fullPath = str_replace(' ', '%20', $fullPath);
             //$fullPath = urlencode($fullPath);
+            $fullPath = Sabre\HTTP\encodePath($fullPath);
             $fullPath = Sabre\HTTP\encodePath($fullPath);
             if(empty($currentSong)){
                 $nameOnly = $this->remove_linebreaks($line);

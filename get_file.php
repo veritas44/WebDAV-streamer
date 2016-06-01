@@ -24,12 +24,13 @@ $supportedMimeTypes = json_decode($_GET["support"], true);
 
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     $response = $client->request('GET', $requestURL);
-
-    header("HTTP/1.0 " . $response["statusCode"]);
     if($response["statusCode"] >= 400){
-        echo print_r($response);
-        die();
+        $response = $client->request('GET', Sabre\HTTP\decodePath($requestURL));
+        //echo print_r($response);
+        //die();
     }
+    header("HTTP/1.0 " . $response["statusCode"]);
+
     //header('Content-Type: audio/mpeg');
     //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
     header('Content-length: ' . $response["headers"]["content-length"][0]);
