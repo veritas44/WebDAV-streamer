@@ -47,7 +47,7 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
         $extension = ".mp3";
         if (file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
             file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);
-            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads 0 -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
         }
     }
 }

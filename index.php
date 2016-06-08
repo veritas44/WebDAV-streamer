@@ -41,8 +41,8 @@ if(isset($_POST["newpass1"])){
 </head>
 <body>
 <nav id="navhead" class="navbar navbar-default navbar-fixed-top">
-    <div class="container" style="height: 100%">
-        <div id="navbar" class="nav-full" style="height: 100% !important;">
+    <div class="container">
+        <div id="navbar" class="nav-full">
             <ul class="nav navbar-nav nav-full">
                 <li class="nav-full" id="logo"><div class="nav-logo"><h4><img src="img/logo.svg" alt="Logo" style="height: 30px; width: auto;" > WebDAV streamer</h4></div></li>
                 <li class="nav-full">

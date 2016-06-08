@@ -46,9 +46,10 @@ because it first downloads the file, and then streams it, so the bandwidth used 
 
 **Requirements:**
 
-* PHP 5.5 with curl and sqlite3
+* PHP 5.5 with curl and PDO
 * A modern browser
 * ffmpeg or avconv
+* Some database that works with PDO. (Tested with MySQL)
 
 If you need any assistance or have a great idea, please contact me.
 

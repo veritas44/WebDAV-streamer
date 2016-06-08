@@ -43,6 +43,8 @@ function initialize() {
     };
     xhttp.open("GET", "remove_old_files.php", true);
     xhttp.send();
+
+    checkHeaderHeight();
 }
 
 function initSorting() {
@@ -79,6 +81,19 @@ $(window).unload(function() {
     localStorage.setItem(currentUser + "directory", currentDirectory);
 });
 
+function checkHeaderHeight(){
+    var header = $("#navhead");
+    var content = $("#content");
+
+    //console.log(header.css("height"));
+
+    content.css("top", header.css("height"));
+}
+
+$(window).on('resize', function(){
+    checkHeaderHeight();
+});
+
 function refreshTitle() {
     var current         = jPlaylist.current,
         playlist        = jPlaylist.playlist;
@@ -94,12 +109,14 @@ function refreshTitle() {
                         "</div>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
                     clearInterval(titleInterval);
+                    checkHeaderHeight();
                 },
                 onError: function(error) {
                     console.log(error);
                     $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</div>");
                     $("title").html(obj.title + " - WebDAV streamer");
                     titleInterval = setInterval("refreshTitle", 10000);
+                    checkHeaderHeight();
                 }
             });
         } // if condition end

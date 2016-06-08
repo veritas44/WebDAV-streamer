@@ -386,3 +386,5 @@ function removeFavourite(index) {
         console.log(e);
     }
 }
+
+setInterval(function(){$.post('refresh_session.php');},120000);

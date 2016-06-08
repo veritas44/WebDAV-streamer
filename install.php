@@ -116,7 +116,7 @@ if(isset($_POST["a-username-streamer"])){
 
             $client = new Client($settings);
 
-            $response = $client->request("GET", Sabre\HTTP\URLUtil::encodePath($a_start_folder));
+            $response = $client->request("GET", Sabre\HTTP\encodePath($a_start_folder));
 
             if ($response["statusCode"] >= 400) {
                 $add_user_response = "WebDAV authentication went wrong";

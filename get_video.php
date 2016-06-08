@@ -52,7 +52,7 @@ if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeType
             //echo $response["body"];
             //Generate a random name:
             file_put_contents(CONVERT_FOLDER . "/" . $md5name . "", $response["body"]);
-            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads auto " . CONVERT_FOLDER . "/" . $md5name . ".mp4 1>" . CONVERT_FOLDER . "/progress.txt 2>&1"); // 1>" . CONVERT_FOLDER . "/" . $md5name . ".progress 2>&1
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads 0 " . CONVERT_FOLDER . "/" . $md5name . ".mp4 1>" . CONVERT_FOLDER . "/progress.txt 2>&1"); // 1>" . CONVERT_FOLDER . "/" . $md5name . ".progress 2>&1
         }
     }
     header('Location: ' . CONVERT_FOLDER_RELATIVE . "/" . $md5name . ".mp4");
