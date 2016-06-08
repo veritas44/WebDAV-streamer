@@ -36,6 +36,7 @@ if(isset($_POST["newpass1"])){
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/loaders.css">
     <link rel="stylesheet" type="text/css" href="jplayer/skin/foundation/css/jplayer.blue.monday.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -99,7 +100,7 @@ if(isset($_POST["newpass1"])){
                         <li class="nav-full"><a href="login.php?logout=1">Log out</a></li>
                         <li class="nav-full"><a href="javascript:;" data-toggle="modal" data-target="#about">About</a></li>
                     </ul>
-                <li class="nav-full"><img src="img/loading.gif" alt="Loading" id="loading" style="display: none;"></li>
+                <li class="nav-full"><div data-loader="circle-side" id="loading" style="display: none;"></div></li>
                 </li>
             </ul>
         </div>
