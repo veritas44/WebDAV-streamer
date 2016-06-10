@@ -140,7 +140,7 @@ if(isset($_POST["newpass1"])){
     </div>
 </div>
 
-<div style="height: 40px;"></div>
+<div style="height: 40px;"><img id="preloadAudio" src="" height="1" width="1"></div>
 
 <footer class="footer">
     <a href="#navhead" class="btn blue btn-footer">Player</a><a href="#filebrowser" class="btn blue btn-footer">File browser</a>

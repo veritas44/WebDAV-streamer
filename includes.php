@@ -10,7 +10,7 @@ session_start();
 ini_set("memory_limit","1600M");
 ini_set('session.cookie_lifetime',84600);
 ini_set('session.gc_maxlifetime',84600);
-set_time_limit (120);
+set_time_limit (60);
 
 //Show all errors, because there shouldn't be any:
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);

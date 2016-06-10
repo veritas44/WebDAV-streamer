@@ -3,12 +3,12 @@ function initialize() {
     $("#loading").show();
     try {
         if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
-            jPlaylist.setPlaylist(jQuery.parseJSON(localStorage.getItem(currentUser + "original")));
+            jPlaylist.setPlaylist(JSON.parse(localStorage.getItem(currentUser + "original")));
             if(localStorage.getItem(currentUser + "current") < jPlaylist.playlist.length) {
                 //alert(localStorage.getItem("current") + jPlaylist.original.length);
                 //console.log(jPlaylist.playlist);
                 //console.log(localStorage.getItem(currentUser + "current"));
-                //console.log(jPlaylist.playlist.indexOf(jQuery.parseJSON(localStorage.getItem(currentUser + "current"))));
+                //console.log(jPlaylist.playlist.indexOf(JSON.parse(localStorage.getItem(currentUser + "current"))));
                 jPlaylist.select(parseInt(localStorage.getItem(currentUser + "current")));
             }
 
@@ -129,6 +129,15 @@ function refreshTitle() {
 jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
 {
     refreshTitle();
+    //console.log("YAY!");
+    //if(jPlaylist.current < jPlaylist.length - 1) {
+    try {
+        $("#preloadAudio").attr("src", jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    } catch (err) {
+        console.log(err);
+    }
+        //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    //}
 });
 
 jQuery('#video').bind('hidden.bs.modal', function (event) {

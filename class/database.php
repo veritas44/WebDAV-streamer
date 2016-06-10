@@ -1,6 +1,7 @@
 <?php
 
 class Database{
+    var $dbh;
     function __construct()
     {
 

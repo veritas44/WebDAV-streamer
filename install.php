@@ -22,6 +22,13 @@ $db_password = (isset($_SESSION["db_password"]) ? $_SESSION["db_password"] : "")
 if(file_exists("config.php")){
     $db_success = true;
     $ff_success = true;
+
+    include_once("config.php");
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+    if(count($database->get_users()) > 0){
+        die("WebDAV streamer is already installed.");
+    }
 }
 if(isset($_POST["db-host"])) {
     try {
@@ -188,6 +195,9 @@ if(isset($_POST["a-username-streamer"])){
                     <?php
                     if (version_compare(phpversion(), "5.5.0", "<")) {
                         echo '<div class="alert alert-danger">Your PHP version is not supported! Please upgrade to PHP 5.5 or higher</div>';
+                    }
+                    if (function_exists('curl_version') == false){
+                        echo '<div class="alert alert-danger">Your PHP installation does not have cURL installed! Please install cURL to continue</div>';
                     }
                     ?>
                     <p>Welcome to WebDAV streamer, your WebDAV audio streamer. <br>WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser.

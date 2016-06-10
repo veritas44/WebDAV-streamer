@@ -322,13 +322,13 @@ function openFavourite (file, name, type) {
 
 function populateFavouriteFiles() {
     try {
-        var favouriteFiles = jQuery.parseJSON(getFavourites());
+        var favouriteFiles = JSON.parse(getFavourites());
         var tableContent = "";
         for(var i = 0; i < favouriteFiles.length; i++){
             //console.log(favouriteFiles[i].file);
             tableContent += "<tr>" +
                 "<td class='sorter' width='25px'></td>" +
-                "<td><a href='javascript:;' onclick='openFavourite(\"" + (favouriteFiles[i].file) + "\",\"" + encodeURIComponent(favouriteFiles[i].name) + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
+                "<td><a href='javascript:;' onclick='openFavourite(\"" + (favouriteFiles[i].file) + "\",\"" + encodeURIComponent(favouriteFiles[i].name).replace(/'/g, "%27") + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
                 "<td align='right' width='75px'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())' title='Remove from favourites' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove'></span></a> </td>";
         }
         $("#favouriteTable").html(tableContent);
@@ -356,7 +356,7 @@ function populateFavouriteFiles() {
 function addFavourite(file, name, type) {
     var favouriteFiles;
     try {
-         favouriteFiles = jQuery.parseJSON(getFavourites());
+         favouriteFiles = JSON.parse(getFavourites());
     } catch (e) {
         console.log(e);
         favouriteFiles = [];
@@ -378,7 +378,7 @@ function addFavourite(file, name, type) {
 
 function removeFavourite(index) {
     try {
-        var favouriteFiles = jQuery.parseJSON(getFavourites());
+        var favouriteFiles = JSON.parse(getFavourites());
         favouriteFiles.splice(index, 1);
         saveFavourites(favouriteFiles);
         populateFavouriteFiles();
