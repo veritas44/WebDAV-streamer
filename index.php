@@ -140,6 +140,8 @@ if(isset($_POST["newpass1"])){
     </div>
 </div>
 
+<div style="height: 40px;"></div>
+
 <footer class="footer">
     <a href="#navhead" class="btn blue btn-footer">Player</a><a href="#filebrowser" class="btn blue btn-footer">File browser</a>
 </footer>
@@ -269,6 +271,8 @@ if(isset($_POST["newpass1"])){
         </div>
     </div>
 </div>
+
+
 
 <script src="js/jquery-2.2.3.js"></script>
 <script src="js/jquery.dataTables.js"></script>

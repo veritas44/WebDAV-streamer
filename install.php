@@ -62,7 +62,7 @@ if(isset($_POST["ff-ffmpeg"])){
             if(file_exists($convert_folder . DIRECTORY_SEPARATOR  . "demo.mp3")) {
                 unlink($convert_folder . DIRECTORY_SEPARATOR . "demo.mp3");
             }
-            echo shell_exec($ffmpeg . " -i " . $convert_folder . DIRECTORY_SEPARATOR . "demo.flac -threads auto -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . $convert_folder . DIRECTORY_SEPARATOR . "demo.mp3");
+            echo shell_exec($ffmpeg . " -i " . $convert_folder . DIRECTORY_SEPARATOR . "demo.flac -threads 0 -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . $convert_folder . DIRECTORY_SEPARATOR . "demo.mp3");
             $ff_response = "success";
             $ff_success = true;
         } catch (Exception $e) {

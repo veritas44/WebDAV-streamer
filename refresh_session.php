@@ -1,4 +1,4 @@
 <?php
 session_start();
 
-$_SESSION['rndint'] = random_int(0, 100);
+$_SESSION['rndint'] = rand(0, 100);

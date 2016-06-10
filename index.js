@@ -86,8 +86,11 @@ function checkHeaderHeight(){
     var content = $("#content");
 
     //console.log(header.css("height"));
-
-    content.css("top", header.css("height"));
+    if($(window).width() > 768) {
+        content.css("top", header.css("height"));
+    } else {
+        content.css("top", 0);
+    }
 }
 
 $(window).on('resize', function(){
@@ -134,3 +137,4 @@ jQuery('#video').bind('hidden.bs.modal', function (event) {
 });
 
 var titleInterval = setInterval("refreshTitle", 10000);
+setInterval(function(){$.post('refresh_session.php');},120000);
