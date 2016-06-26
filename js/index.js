@@ -1,6 +1,7 @@
 //$(document).foundation();
+
+var jquery_jplayer_1 = $('#jquery_jplayer_1');
 function initialize() {
-    $("#loading").show();
     try {
         if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
             jPlaylist.setPlaylist(JSON.parse(localStorage.getItem(currentUser + "original")));
@@ -29,8 +30,6 @@ function initialize() {
         getDirectories(defaultDirectory);
     }
 
-    populateFavouriteFiles();
-
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -43,33 +42,6 @@ function initialize() {
     };
     xhttp.open("GET", "remove_old_files.php", true);
     xhttp.send();
-
-    checkHeaderHeight();
-}
-
-function initSorting() {
-    $('#jp-playlist').rowSorter({
-        handler: 'td.sorter',
-        onDragStart: function(tbody, row, index)
-        {
-            //log('index: ' + index);
-            //console.log('onDragStart: active row\'s index is ' + index);
-        },
-        onDrop: function(tbody, row, new_index, old_index)
-        {
-            //log('old_index: ' + old_index + ', new_index: ' + new_index);
-            //console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
-            jPlaylist.playlist.move(old_index, new_index);
-            if(jPlaylist.shuffled == false) {
-                jPlaylist.original.move(old_index, new_index);
-            }
-            if(jPlaylist.current == old_index){
-                jPlaylist.current = new_index;
-            }
-        }
-    });
-
-    return "Done";
 }
 
 $(window).unload(function() {
@@ -81,22 +53,6 @@ $(window).unload(function() {
     localStorage.setItem(currentUser + "directory", currentDirectory);
 });
 
-function checkHeaderHeight(){
-    var header = $("#navhead");
-    var content = $("#content");
-
-    //console.log(header.css("height"));
-    if($(window).width() > 768) {
-        content.css("top", header.css("height"));
-    } else {
-        content.css("top", 0);
-    }
-}
-
-$(window).on('resize', function(){
-    checkHeaderHeight();
-});
-
 function refreshTitle() {
     var current         = jPlaylist.current,
         playlist        = jPlaylist.playlist;
@@ -105,30 +61,43 @@ function refreshTitle() {
             var jsmediatags = window.jsmediatags;
             jsmediatags.read(obj.mp3, {
                 onSuccess: function(tag) {
-                    $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>"
+                    $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'> "
                         + (tag.tags.title ? tag.tags.title : obj.title) +
-                        (tag.tags.album ? " <br> " + tag.tags.album : "") +
-                        (tag.tags.artist ? " <br> " + tag.tags.artist : "") +
-                        "</div>");
+                        (tag.tags.album ? " / " + tag.tags.album : "") +
+                        (tag.tags.artist ? " / " + tag.tags.artist : "") +
+                        "</span>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
                     clearInterval(titleInterval);
-                    checkHeaderHeight();
                 },
                 onError: function(error) {
                     console.log(error);
-                    $("#playInfo").html("<div style='color: #666;' onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</div>");
+                    $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</span> ");
                     $("title").html(obj.title + " - WebDAV streamer");
                     titleInterval = setInterval("refreshTitle", 10000);
-                    checkHeaderHeight();
                 }
             });
         } // if condition end
     });
 }
 
-jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
+jquery_jplayer_1.bind(jQuery.jPlayer.event.play, function (event)
 {
     refreshTitle();
+    //console.log("YAY!");
+    //if(jPlaylist.current < jPlaylist.length - 1) {
+    /*
+    try {
+        $("#preloadAudio").attr("src", jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    } catch (err) {
+        console.log(err);
+    }
+    */
+        //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    //}
+});
+
+jquery_jplayer_1.bind(jQuery.jPlayer.event.loadeddata, function (event)
+{
     //console.log("YAY!");
     //if(jPlaylist.current < jPlaylist.length - 1) {
     try {
@@ -136,14 +105,54 @@ jQuery("#jquery_jplayer_1").bind(jQuery.jPlayer.event.play, function (event)
     } catch (err) {
         console.log(err);
     }
-        //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
     //}
 });
+/*
+$("#jquery_jplayer_1").bind($.jPlayer.event.progress, function (event){
+    // If media loading is complete
+    if (event.jPlayer.status.seekPercent === 100){
+        $(".jp-title .jp-title-loading").remove();
 
-jQuery('#video').bind('hidden.bs.modal', function (event) {
-    console.log("Paused");
-    document.getElementById("videoPlayer").pause();
+        // Otherwise, if media is still loading
+    } else {
+        $("#playInfo").html("Audio is loading...");
+        if($(".jp-title .jp-title-loading").length == 0){
+            $(".jp-title").prepend('<div class="jp-title-loading">Loading...</div>');
+        }
+    }
 });
 
-var titleInterval = setInterval("refreshTitle", 10000);
-setInterval(function(){$.post('refresh_session.php');},120000);
+$("#jquery_jplayer_1").bind($.jPlayer.event.waitForLoad, function (event){
+    // If media loading is complete
+    if (event.jPlayer.status.seekPercent === 100){
+        $(".jp-title .jp-title-loading").remove();
+
+        // Otherwise, if media is still loading
+    } else {
+        $("#playInfo").html("Audio is loading...");
+        if($(".jp-title .jp-title-loading").length == 0){
+            $(".jp-title").prepend('<div class="jp-title-loading">Loading...</div>');
+        }
+    }
+});
+*/
+function checkLoaded() {
+    var duration = jquery_jplayer_1.data().jPlayer.status.duration;
+    var paused = jquery_jplayer_1.data().jPlayer.status.paused;
+    if (duration == 0 && paused == false){
+        $(".buffer-bar").show();
+    } else {
+        $(".buffer-bar").hide();
+    }
+}
+
+var titleInterval = setInterval(function(){
+    refreshTitle();
+}, 10000);
+setInterval(function() {
+    $.post('refresh_session.php');
+},120000);
+setInterval(function() {
+    checkLoaded();
+}, 1000);

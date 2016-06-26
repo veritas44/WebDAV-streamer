@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+@media (max-width: 767px) {
+    .jp-volume-max, .jp-mute, .jp-unmute, .jp-volume-bar {
+        display: none !important;
+    }
+}
+
+.jp-audio {
+
+}
+
+.jp-controls li,
+.jp-toggles li,
+.jp-playlist li {
+    display: inline !important;
+    text-shadow: 0 0 1px #EEEEEE;
+}
+
+.jp-controls,
+.jp-playlist ul {
+    margin: 0;
+    padding-left: 0;
+}
+
+.jp-controls {
+    border-bottom: 1px solid #2b3e50;
+}
+
+.jp-volume-bar,
+.jp-volume-bar-value {
+    display: inline-block;
+    width: 148px;
+    margin-bottom: 0;
+    vertical-align: text-bottom;
+    height: 15px;
+    cursor: pointer;
+}
+
+.jp-progress,
+.jp-seek-bar,
+.jp-play-bar,
+.buffer-bar {
+    vertical-align: text-bottom;
+    width: 100%;
+    cursor: pointer;
+    height: 8px;
+    margin-bottom: 0;
+}
+
+.jp-progress .progess,
+.jp-progress .progress-bar {
+    -webkit-transition: none;
+    -o-transition: none;
+    -ms-transition: none;
+    transition: none;
+}
+
+.jp-times {
+    height: 20px;
+}
+/*
+.jp-current-time {
+    float: left;
+}
+
+.jp-duration {
+    float: right;
+}
+*/
+.jp-playlist li div {
+    margin: 5px;
+}
+
+.jp-playlist-item-remove {
+    float: right;
+}
+
+.buffer-bar {
+    box-shadow: none;
+    opacity: 0.66;
+}
+
+.jp-playlist-current {
+    background-color: #df691a !important;
+}
+
+.btn-music {
+
+}

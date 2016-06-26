@@ -20,12 +20,14 @@ $folder = str_replace(' ', '%20', $folder);
 $currentURL = "";
 ?>
     <div class="row">
-        <div class="col-md-3">
-            <h3>Files</h3>
+        <div class="col-xs-3">
+            <h3 style="margin: 10px 0;">Files</h3>
         </div>
-        <div class="col-md-9 text-right form-inline" style="margin-top: 20px; margin-bottom: 10px;">
-            <input aria-controls="filebrowserTable" placeholder="Search" class="form-control input-sm" type="search" id="searchbox">
-            <a href="javascript:;" class="btn blue" onclick="addAllToPlaylist()">Add all to playlist</a>
+        <div class="col-xs-9">
+            <div class="input-group" style="margin: 10px 0; float: right">
+                <button href="javascript:;" class="btn btn-default btn-sm" onclick="loadPage('search.php?folder=' + currentDirectory)">Search this folder</button>
+                <button href="javascript:;" class="btn btn-default btn-sm" onclick="addAllToPlaylist()">Add all to playlist</button>
+            </div>
         </div>
     </div>
 
@@ -103,7 +105,7 @@ try {
                     elseif (strpos($value["{DAV:}getcontenttype"], "video") !== false){
                         $isContent = true;
                         echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-film'></span></td>
-            <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#video\" onclick='playVideo(\"" . Sabre\HTTP\encodePath($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
+            <td><a href='javascript:;' onclick='playVideo(\"" . Sabre\HTTP\encodePath($key) . "\", \"" . urlencode(readable_name($key)) . "\")'>" . readable_name($key) . "</a></td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($key) . "\", \"" . urlencode(readable_name($key)) . "\", \"video\")' title='Favourite this video'><span class='glyphicon glyphicon-star'></span></a>
             </td>
@@ -118,7 +120,7 @@ try {
             </tbody>
         </table>
     </div>
-    <script>
+    <!--script>
         var dataTable;
         $(document).ready(function() {
             dataTable = $('#filebrowserTable').DataTable({
@@ -131,10 +133,11 @@ try {
             //console.log(this.value);
             dataTable.search(this.value).draw();
         });
-    </script>
+    </script-->
     <?php
 }catch(Exception $e){
     echo $e->getMessage();
     echo '<hr>You shouldn\'t be here! <a href="#" onclick="getDirectories(\'' . urlencode($startFolder) . '\')">Go back to start</a> or 
     <a href="#" onclick="getDirectories(\'' . $_GET["folder"] . '\')">try loading the resource again</a>';
 }
+?>

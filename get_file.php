@@ -23,32 +23,34 @@ $extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
 $supportedMimeTypes = json_decode($_GET["support"], true);
 
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
-    $response = $client->request('GET', $requestURL);
-    if($response["statusCode"] >= 400){
-        $response = $client->request('GET', Sabre\HTTP\decodePath($requestURL));
-        //echo print_r($response);
-        //die();
-    }
-    header("HTTP/1.0 " . $response["statusCode"]);
+    if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
 
-    //header('Content-Type: audio/mpeg');
-    //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
-    header('Content-length: ' . $response["headers"]["content-length"][0]);
-    header('Cache-Control: no-cache');
-    header("Content-Transfer-Encoding: binary");
-
-    //var_dump(array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes));
-    //echo $supportedMimeTypes[$response["headers"]["content-type"][0]];
-    //die();
-    if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true){
-        file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $response["body"]);
-    } else {
-        //die(print_r($response));
-        $extension = ".mp3";
-        if (file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
-            file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);
-            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads 0 -aq 3 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+        $response = $client->request('GET', $requestURL);
+        if ($response["statusCode"] >= 400) {
+            $response = $client->request('GET', Sabre\HTTP\decodePath($requestURL));
+            //echo print_r($response);
+            //die();
         }
+        header("HTTP/1.0 " . $response["statusCode"]);
+        //header('Content-Type: audio/mpeg');
+        //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
+        header('Content-length: ' . $response["headers"]["content-length"][0]);
+        //header('Cache-Control: no-cache');
+        header("Content-Transfer-Encoding: binary");
+
+        //var_dump(array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes));
+        //echo $supportedMimeTypes[$response["headers"]["content-type"][0]];
+        //die();
+        if (array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes) && $supportedMimeTypes[$response["headers"]["content-type"][0]] == true) {
+            file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $response["body"]);
+        } else {
+            //die(print_r($response));
+            $extension = ".mp3";
+            file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads 0 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+        }
+    } else {
+        $extension = ".mp3";
     }
 }
 

@@ -18,7 +18,7 @@ $(document).ready(function(){
         autoBlur: false,
         smoothPlayBar: false,
         keyEnabled: true,
-        loop: true
+        loop: true,
     });
 
     //$("#jplayer_inspector_1").jPlayerInspector({jPlayer:$("#jquery_jplayer_1")});

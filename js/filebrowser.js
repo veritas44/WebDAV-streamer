@@ -19,17 +19,19 @@ var playlistFile;
 
 function getDirectories(currentPath) {
     //alert(decodeURIComponent(currentPath));
-    $("#loading").show();
+    showLoader();
+    hideVideo();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = xhttp.responseText;
             //alert(response);
-            $("#filebrowser").html(response);
+            $("#content").html(response);
             currentDirectory = currentPath;
+            hideLoader();
         }
         if(xhttp.readyState == 4){
-            $("#loading").hide();
+            hideLoader();
         }
     };
     xhttp.open("GET", "get_folder.php?folder=" + currentPath, true);
@@ -66,6 +68,8 @@ function refreshVideoProgress(url) {
 }
 
 function playVideo(file, name){
+    showLoader();
+
     var url = "get_video.php?file=" + file + "&support=" + encodeURIComponent(JSON.stringify(supportedVideoMimeTypes));
     var progress = outputDirectory + "/progress.txt";
     //var progress = "output/" + $.md5(currentUser + file) + ".progress";
@@ -88,11 +92,9 @@ function playVideo(file, name){
     console.log(url);
 
     videoPlayer.attr("src", url);
-
-    $("#videoTitle").html(urldecode(name));
+    hideLoader();
+    showVideo();
     document.getElementById("videoPlayer").play();
-
-
 }
 
 
@@ -117,23 +119,22 @@ function addToPlaylist(file, name){
 
 function addAllToPlaylist(currentPath) {
     if (typeof currentPath === 'undefined') { currentPath = currentDirectory; }
-    $("#loading").show();
+    showLoader();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = $.parseJSON(xhttp.responseText);
             //alert(response);
-
-
             for(var j = 0; j < response.length; j++){
                 //alert(j);
                 //alert(response[i][0]);
                 addToPlaylist(response[j][0], response[j][1]);
             }
+            hideLoader();
         }
         if(xhttp.readyState == 4){
-            $("#loading").hide();
+            hideLoader();
         }
     };
     xhttp.open("GET", "get_all_files.php?folder=" + currentPath, true);
@@ -147,7 +148,7 @@ function setPlaylist(file, name) {
 
 function openPlaylist(file, name, replace) {
     if (typeof replace === 'undefined') { replace = false; }
-    $("#loading").show();
+    showLoader();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -163,11 +164,12 @@ function openPlaylist(file, name, replace) {
                 addToPlaylist(response[j][0], response[j][1]);
             }
             if(replace == true){
-                jPlaylist.select(0);
+                setTimeout(function() {jPlaylist.select(0); }, 2000);
             }
+            hideLoader();
         }
         if(xhttp.readyState == 4){
-            $("#loading").hide();
+            hideLoader();
         }
     };
     xhttp.open("GET", "get_playlist.php?file=" + file, true);
@@ -184,7 +186,7 @@ function savePlaylist() {
     var type = $("#playlistType").val();
     var file = currentDirectory + $("#playlistName").val() + "." + type;
     $("#playlistName").val("");
-    $("#loading").show();
+    showLoader();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -193,9 +195,10 @@ function savePlaylist() {
             alert(response);
             $("#savePlaylist").modal("hide");
             getDirectories(currentDirectory);
+            hideLoader();
         }
         if(xhttp.readyState == 4){
-            $("#loading").hide();
+            hideLoader();
         }
     };
     xhttp.open("POST", "save_playlist.php", true);
@@ -207,7 +210,7 @@ function savePlaylist() {
 function removeFile(file) {
     var r = confirm("Are you sure you want to delete this file?");
     if (r == true) {
-        $("#loading").show();
+        showLoader();
         //alert(currentPath);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -215,11 +218,10 @@ function removeFile(file) {
                 var response = xhttp.responseText;
                 alert(response);
                 getDirectories(currentDirectory);
-
-
+                hideLoader();
             }
             if (xhttp.readyState == 4) {
-                $("#loading").hide();
+                hideLoader();
             }
         };
         xhttp.open("get", "remove_file.php?file=" + file, true);
@@ -280,7 +282,7 @@ function getFavourites() {
             returnData = "[]";
         }
     };
-    xhttp.open("POST", "favourites.php", false);
+    xhttp.open("POST", "favourites.php?action=open", false);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("action=open");
     return returnData;
@@ -296,7 +298,7 @@ function saveFavourites(favourites) {
             }
         }
     };
-    xhttp.open("POST", "favourites.php", false);
+    xhttp.open("POST", "favourites.php?action=update", false);
     xhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhttp.send(JSON.stringify(favourites));
     console.log("SAVEFAVOURITES: " + JSON.stringify(favourites));
@@ -320,39 +322,6 @@ function openFavourite (file, name, type) {
     $("#favouriteFiles").modal("hide");
 }
 
-function populateFavouriteFiles() {
-    try {
-        var favouriteFiles = JSON.parse(getFavourites());
-        var tableContent = "";
-        for(var i = 0; i < favouriteFiles.length; i++){
-            //console.log(favouriteFiles[i].file);
-            tableContent += "<tr>" +
-                "<td class='sorter' width='25px'></td>" +
-                "<td><a href='javascript:;' onclick='openFavourite(\"" + (favouriteFiles[i].file) + "\",\"" + encodeURIComponent(favouriteFiles[i].name).replace(/'/g, "%27") + "\" ,\"" + favouriteFiles[i].type + "\")'>" + favouriteFiles[i].name + "</a></td>" +
-                "<td align='right' width='75px'><a href='javascript:;' onclick='removeFavourite($(this).closest(\"tr\").index())' title='Remove from favourites' class='btn btn-xs btn-default'><span class='glyphicon glyphicon-remove'></span></a> </td>";
-        }
-        $("#favouriteTable").html(tableContent);
-        $.rowSorter.destroy('#favouriteTable');
-        $('#favouriteTable').rowSorter({
-            handler: 'td.sorter',
-            onDragStart: function(tbody, row, ind,ex)
-            {
-                //log('index: ' + index);
-                //console.log('onDragStart: active row\'s index is ' + index);
-            },
-            onDrop: function(tbody, row, new_index, old_index)
-            {
-                //log('old_index: ' + old_index + ', new_index: ' + new_index);
-                //console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
-                favouriteFiles.move(old_index, new_index);
-                saveFavourites(favouriteFiles);
-            }
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
-
 function addFavourite(file, name, type) {
     var favouriteFiles;
     try {
@@ -373,7 +342,6 @@ function addFavourite(file, name, type) {
     //console.log(favouriteFiles);
     saveFavourites(favouriteFiles);
     console.log("ADDFAVOURITE: " + favouriteFiles);
-    populateFavouriteFiles();
 }
 
 function removeFavourite(index) {
@@ -381,7 +349,7 @@ function removeFavourite(index) {
         var favouriteFiles = JSON.parse(getFavourites());
         favouriteFiles.splice(index, 1);
         saveFavourites(favouriteFiles);
-        populateFavouriteFiles();
+        loadPage("favourites.php");
     } catch (e) {
         console.log(e);
     }

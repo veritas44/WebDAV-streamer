@@ -17,6 +17,34 @@
 
 /*global jPlayerPlaylist:true */
 
+function initSorting() {
+	try {
+		$.rowSorter.destroy('#jp-playlist');
+		$('#jp-playlist').rowSorter({
+			handler: 'td.sorter',
+			onDragStart: function (tbody, row, index) {
+				//log('index: ' + index);
+				//console.log('onDragStart: active row\'s index is ' + index);
+			},
+			onDrop: function (tbody, row, new_index, old_index) {
+				//log('old_index: ' + old_index + ', new_index: ' + new_index);
+				//console.log('onDrop: row moved from ' + old_index + ' to ' + new_index);
+				jPlaylist.playlist.move(old_index, new_index);
+				if (jPlaylist.shuffled == false) {
+					jPlaylist.original.move(old_index, new_index);
+				}
+				if (jPlaylist.current == old_index) {
+					jPlaylist.current = new_index;
+				}
+			}
+		});
+
+		return "Done";
+	} catch (err) {
+		console.log(err);
+	}
+}
+
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 

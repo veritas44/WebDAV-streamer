@@ -13,7 +13,7 @@ $database = new Database();
 $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
 if($database->get_data($username)["users"]["admin"] != 1){
-    die("Insufficient right. Please contact an admin");
+    die("<h3 style='margin: 10px'>Insufficient rights. Please contact an admin</h3>");
 }
 
 $add_user_response = "none";
@@ -50,114 +50,71 @@ if(isset($_POST["a-username-streamer"])){
     }
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>WebDAV streamer</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/jquery-2.2.3.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <style>
-        html, body {
-            height: 100%;
-            width: 100%;
-            background: #e6e6e6;
+<div class="row">
+    <div class="col-md-3">
+        <h3>Manage users</h3>
+    </div>
+    </div>
+<div class="col-md-8">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="#deleteUser" aria-controls="home" role="tab" data-toggle="tab">Delete user</a></li>
+        <li role="presentation"><a href="#addUser" aria-controls="profile" role="tab" data-toggle="tab">Add user</a></li>
+    </ul>
+    <?php
+    //echo $db_response;
+    if($add_user_response != "none") {
+        if($add_user_response == "success"){
+            echo '<div class="alert alert-success">User was successfully created.<br><a href="index.php">Go back to WebDAV streamer</a></div>';
+        }else {
+            echo '<div class="alert alert-danger">' . $add_user_response . '<br><a href="index.php">Go back to WebDAV streamer</a></div>';
         }
-        .container {
-            position: absolute;
-            width: 800px;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        @media (max-width: 800px) {
-            .container {
-                width: 100%;
-            }
-
-            .col-md-4 {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto; float: left"><h4 style="vertical-align: middle;"> &nbsp;WebDAV streamer - Manage users</h4>
-        </div>
-        <div class="panel-body">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation"><a href="#deleteUser" aria-controls="home" role="tab" data-toggle="tab">Delete user</a></li>
-                <li role="presentation"><a href="#addUser" aria-controls="profile" role="tab" data-toggle="tab">Add user</a></li>
-            </ul>
-            <?php
-            //echo $db_response;
-            if($add_user_response != "none") {
-                if($add_user_response == "success"){
-                    echo '<div class="alert alert-success">User was successfully created.</div>';
-                }else {
-                    echo '<div class="alert alert-danger">' . $add_user_response . '</div>';
+    }
+    ?>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane" id="deleteUser">
+            <table class="table table-striped">
+                <thead>
+                <td>Name</td>
+                <td>Action</td>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($database->get_users() as $item){
+                    echo "<tr><td>" . $item["username_streamer"] . "</td>
+                                <td width='75px' class='table-icon' align=\"right\"><a href='?remove=" . $item["username_streamer"] . "'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
                 }
-            }
-            ?>
-            <div class="tab-content">
-                <div role="tabpanel" class="tab-pane" id="deleteUser">
-                    <table class="table table-striped">
-                        <thead>
-                            <td>Name</td>
-                            <td>Action</td>
-                        </thead>
-                        <tbody>
-                        <?php
-                            foreach ($database->get_users() as $item){
-                                echo "<tr><td>" . $item["username_streamer"] . "</td>
-                                <td width='75px' class='table-icon' align=\"right\"><a href='?remove=" . $item["username_streamer"] . "'><img src='img/icons/cross.png' alt='Remove'></a></td></tr>";
-                            }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="addUser">
-                    <form method="post" action="">
-                        <fieldset>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="a-username-streamer" placeholder="Username for the streamer" />
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="password" name="a-password-streamer" placeholder="Password for the streamer" />
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="a-base-uri" placeholder="WebDAV server (eg. https://webdav.example.com, no trailing slash and include the http(s)://)" />
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="a-username-webdav" placeholder="Username used to sign in to WebDAV" />
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="password" name="a-password-webdav" placeholder="Password used to sign in to WebDAV" />
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="a-start-folder" placeholder="If your WebDAV server requires an additional path to work. For ownCloud this is /remote.php/webdav/" />
-                            </div>
-                            <div class="form-group">
-                                <label><input type="checkbox" name="a-admin" value="admin"/> Give administrator rights (editing users) </label>
-                            </div>
-                            <input type="submit" class="btn btn-md btn-block btn-success" value="Create user">
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
+                ?>
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="addUser">
+            <form method="post" action="manage_users.php">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="a-username-streamer" placeholder="Username for the streamer" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="a-password-streamer" placeholder="Password for the streamer" />
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="a-base-uri" placeholder="WebDAV server (eg. https://webdav.example.com, no trailing slash and include the http(s)://)" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="a-username-webdav" placeholder="Username used to sign in to WebDAV" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="a-password-webdav" placeholder="Password used to sign in to WebDAV" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="a-start-folder" placeholder="If your WebDAV server requires an additional path to work. For ownCloud this is /remote.php/webdav/" />
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" name="a-admin" value="admin"/> Give administrator rights (editing users) </label>
+                    </div>
+                    <input type="submit" class="btn btn-md btn-block btn-success" value="Create user">
+                </fieldset>
+            </form>
         </div>
     </div>
 </div>
-</body>
-</html>

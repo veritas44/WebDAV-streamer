@@ -161,7 +161,6 @@ if(isset($_POST["a-username-streamer"])){
         html, body {
             height: 100%;
             width: 100%;
-            background: #e6e6e6;
         }
         .container {
             position: absolute;
@@ -201,9 +200,9 @@ if(isset($_POST["a-username-streamer"])){
                     }
                     ?>
                     <p>Welcome to WebDAV streamer, your WebDAV audio streamer. <br>WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser.
-                        It only requires PHP and ffmpeg, and setting it up should not take too long.</p>
+                        It only requires PHP, PHP-cURL, PHP-PDO and ffmpeg, and setting it up should not take too long.</p>
                     <hr>
-                    <a href="#step2" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard" style="float: right;">Next</a>
+                    <a href="#step2" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard" style="float: right;">Next</a>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="step2">
                     <p>WebDAV streamer requires a database to operate. Please enter your database details:</p>
@@ -235,8 +234,8 @@ if(isset($_POST["a-username-streamer"])){
                         </fieldset>
                     </form>
                     <hr>
-                    <a href="#step1" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard">Previous</a>
-                    <a href="#step3" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard" style="float: right;" <?php echo ($db_success ? "" : "disabled"); ?>>Next</a>
+                    <a href="#step1" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard">Previous</a>
+                    <a href="#step3" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard" style="float: right;" <?php echo ($db_success ? "" : "disabled"); ?>>Next</a>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="step3">
                     <p>WebDAV streamer also requires ffmpeg (or avconv) to function:</p>
@@ -246,7 +245,8 @@ if(isset($_POST["a-username-streamer"])){
                         if($ff_response != "none") {
                             if($ff_response == "success"){
                                 echo    '<div class="alert alert-info">Please try to play the following audio file to verify that FFmpeg works:' .
-                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls autoplay></audio></div>';
+                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls autoplay></audio>'.
+                                        '<small>(If nothing shows, it has probably failed to load it. You can check it by manually seeing whether the output folder has a file called "demo.mp3")</small></div>';
                             }else {
                                 echo '<div class="alert alert-danger">' . $ff_response . '</div>';
                             }
@@ -266,8 +266,8 @@ if(isset($_POST["a-username-streamer"])){
                         </fieldset>
                     </form>
                     <hr>
-                    <a href="#step2" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard">Previous</a>
-                    <a href="#step4" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard" style="float: right;" <?php echo ($ff_success ? "" : "disabled"); ?>>Next</a>
+                    <a href="#step2" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard">Previous</a>
+                    <a href="#step4" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard" style="float: right;" <?php echo ($ff_success ? "" : "disabled"); ?>>Next</a>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="step4">
                     <p>Now we will generate a config.php</p>
@@ -299,8 +299,8 @@ if(isset($_POST["a-username-streamer"])){
                         </fieldset>
                     </form>
                     <hr>
-                    <a href="#step3" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard">Previous</a>
-                    <a href="#step5" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard" style="float: right;">Next</a>
+                    <a href="#step3" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard">Previous</a>
+                    <a href="#step5" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard" style="float: right;">Next</a>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="step5">
                     <p>Lastly, we will need to add a user:</p>
@@ -342,8 +342,8 @@ if(isset($_POST["a-username-streamer"])){
                         </fieldset>
                     </form>
                     <hr>
-                    <a href="#step4" role="tab" data-toggle="tab" class="nav-tabs btn blue wizard">Previous</a>
-                    <!--a href="index.php" class="nav-tabs btn blue wizard" style="float: right;">Go to home</a-->
+                    <a href="#step4" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard">Previous</a>
+                    <!--a href="index.php" class="nav-tabs btn btn-primary wizard" style="float: right;">Go to home</a-->
                 </div>
             </div>
         </div>

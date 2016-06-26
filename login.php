@@ -48,12 +48,10 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <script src="js/jquery.particleground.js"></script>
     <style>
         html, body {
             height: 100%;
             width: 100%;
-            background: #e6e6e6;
         }
         .container {
             position: absolute;
@@ -103,7 +101,7 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
                             <div class="form-group">
                                 <input class="form-control" type="password" name="password" placeholder="Password" />
                             </div>
-                            <input class="btn btn-lg btn-block blue" type="submit" value="Login">
+                            <input class="btn btn-lg btn-block btn-primary" type="submit" value="Login">
                         </fieldset>
                     </form>
                 </div>
