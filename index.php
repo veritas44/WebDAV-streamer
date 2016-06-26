@@ -66,7 +66,7 @@ if(isset($_POST["newpass1"])){
 
                     <!--li><a href="#" onclick="showVideo()">Video player</a></li-->
                 </ul>
-
+                <img id="preloadAudio" src="" height="1" width="1">
             </div><!-- /.navbar-collapse -->
         </nav>
     </div>
