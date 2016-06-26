@@ -20,6 +20,8 @@ $add_user_response = "none";
 
 if(isset($_GET["remove"])){
     $database->delete_user($_GET["remove"]);
+    echo "Removed <strong>" . $_GET["remove"] . "</strong>, <a href='index.php'>go back.</a>";
+    die();
 }
 
 if(isset($_POST["a-username-streamer"])){
@@ -49,6 +51,15 @@ if(isset($_POST["a-username-streamer"])){
         $add_user_response =  $e->getMessage();
     }
 }
+
+if($add_user_response != "none") {
+    if($add_user_response == "success"){
+        echo 'User was successfully created.<br><a href="index.php">Go back to WebDAV streamer</a></div>';
+    }else {
+        echo $add_user_response . '<br><a href="index.php">Go back to WebDAV streamer</a>';
+    }
+    die();
+}
 ?>
 <div class="row">
     <div class="col-md-3">
@@ -60,16 +71,6 @@ if(isset($_POST["a-username-streamer"])){
         <li role="presentation"><a href="#deleteUser" aria-controls="home" role="tab" data-toggle="tab">Delete user</a></li>
         <li role="presentation"><a href="#addUser" aria-controls="profile" role="tab" data-toggle="tab">Add user</a></li>
     </ul>
-    <?php
-    //echo $db_response;
-    if($add_user_response != "none") {
-        if($add_user_response == "success"){
-            echo '<div class="alert alert-success">User was successfully created.<br><a href="index.php">Go back to WebDAV streamer</a></div>';
-        }else {
-            echo '<div class="alert alert-danger">' . $add_user_response . '<br><a href="index.php">Go back to WebDAV streamer</a></div>';
-        }
-    }
-    ?>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane" id="deleteUser">
             <table class="table table-striped">
@@ -81,7 +82,7 @@ if(isset($_POST["a-username-streamer"])){
                 <?php
                 foreach ($database->get_users() as $item){
                     echo "<tr><td>" . $item["username_streamer"] . "</td>
-                                <td width='75px' class='table-icon' align=\"right\"><a href='?remove=" . $item["username_streamer"] . "'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
+                                <td width='75px' class='table-icon' align=\"right\"><a href='manage_users.php?remove=" . $item["username_streamer"] . "'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
                 }
                 ?>
                 </tbody>
