@@ -26,7 +26,7 @@ $scriptContent = array();
     </div>
     <div class="col-xs-9">
         <div class="input-group" style="margin: 10px 0;">
-            <input placeholder="Search" class="form-control input-sm" type="search" id="filesearch">
+            <input placeholder="Search" class="form-control input-sm" type="search" id="filesearch" value="<?php echo $search; ?>">
             <span class="input-group-btn">
                 <button class="btn btn-default btn-sm" type="button" onclick="search()"><span class="glyphicon glyphicon-search"></span> Search</button>
             </span>
@@ -88,12 +88,22 @@ if(!empty($search)) {
 ?>
 <div>
     <table id='searchTable' class="table table-striped table-hover" style="width: 100%;">
+        <thead>
+            <tr>
+                <td></td>
+                <td>File</td>
+                <td>Location</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
         <?php
 
         foreach($scriptContent as $item){
             if($item["type"] == "folder") {
                 echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-folder-open'></span> </td>
             <td><a href='#' onclick='getDirectories(\"" . urlencode($item["file"]) . "\")'>" . readable_name($item["name"]) . "</a></td>
+            <td>" . dirname(urldecode($item["file"])) . "</td>
             <td width='75px' class='table-icon' align=\"right\"><a class='btn btn-xs btn-default' href='javascript:;' onclick='addAllToPlaylist(\"" . urlencode($item["file"]) . "\")' title='Add all files to the playlist'><span class='glyphicon glyphicon-plus-sign'></span></td>
             </tr>";
             }
@@ -103,6 +113,7 @@ if(!empty($search)) {
             if($item["type"] == "playlist") {
                 echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-list'></span></td>
             <td><a href='javascript:;' data-toggle=\"modal\" data-target=\"#replacePlaylist\" onclick='setPlaylist(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")'>" . readable_name($item["name"]) . "</a></td>
+            <td>" . dirname(urldecode($item["file"])) . "</td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='removeFile(\"" . urlencode($item["file"]) . "\")' title='Remove this playlist'><span class='glyphicon glyphicon-remove'></span></a> 
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\", \"playlist\")' title='Favourite this playlist'><span class='glyphicon glyphicon-star'></span></a>
@@ -115,6 +126,7 @@ if(!empty($search)) {
             if($item["type"] == "audio") {
                 echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-music'></span></td>
             <td><a href='javascript:;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")'>" . readable_name($item["name"]) . "</a></td>
+            <td>" . dirname(urldecode($item["file"])) . "</td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
             </td>
@@ -126,6 +138,7 @@ if(!empty($search)) {
             if($item["type"] == "video") {
                 echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-film'></span></td>
             <td><a href='javascript:;' onclick='playVideo(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")'>" . readable_name($item["file"]) . "</a></td>
+            <td>" . dirname(urldecode($item["file"])) . "</td>
             <td width='75px' class='table-icon' align=\"right\">
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\", \"video\")' title='Favourite this video'><span class='glyphicon glyphicon-star'></span></a>
             </td>
@@ -133,12 +146,12 @@ if(!empty($search)) {
             }
         }
         ?>
+        </tbody>
     </table>
 </div>
 <script>
     function search() {
         var folderSearch = "<?php echo urlencode($_GET["folder"]) ?>";
-        loadPage("search.php?folder=" + folderSearch + "&search=" + $("#filesearch").val());
+        loadPage("search.php?folder=" + folderSearch + "&search=" + encodeURIComponent($("#filesearch").val()));
     }
-
 </script>

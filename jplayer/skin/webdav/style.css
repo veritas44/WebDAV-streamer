@@ -14,7 +14,7 @@
 .jp-toggles li,
 .jp-playlist li {
     display: inline !important;
-    text-shadow: 0 0 1px #EEEEEE;
+    /*text-shadow: 0 0 1px #EEEEEE;*/
 }
 
 .jp-controls,

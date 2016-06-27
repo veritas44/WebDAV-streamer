@@ -137,6 +137,33 @@ $("#jquery_jplayer_1").bind($.jPlayer.event.waitForLoad, function (event){
     }
 });
 */
+
+/*
+var ad = 1;
+
+jquery_jplayer_1.bind($.jPlayer.event.ended, function (event)
+{
+    if(ad % 2 == 0) {
+        try {
+            jPlaylist.add({
+                title: "Reclame",
+                mp3: "http://berkleyandsanders.ml/radio_ad.mp3"
+            });
+            jPlaylist.playlist.move(jPlaylist.playlist.length - 1, jPlaylist.current + 1);
+            //$("#preloadAudio").attr("src", jPlaylist.playlist[jPlaylist.current + 1].mp3);
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        jPlaylist._refresh(true);
+        jPlaylist.remove(jPlaylist.current);
+    }
+    ad++;
+    //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
+    //}
+});
+*/
+
 function checkLoaded() {
     var duration = jquery_jplayer_1.data().jPlayer.status.duration;
     var paused = jquery_jplayer_1.data().jPlayer.status.paused;

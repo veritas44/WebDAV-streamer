@@ -7,16 +7,16 @@ html, body {
 }
 
 .loader-background {
-    width: 100%;
+    width: 85%;
     height: 100%;
     background-color: rgba(0,0,0,0.6);
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
+    left: 15%;
 }
 
 .playlist-container {
-    max-height: 60vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 
@@ -47,11 +47,11 @@ table a {
 
 .orange {
     color: #df691a;
-    text-shadow: 0 0 1px #df691a;
+    /*text-shadow: 0 0 1px #df691a;*/
 }
 .orange:hover {
     color: #df691a;
-    text-shadow: 0 0 1px #df691a;
+    /*text-shadow: 0 0 1px #df691a;*/
 }
 
 td.sorter {
@@ -61,6 +61,10 @@ td.sorter {
 
 table.sorting-table {
     cursor: grabbing;
+}
+
+.sorting-row {
+    background-color: #4e5d6c;
 }
 
 @media (min-width: 768px) {

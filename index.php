@@ -154,7 +154,7 @@ if(isset($_POST["newpass1"])){
                     <li><a href="javascript:;" class="jp-mute btn btn-default btn-sm btn-music" tabindex="1" title="Mute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
                     <li><a href="javascript:;" class="jp-unmute btn btn-default btn-sm btn-music" tabindex="1" title="Unmute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
                     <li>
-                        <div class="jp-volume-bar progress">
+                        <div class="jp-volume-bar progress" style="display: inline-block">
                             <div class="jp-volume-bar-value progress-bar"></div>
                         </div>
                     </li>

@@ -20,10 +20,15 @@ $(document).ready(function() {
                 playlist.animate({width: "40%"});
             }
         */
-
-        $(".playlist-container").toggle("slow", function () {
-            //Finished
-        });
+        $(".playlist-container").toggle({
+            duration: "slow",
+            step: function(now, tween) {
+                $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
+            },
+            complete: function () {
+                //Finished
+                //$(".row.full-height").animate({"padding-bottom":$(".navbar-fixed-bottom").css('height')}, 500);
+            }});
         $(".playlist-controls").toggle("slow", function () {
             //Finished
         });
@@ -53,7 +58,7 @@ $(document).ready(function() {
     $(".playlist-controls").hide();
 });
 
-function loadPage(file) {
+function loadPage2(file) {
     showLoader();
     hideVideo();
     //alert(currentPath);
@@ -68,14 +73,21 @@ function loadPage(file) {
             hideLoader();
         }
     };
-    xhttp.open("get", file, false);
+    xhttp.open("get", file, true);
     xhttp.send();
     console.log(file);
+}
+
+function loadPage(file) {
+    $.when(loadPage2(file)).done(function (a1){
+        return true;
+    });
 }
 
 function showVideo() {
     $("#video").show();
     $("#content").hide();
+    jPlaylist.pause();
 }
 
 function hideVideo() {
@@ -85,9 +97,13 @@ function hideVideo() {
 }
 
 function showLoader() {
-    $("#content").append('<div class="loader-background"><div class="loader">Loading&#8230;</div></div>');
+    var content = $("#content");
+    //content.scrollTop(0);
+    //content.css("overflow-y", "hidden");
+    content.append('<div class="loader-background"><div class="loader">Loading&#8230;</div></div>');
 }
 
 function hideLoader() {
+    $("#content").css("overflow-y", "auto");
     $( ".loader-background" ).remove();
 }
