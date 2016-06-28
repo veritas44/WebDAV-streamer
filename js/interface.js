@@ -48,7 +48,7 @@ $(document).ready(function() {
     });
     $(document).on("keydown", "#filesearch", function(e) {
         if (e.which == 13) {
-            search();
+            initialSearch(searchFolder);
             return false;
         }
     });
@@ -107,3 +107,28 @@ function hideLoader() {
     $("#content").css("overflow-y", "auto");
     $( ".loader-background" ).remove();
 }
+
+function search(url){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            //console.log(response);
+            //$(response).appendTo($("#searchTable")).slideDown("fast");
+            $("#searchTable tbody").append(response);
+        }
+        if (xhttp.readyState == 4) {
+
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
+function initialSearch(folder) {
+    search("search.php?folder=" + folder + "&search=" + $("#filesearch").val());
+    $("#searchLoader").show();
+}
+$(document).ajaxStop(function() {
+    $("#searchLoader").hide();
+});

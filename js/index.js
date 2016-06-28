@@ -59,6 +59,7 @@ function refreshTitle() {
     jQuery.each(playlist, function (index, obj){
         if (index == current){
             var jsmediatags = window.jsmediatags;
+            jsmediatags.Config.setXhrTimeoutInSec(0);
             jsmediatags.read(obj.mp3, {
                 onSuccess: function(tag) {
                     $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'> "

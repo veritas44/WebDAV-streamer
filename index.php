@@ -66,12 +66,12 @@ if(isset($_POST["newpass1"])){
 
                     <!--li><a href="#" onclick="showVideo()">Video player</a></li-->
                 </ul>
-                <img id="preloadAudio" src="" height="1" width="1">
+                <img id="preloadAudio" src="" style="display:none">
             </div><!-- /.navbar-collapse -->
         </nav>
     </div>
     <div class="full-height" id="content">
-        <div class="loader-background"><div class="loader">Loading&#8230;</div></div>
+        <!--div class="loader-background"><div class="loader">Loading&#8230;</div></div-->
     </div>
     <div class="full-height" id="video">
             <video id="videoPlayer" style="width: 100%; height: auto; max-height: 99%;" controls src='' autoplay></video>
