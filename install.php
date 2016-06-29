@@ -187,7 +187,7 @@ if(isset($_POST["a-username-streamer"])){
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <img src="img/logo.svg" alt="Logo" style="height: 35px; width: auto; float: left"><h4 style="vertical-align: middle;"> &nbsp;WebDAV streamer - Install wizard</h4>
+                <img src="img/logo_white.svg" alt="Logo" style="height: 35px; width: auto; float: left"><h4 style="vertical-align: middle;"> &nbsp;WebDAV streamer - Install wizard</h4>
             </div>
             <div class="panel-body tab-content">
                 <div role="tabpanel" class="tab-pane active" id="step1">

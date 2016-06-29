@@ -56,6 +56,7 @@ $(document).ready(function() {
     //Set on document load:
     $(".playlist-container").hide();
     $(".playlist-controls").hide();
+    $(".buffer-bar").hide();
 });
 
 function loadPage2(file) {
@@ -101,6 +102,7 @@ function showLoader() {
     //content.scrollTop(0);
     //content.css("overflow-y", "hidden");
     content.append('<div class="loader-background"><div class="loader">Loading&#8230;</div></div>');
+    $('.loader-background').css('height', content.css('height'));
 }
 
 function hideLoader() {
@@ -126,6 +128,7 @@ function search(url){
 }
 
 function initialSearch(folder) {
+    $("#searchTable tbody").empty();
     search("search.php?folder=" + folder + "&search=" + $("#filesearch").val());
     $("#searchLoader").show();
 }
