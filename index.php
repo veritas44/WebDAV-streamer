@@ -164,23 +164,21 @@ if(isset($_POST["newpass1"])){
                     <li><a href="javascript:;" class="jp-repeat btn btn-default btn-sm btn-music" tabindex="1" title="Repeat"><span class="glyphicon glyphicon-repeat"></span></a></li>
                     <li><a href="javascript:;" class="jp-repeat-off btn btn-default btn-sm btn-music orange" tabindex="1" title="Repeat off"><span class="glyphicon glyphicon-repeat"></span></a></li>
 
-                    <li class="jp-current-time"></li>
-                    <li> / </li>
-                    <li class="jp-duration"></li>
+                    <li><span class="jp-time"><span class="jp-current-time"></span> / <span  class="jp-duration"></span></span></li>
 
-                    <li><a href="javascript:;" class="jp-mute btn btn-default btn-sm btn-music" tabindex="1" title="Mute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
-                    <li><a href="javascript:;" class="jp-unmute btn btn-default btn-sm btn-music" tabindex="1" title="Unmute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
+                    <li><a href="javascript:;" class="jp-mute btn btn-default btn-sm btn-music" tabindex="1" title="Mute"><span class="glyphicon glyphicon-volume-down"></span></a></li>
+                    <li><a href="javascript:;" class="jp-unmute btn btn-default btn-sm btn-music" tabindex="1" title="Unmute"><span class="glyphicon glyphicon-volume-off"></span></a></li>
                     <li>
                         <div class="jp-volume-bar progress" style="display: inline-block">
                             <div class="jp-volume-bar-value progress-bar"></div>
                         </div>
                     </li>
-                    <li><a href="javascript:;" class="jp-volume-max btn btn-default btn-sm btn-music" tabindex="1" title="Max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li>
+                    <!--li><a href="javascript:;" class="jp-volume-max btn btn-default btn-sm btn-music" tabindex="1" title="Max volume"><span class="glyphicon glyphicon-volume-up"></span></a></li-->
                     <li><a href="javascript:;" class="show-playlist btn btn-default btn-sm btn-music" tabindex="1" title="Show playlist"><span class="glyphicon glyphicon-list"></span></a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" onclick="jPlaylist.shuffle(true, false);">Reshuffle</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#savePlaylist">Save playlist</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm show-playlist" onclick="jPlaylist.remove()">Clear playlist</a></li>
-                    <li> | </li>
+                    <li><span id="added" style="display: none;">Added</span></li>
                     <li id="playInfo"></li>
                 </ul>
             </div>

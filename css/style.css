@@ -138,6 +138,16 @@ table.sorting-table {
         display: none;
     }
 }
+
+@media (max-width: 767px) {
+    .btn-music {
+        padding: 8px 16px !important;
+    }
+    .jp-time {
+        display: none !important;
+    }
+}
+
 @media (max-width: 1200px) {
     .navbar-brand {
         font-size: 14px;

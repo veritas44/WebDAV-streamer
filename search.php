@@ -138,11 +138,11 @@ if(!empty($search)) {
 ?>
 <div class="row">
     <div class="col-xs-3">
-        <h3 style="margin: 10px 0;">Search results</h3>
+        <h3 style="margin: 10px 0;">Search</h3>
     </div>
     <div class="col-xs-9">
         <div class="input-group" style="margin: 10px 0;">
-            <input placeholder="Search" class="form-control input-sm" type="search" id="filesearch" value="<?php echo $search; ?>">
+            <input placeholder="Search terms (the filename or part of it)" class="form-control input-sm" type="search" id="filesearch" value="<?php echo $search; ?>">
             <span class="input-group-btn">
                 <button class="btn btn-default btn-sm" type="button" onclick="initialSearch(searchFolder)"><span class="glyphicon glyphicon-search"></span> Search</button>
             </span>

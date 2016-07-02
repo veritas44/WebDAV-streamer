@@ -4,7 +4,7 @@ It only requires PHP and ffmpeg, and setting it up should not take too long. (Su
 
 **How to set it up:**
 
- 1. Open http://your-url/install.php
+ 1. Go to http://your-url/install.php
  2. Fill in the variables with your own details
  5. Enjoy
 
@@ -43,6 +43,13 @@ If it supports WebDAV, it will probably work. (If it doesn't, please contact me.
 
 Please bear in mind that running this with a bandwidth limiter is not recommended,
 because it first downloads the file, and then streams it, so the bandwidth used will be double the file size.
+
+**Why WebDAV?**
+
+Initially, I got a 1TB private ownCloud. Great, but what more could I do with it than just storing files?
+I started looking for a web audio streamer for WebDAV, but I couldn't find one, so I made one myself.
+The advantage of WebDAV is that your storage is seperate from your actual server.
+This way you can run WebDAV streamer on a Pi without the need of a 1TB hard drive attached to it.
 
 **Requirements:**
 
