@@ -147,6 +147,8 @@ class Client extends HTTP\Client {
 
             $this->addCurlSetting(CURLOPT_HTTPAUTH, $curlType);
             $this->addCurlSetting(CURLOPT_USERPWD, $userName . ':' . $password);
+            $this->addCurlSetting(CURLOPT_SSL_VERIFYHOST, 0);
+            $this->addCurlSetting(CURLOPT_SSL_VERIFYPEER, 0);
 
         }
 
