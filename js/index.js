@@ -68,13 +68,11 @@ function refreshTitle() {
                         (tag.tags.artist ? " / " + tag.tags.artist : "") +
                         "</span>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
-                    clearInterval(titleInterval);
                 },
                 onError: function(error) {
                     console.log(error);
                     $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</span> ");
                     $("title").html(obj.title + " - WebDAV streamer");
-                    titleInterval = setInterval("refreshTitle", 10000);
                 }
             });
         } // if condition end
@@ -174,10 +172,10 @@ function checkLoaded() {
         $(".buffer-bar").hide();
     }
 }
-
-var titleInterval = setInterval(function(){
-    refreshTitle();
-}, 10000);
+setInterval(function(){
+    //refreshTitle();
+    $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
+}, 2000);
 setInterval(function() {
     $.post('refresh_session.php');
 },120000);
