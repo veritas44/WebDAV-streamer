@@ -121,8 +121,49 @@ function addToPlaylist(file, name){
     */
 }
 
-function addAllToPlaylist(currentPath) {
+function youtube_parser(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    return (match&&match[7].length==11)? match[7] : false;
+}
+
+function addYouTube(id) {
+    var YouTubeInMP3 = "https://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v=" + id;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            try {
+                var jsonResponse = JSON.parse(xhttp.responseText);
+                addToPlaylist(encodeURIComponent(jsonResponse.link), encodeURIComponent(jsonResponse.title));
+            } catch (err) {
+                var youtubeIframe =  $('#youtubeIframe');
+                youtubeIframe.contents().find('html').html(xhttp.responseText);
+                addToPlaylist(encodeURIComponent("https://www.youtubeinmp3.com" + youtubeIframe.contents().find("#download").attr("href")), encodeURIComponent(youtubeIframe.contents().find("#videoTitle").text()));
+
+                //alert("Could not add the YouTube video to the playlist!\n\n" + err);
+            }
+            /*
+            jPlaylist.add({
+                title: jsonResponse.title,
+                mp3: jsonResponse.link
+            });
+            var added = $("#added");
+            added.fadeIn("fast", function() {
+                added.fadeOut("slow");
+            });
+            */
+        } else if(xhttp.readyState == 4){
+            alert("Could not add the YouTube video to the playlist!");
+        }
+    };
+    xhttp.open("GET", YouTubeInMP3, true);
+    xhttp.send();
+}
+
+function addAllToPlaylist(currentPath, type) {
     if (typeof currentPath === 'undefined') { currentPath = currentDirectory; }
+    if (typeof type === 'undefined') { type = "folder"; }
     showLoader();
     //alert(currentPath);
     var xhttp = new XMLHttpRequest();
@@ -141,7 +182,7 @@ function addAllToPlaylist(currentPath) {
             hideLoader();
         }
     };
-    xhttp.open("GET", "get_all_files.php?folder=" + currentPath, true);
+    xhttp.open("GET", "get_all_files.php?" + type + "=" + currentPath, true);
     xhttp.send();
 }
 
@@ -359,3 +400,53 @@ function removeFavourite(index) {
     }
 }
 
+
+function crawlLibrary(url) {
+    var niceUrl = url.replace("refresh_library.php?folder=", "");
+    niceUrl = niceUrl.replace("&overwrite=0", "");
+    niceUrl = niceUrl.replace("&overwrite=1", "");
+    niceUrl = decodeURIComponent(niceUrl);
+
+    refreshArray.push(niceUrl);
+    refreshCount++;
+    refreshCurrentProcesses();
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            //console.log(response);
+            //$(response).appendTo($("#searchTable")).slideDown("fast");
+            $("#output").prepend(niceUrl + "<br>\n" + response + "\n============================<br>\n");
+            var i = refreshArray.indexOf(niceUrl);
+            if(i != -1) {
+                refreshArray.splice(i, 1);
+            }
+            refreshDone++;
+            refreshCurrentProcesses();
+        } else if (xhttp.readyState == 4) {
+            $("#output").prepend(niceUrl + "<br>\n" + "Something went wrong" + xhttp.status + "\n============================<br>\n");
+            var i = refreshArray.indexOf(niceUrl);
+            if(i != -1) {
+                refreshArray.splice(i, 1);
+            }
+            refreshDone++;
+            refreshCurrentProcesses();
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
+function startRefresh(){
+    refreshArray = [];
+    refreshCount = 0;
+    refreshDone = 0;
+    var checked = 0;
+    if($("#refreshOverwrite").is(':checked')){
+        checked = 1;
+    }
+    var folder = encodeURIComponent($("#refreshFolder").val());
+    crawlLibrary("refresh_library.php?folder=" + folder + "&overwrite=" +  checked);
+    crawlLibrary("refresh_library.php?folder=remove");
+    $("#output").prepend("<br>Start crawling... Keep this window open\n");
+}

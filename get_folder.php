@@ -25,8 +25,9 @@ $currentURL = "";
         </div>
         <div class="col-xs-9">
             <div class="input-group" style="margin: 10px 0; float: right">
-                <button href="javascript:;" class="btn btn-default btn-sm" onclick="loadPage('search.php?folder=' + currentDirectory)">Search this folder</button>
-                <button href="javascript:;" class="btn btn-default btn-sm" onclick="addAllToPlaylist()">Add all to playlist</button>
+                <button href="javascript:;" class="btn btn-default btn-sm" onclick="loadPage('refresh_library.php?refresh_folder=' + currentDirectory)" title="Update this folder in the library">Update library</button>
+                <button href="javascript:;" class="btn btn-default btn-sm" onclick="loadPage('search.php?folder=' + currentDirectory)" title="Search a file in this folder">Search</button>
+                <button href="javascript:;" class="btn btn-default btn-sm" onclick="addAllToPlaylist()" title="Add all music files in this folder and subfolders to the playlits">Add all to playlist</button>
             </div>
         </div>
     </div>

@@ -8,11 +8,6 @@
 
 require_once("includes.php");
 
-$folder = "";
-if(isset($_GET["folder"])) {
-    $folder = urldecode($_GET["folder"]);
-}
-$folder = str_replace(' ', '%20', $folder);
 $scriptContent = array();
 
 function doPropfind($folder){
@@ -35,7 +30,34 @@ function doPropfind($folder){
         }
     }
 }
-doPropfind($folder);
 
+if(isset($_GET["folder"])) {
+    $folder = urldecode($_GET["folder"]);
+    $folder = "";
+    $folder = str_replace(' ', '%20', $folder);
+
+    doPropfind($folder);
+} elseif (isset($_GET["album"])){
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
+    foreach($database->get_album($_GET["album"], $auth->username) as $item){
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+    }
+} elseif (isset($_GET["artist"])) {
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
+    foreach($database->get_artist($_GET["artist"], $auth->username) as $item){
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+    }
+} elseif (isset($_GET["genre"])) {
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
+    foreach($database->get_genre($_GET["genre"], $auth->username) as $item){
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+    }
+}
 header('Content-Type: application/json');
 echo json_encode($scriptContent, true);

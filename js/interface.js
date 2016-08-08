@@ -52,6 +52,24 @@ $(document).ready(function() {
             return false;
         }
     });
+    $(document).on("keydown", "#albumsearch", function(e) {
+        if (e.which == 13) {
+            loadPage('albums.php?search=' + $('#albumsearch').val());
+            return false;
+        }
+    });
+    $(document).on("keydown", "#artistsearch", function(e) {
+        if (e.which == 13) {
+            loadPage('artists.php?search=' + $('#artistsearch').val());
+            return false;
+        }
+    });
+    $(document).on("keydown", "#genresearch", function(e) {
+        if (e.which == 13) {
+            loadPage('genres.php?search=' + $('#genresearch').val());
+            return false;
+        }
+    });
 
     //Set on document load:
     $(".playlist-container").hide();
@@ -127,11 +145,116 @@ function search(url){
     xhttp.send();
 }
 
+function dbSearch(url){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            //console.log(response);
+            //$(response).appendTo($("#searchTable")).slideDown("fast");
+            $("#databaseTable tbody").append(response);
+        }
+        if (xhttp.readyState == 4) {
+
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
 function initialSearch(folder) {
     $("#searchTable tbody").empty();
-    search("search.php?folder=" + folder + "&search=" + $("#filesearch").val());
+    $("#databaseTable tbody").empty();
+    var filesearch = $("#filesearch").val();
+    search("search.php?folder=" + folder + "&search=" + filesearch);
+    dbSearch("search.php?dbSearch=" + filesearch);
     $("#searchLoader").show();
 }
 $(document).ajaxStop(function() {
     $("#searchLoader").hide();
 });
+
+function openAlbum(url) {
+    /*
+    $("[id^=album]").hide();
+    $("#album" + id).show();
+    */
+
+    $("#albumModalContent").html("<div class='loader'></div>");
+    $("#albumModal").modal('show');
+
+    url = "albums.php?album=" + url;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            $("#albumModalContent").html(response);
+        }
+        if (xhttp.readyState == 4) {
+
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
+function openArtist(url) {
+
+    $("#artistSongList").html("<div class='loader'></div>");
+
+    url = "artists.php?artist=" + url;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            $("#artistSongList").html(response);
+            $("#content").animate({ scrollTop: 0 }, "fast");
+            $("html,body").animate({ scrollTop: 0 }, "slow");
+        }
+        if (xhttp.readyState == 4) {
+
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
+function openGenre(url) {
+
+    $("#genreSongList").html("<div class='loader'></div>");
+
+    url = "genres.php?genre=" + url;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            $("#genreSongList").html(response);
+            $("#content").animate({ scrollTop: 0 }, "fast");
+            $("html,body").animate({ scrollTop: 0 }, "slow");
+        }
+        if (xhttp.readyState == 4) {
+
+        }
+    };
+    xhttp.open("get", url, true);
+    xhttp.send();
+}
+
+var refreshCount = 0;
+var refreshDone = 0;
+var refreshArray = [];
+
+function refreshCurrentProcesses(){
+    var str = "Currently running processes: (" + refreshArray.length + ") <br>\n" + refreshArray.join("<br>\n");
+    var refreshProgress = "";
+    if(refreshArray.length > 0) {
+        refreshProgress = "<div class='progress'><div class='progress-bar progress-bar-striped active' role='progressbar' style='width:" + (refreshDone / refreshCount) * 100 + "%'>" + refreshDone + "/" + refreshCount + "</div></div>";
+    } else {
+        refreshProgress = "";
+    }
+    $("#refreshCount").html(str);
+    $("#refreshProgress").html(refreshProgress);
+}

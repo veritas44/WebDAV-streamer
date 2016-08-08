@@ -198,6 +198,9 @@ if(isset($_POST["a-username-streamer"])){
                     if (function_exists('curl_version') == false){
                         echo '<div class="alert alert-danger">Your PHP installation does not have cURL installed! Please install cURL to continue</div>';
                     }
+                    if (is_writable("img/album_art") == false){
+                        echo '<div class="alert alert-danger">The img/album_art folder is not writable. Please make it writable before continuing.</div>';
+                    }
                     ?>
                     <p>Welcome to WebDAV streamer, your WebDAV audio streamer. <br>WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser.
                         It only requires PHP, PHP-cURL, PHP-PDO and ffmpeg, and setting it up should not take too long.</p>

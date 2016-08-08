@@ -11,11 +11,20 @@ session_write_close();
 
 $folder = "";
 $search = "";
+$dbSearch = "";
+$type = "file";
+
+if(isset($_GET["type"])) {
+    $type = urldecode($_GET["type"]);
+}
 if(isset($_GET["folder"])) {
     $folder = urldecode($_GET["folder"]);
 }
 if(isset($_GET["search"])) {
     $search = strtolower(urldecode($_GET["search"]));
+}
+if(isset($_GET["dbSearch"])) {
+    $dbSearch = strtolower(urldecode($_GET["dbSearch"]));
 }
 if(isset($_GET["timelimit"])){
     set_time_limit ($_GET["timelimit"]);
@@ -23,6 +32,25 @@ if(isset($_GET["timelimit"])){
 $folder = str_replace(' ', '%20', $folder);
 $scriptContent = array();
 
+if(!empty($dbSearch)) {
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+    //var_dump($database->search_library(strtolower($dbSearch), $auth->username));
+
+    foreach($database->search_library(strtolower($dbSearch), $auth->username) as $item){
+        echo "<tr style='cursor: pointer;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($item['file'])) . "\", \"" . urlencode(readable_name($item['file'])) . "\")'>" .
+            "<td>" . $item["artist"] . "</td>" .
+            "<td>" . $item["composer"] . "</td>" .
+            "<td>" . $item["album"] . "</td>" .
+            "<td>" . $item["track"] . "</td>" .
+            "<td>" . $item["title"] . "</td>" .
+            "<td>" . gmdate('H:i:s', $item['duration']) . "</td>" .
+            "<td>" . $item["genre"] . "</td>" .
+            "<td>" . $item["year"] . "</td>" .
+            "</tr>";
+    }
+    die();
+}
 
 if(!empty($search)) {
     $times = 0;
@@ -149,14 +177,46 @@ if(!empty($search)) {
         </div>
     </div>
 </div>
-
 <div>
-    <table id='searchTable' class="table table-striped table-hover" style="width: 100%;">
-        <tbody>
+    <?php if($type == "database") {
+        ?>
+        <table id='databaseTable' class="table table-striped table-hover" style="width: 100%;">
+            <thead>
+            <tr>
+                <td>Artist</td>
+                <td>Composer</td>
+                <td>Album</td>
+                <td>Track</td>
+                <td>Title</td>
+                <td>Duration</td>
+                <td>Genre</td>
+                <td>Year</td>
+            </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
-    <div class="loader" id="searchLoader" style="display: none;"></div>
+            </tbody>
+        </table>
+        <?php
+    } elseif ($type == "file") {
+        ?>
+        <table id='searchTable' class="table table-striped table-hover" style="width: 100%;">
+            <thead>
+            <tr>
+                <td></td>
+                <td>File</td>
+                <td>Location</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div class="loader" id="searchLoader" style="display: none;"></div>
+        <?php
+    }
+    ?>
 </div>
 <script>
     var searchFolder = "<?php echo urlencode($folder); ?>";

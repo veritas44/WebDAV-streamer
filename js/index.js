@@ -136,7 +136,6 @@ $("#jquery_jplayer_1").bind($.jPlayer.event.waitForLoad, function (event){
     }
 });
 */
-
 /*
 var ad = 1;
 

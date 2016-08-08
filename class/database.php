@@ -19,14 +19,7 @@ class Database{
     }
 
     function init_database(){
-        $sql = "-- phpMyAdmin SQL Dump
--- version 4.1.4
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: May 27, 2016 at 11:03 PM
--- Server version: 5.6.15-log
--- PHP Version: 5.5.8
+        $sql = "
 
 SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
 SET time_zone = \"+00:00\";
@@ -105,6 +98,26 @@ CREATE TABLE IF NOT EXISTS `users` (
             $stmt->bindParam(':admin', $admin);
             $stmt->execute();
 
+            $stmt = $this->dbh->prepare("
+            CREATE TABLE IF NOT EXISTS `library-" . $username_streamer . "` (
+  `file` varchar(1000) NOT NULL,
+  `last_modified` datetime NOT NULL,
+  `rating` int(1) NOT NULL DEFAULT '0',
+  `album` varchar(5000) NOT NULL,
+  `art` varchar(5000) NOT NULL,
+  `artist` varchar(5000) NOT NULL,
+  `composer` varchar(5000) NOT NULL,
+  `duration` int(5) NOT NULL,
+  `genre` varchar(5000) NOT NULL,
+  `title` varchar(5000) NOT NULL,
+  `track` int(3) NOT NULL,
+  `year` year(4) NOT NULL,
+  PRIMARY KEY (`file`),
+  UNIQUE KEY `file` (`file`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+");
+            $stmt->execute();
+
             return true;
         }catch(PDOException $e){
             echo "add_user failed.";
@@ -134,6 +147,9 @@ CREATE TABLE IF NOT EXISTS `users` (
         try {
             $stmt = $this->dbh->prepare("DELETE FROM users WHERE username_streamer=:username");
             $stmt->bindParam(':username', $name);
+            $stmt->execute();
+
+            $stmt = $this->dbh->prepare("DROP TABLE `library-" . $name . "`");
             $stmt->execute();
         }catch (PDOException $e){
             echo "delete_user failed.";
@@ -169,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `users` (
                 return false;
             }
         }catch(PDOException $e){
-            echo "update_favourites failed.";
+            echo "favourites_exist failed.";
             die();
         }
     }
@@ -217,6 +233,193 @@ CREATE TABLE IF NOT EXISTS `users` (
 
         }catch (PDOException $e){
             echo "get_data failed.";
+            die();
+        }
+    }
+
+    function library_item_exist($file, $user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE file = :file");
+            $stmt->bindParam(':file', $file);
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0) {
+                return true;
+            }else{
+                return false;
+            }
+        }catch(PDOException $e){
+            echo "library_item_exist failed.";
+            die();
+        }
+    }
+
+    function add_library_item($data, $user){
+        try {
+            if($this->library_item_exist($data["file"], $user)){
+                $stmt = $this->dbh->prepare("UPDATE `library-" . $user . "` SET last_modified=:last_modified, album=:album, art=:art, artist=:artist, composer=:composer, duration=:duration, genre=:genre, title=:title, track=:track, year=:year WHERE file=:file");
+            } else {
+                $stmt = $this->dbh->prepare("INSERT INTO `library-" . $user . "` (file, last_modified, album, art, artist, composer, duration, genre, title, track, `year`)" .
+                    " VALUES (:file, :last_modified, :album, :art, :artist, :composer, :duration, :genre, :title, :track, :year)");
+            }
+            $stmt->bindParam(':file', $data["file"]);
+            $stmt->bindParam(':last_modified', $data["last_modified"]);
+            $stmt->bindParam(':album', $data["album"]);
+            $stmt->bindParam(':art', $data["art"]);
+            $stmt->bindParam(':artist', $data["artist"]);
+            $stmt->bindParam(':composer', $data["composer"]);
+            $stmt->bindParam(':duration', $data["duration"]);
+            $stmt->bindParam(':genre', $data["genre"]);
+            $stmt->bindParam(':title', $data["title"]);
+            $stmt->bindParam(':track', $data["track"]);
+            $stmt->bindParam(':year', $data["year"]);
+            $stmt->execute();
+            return true;
+        }catch(PDOException $e){
+            echo "add_library_item failed.";
+            die();
+        }
+    }
+
+    function library_set_modified($file, $last_modified, $user){
+        try {
+            $stmt = $this->dbh->prepare("UPDATE `library-" . $user . "` SET last_modified=:last_modified WHERE file=:file");
+            $stmt->bindParam(':file', $file);
+            $stmt->bindParam(':last_modified', $last_modified);
+            $stmt->execute();
+        }catch(PDOException $e){
+            echo "add_library_item failed.";
+            die();
+        }
+    }
+
+    function delete_library_item($file, $user){
+        try {
+            $stmt = $this->dbh->prepare("DELETE FROM `library-" . $user . "` WHERE file=:file");
+            $stmt->bindParam(':file', $file);
+            $stmt->execute();
+        }catch (PDOException $e){
+            echo "delete_library_item failed.";
+            die();
+        }
+    }
+
+    function library_item_modified($file, $user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE file = :file");
+            $stmt->bindParam(':file', $file);
+            $stmt->execute();
+            $stmtArray = $stmt->fetch();
+            return $stmtArray["last_modified"];
+        }catch (PDOException $e){
+            echo "library_item_modified failed.";
+            die();
+        }
+    }
+
+    function get_library_albums($user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT album, art FROM `library-" . $user . "` GROUP BY album ORDER BY album ASC");
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return ($stmtArray);
+        }catch (PDOException $e){
+            echo "get_library_albums failed.";
+            die();
+        }
+    }
+
+    function get_album($album, $user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE album = :album ORDER BY track ASC, artist ASC");
+            $stmt->bindParam(':album', $album);
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return $stmtArray;
+        }catch (PDOException $e){
+            echo "get_album failed.";
+            die();
+        }
+    }
+
+    function get_library_artists($user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT album, art, artist FROM `library-" . $user . "` GROUP BY artist ORDER BY artist ASC");
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return ($stmtArray);
+        }catch (PDOException $e){
+            echo "get_library_artists failed.";
+            die();
+        }
+    }
+
+    function get_artist($artist, $user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE artist = :artist  ORDER BY album ASC, track ASC");
+            $stmt->bindParam(':artist', $artist);
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return $stmtArray;
+        }catch (PDOException $e){
+            echo "get_artist failed.";
+            die();
+        }
+    }
+
+    function get_library_genres($user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` GROUP BY genre ORDER BY genre ASC");
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return ($stmtArray);
+        }catch (PDOException $e){
+            echo "get_library_genre failed.";
+            die();
+        }
+    }
+
+    function get_genre($genre, $user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE genre = :genre  ORDER BY album ASC, track ASC");
+            $stmt->bindParam(':genre', $genre);
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return $stmtArray;
+        }catch (PDOException $e){
+            echo "get_genre failed.";
+            die();
+        }
+    }
+
+    function get_library_files($user){
+        try {
+            $stmt = $this->dbh->prepare("SELECT file FROM `library-" . $user . "`");
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+
+            $flatArray = array();
+            foreach($stmtArray as $item){
+                $flatArray[] = $item["file"];
+            }
+            return $flatArray;
+        }catch (PDOException $e){
+            echo "get_library_files failed.";
+            die();
+        }
+    }
+
+    function search_library($search, $user){
+        try {
+            $search = "%$search%";
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE `album` LIKE :search OR `artist` LIKE :search OR `composer` LIKE :search " .
+                "OR `genre` LIKE :search OR `title` LIKE :search OR `year` LIKE :search");
+            $stmt->bindParam(':search', $search);
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return $stmtArray;
+        }catch (PDOException $e){
+            echo "search_library failed.";
             die();
         }
     }

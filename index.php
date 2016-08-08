@@ -33,6 +33,7 @@ if(isset($_POST["newpass1"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/loader.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.css">
     <link rel="stylesheet" type="text/css" href="jplayer/skin/webdav/style.css">
     <!--link rel="stylesheet" type="text/css" href="jplayer/skin/foundation/css/jplayer.blue.monday.css"-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -74,14 +75,18 @@ if(isset($_POST["newpass1"])){
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse menu-left navbar-collapse navbar-ex1-collapse">
                 <ul class="menu-left nav navbar-nav">
+                    <li><a href="#" onclick="loadPage('albums.php')"><span class="glyphicon glyphicon-cd"></span> Albums</a></li>
+                    <li><a href="#" onclick="loadPage('artists.php')"><span class="glyphicon glyphicon-headphones"></span> Artists</a></li>
+                    <li><a href="#" onclick="loadPage('genres.php')"><span class="glyphicon glyphicon-sunglasses"></span> Genres</a></li>
                     <li class="active"><a href="#" onclick="getDirectories(currentDirectory)"><span class="glyphicon glyphicon-file"></span> Files</a></li>
+                    <!--li><a href="#" onclick="loadPage('youtube.php')"><span class="glyphicon glyphicon-hd-video"></span> YouTube</a></li-->
                     <li><a href="#" onclick="loadPage('favourites.php')"><span class="glyphicon glyphicon-star"></span> Favourites</a></li>
+                    <li><a href="#" onclick="loadPage('search.php?type=database')"><span class="glyphicon glyphicon-search"></span> Search library</a></li>
+                    <li><a href="#" onclick="loadPage('refresh_library.php')"><span class="glyphicon glyphicon-refresh"></span> Refresh library</a></li>
                     <li><a href="#" onclick="loadPage('manage_users.php')"><span class="glyphicon glyphicon-user"></span> Manage users</a></li>
                     <li><a href="#" onclick="loadPage('change_password.php')"><span class="glyphicon glyphicon-pencil"></span> Change password</a></li>
                     <li><a href="#" onclick="window.location.href = 'login.php?logout=1';"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
                     <li><a href="#" onclick="loadPage('about.php')"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
-
-                    <!--li><a href="#" onclick="showVideo()">Video player</a></li-->
                 </ul>
                 <img id="preloadAudio" src="" style="display:none">
             </div><!-- /.navbar-collapse -->

@@ -16,11 +16,14 @@ set_time_limit (60);
 error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 
 require_once("SabreDAV/vendor/autoload.php");
+require_once('getid3/getid3.php');
+
 require_once("config.php");
 require_once("class/database.php");
 require_once("class/auth.php");
 require_once("class/playlist.php");
 require_once("class/url_to_absolute.php");
+require_once("class/library.php");
 
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];

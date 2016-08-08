@@ -67,6 +67,23 @@ table.sorting-table {
     background-color: #4e5d6c;
 }
 
+.album-title {
+    text-overflow: ellipsis;
+    text-align: center;
+    /* Required for text-overflow to do anything */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.image{
+    position:relative;
+    overflow:hidden;
+    padding-bottom:100%;
+}
+.image img{
+    position:absolute;
+}
+
 @media (min-width: 768px) {
     .menu-left.navbar-collapse {
         height: auto;
