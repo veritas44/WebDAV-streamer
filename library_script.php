@@ -54,7 +54,7 @@ if(!in_array('fileinfo', get_loaded_extensions())){
 
 echo "\n==================================================================\n";
 echo "Do you see nothing between the two lines above? Then it probably worked. If it did, we can continue.
-Please enter the full path to the WebDAV folder with trailing slash: \n";
+Please enter the full path to the local folder that gets synced with WebDAV, with trailing slash: (For example C:\\Users\\Bob\\Music\\)\n";
 if (isset($argv[1])) {
     $fullPath = $argv[1];
     echo "Using argument. Continuing";

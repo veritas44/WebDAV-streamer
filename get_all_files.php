@@ -10,6 +10,10 @@ require_once("includes.php");
 
 $scriptContent = array();
 
+error_reporting( E_ALL );
+
+ini_set('display_errors', 1);
+
 function doPropfind($folder){
     global $client, $scriptContent;
     $folders = $client->propFind($folder, array(
@@ -33,7 +37,6 @@ function doPropfind($folder){
 
 if(isset($_GET["folder"])) {
     $folder = urldecode($_GET["folder"]);
-    $folder = "";
     $folder = str_replace(' ', '%20', $folder);
 
     doPropfind($folder);

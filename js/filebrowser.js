@@ -448,5 +448,5 @@ function startRefresh(){
     var folder = encodeURIComponent($("#refreshFolder").val());
     crawlLibrary("refresh_library.php?folder=" + folder + "&overwrite=" +  checked);
     crawlLibrary("refresh_library.php?folder=remove");
-    $("#output").prepend("<br>Start crawling... Keep this window open\n");
+    $("#output").prepend("<br>Start crawling... Keep this window open<br>\nIt might take up to 30 minutes to see any progress!");
 }
