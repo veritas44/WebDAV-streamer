@@ -80,6 +80,33 @@ if (isset($argv[3])) {
     $outputFile = (string)fgets(STDIN);
     $outputFile = str_replace("\n", "", $outputFile);
 }
+
+if (isset($argv[3]) && isset($argv[4])){
+    $url = $argv[4];
+    $username = $argv[5];
+    $password = $argv[6];
+} elseif (!isset($argv[3])){
+    echo "You can directly update the library on the server by entering the WebDAV streamer URL with trailing slash: (If you want to output to a file, leave empty):\n";
+    $url = (string)fgets(STDIN);
+    $username = "";
+    $password = "";
+    if(empty($url)){
+        echo "Using file...";
+    } else {
+        echo "Please enter the username you use to log onto WebDAV streamer: \n";
+        $username = (string)fgets(STDIN);
+        echo "Please enter the password you use to log onto WebDAV streamer: \n";
+        $password = (string)fgets(STDIN);
+    }
+} else {
+    $url = "";
+    $username = "";
+    $password = "";
+}
+$url = str_replace("\n", "", $url);
+$username = str_replace("\n", "", $username);
+$password = str_replace("\n", "", $password);
+
 echo "\n==================================================================\n";
 echo "The script will now start...\n";
 //sleep(4);
@@ -98,7 +125,32 @@ foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
         $originalFilename = str_replace("\\", "/", $originalFilename);
         $originalFilename = $prefix . $originalFilename;
         //echo $originalFilename;
-        fputcsv($fp, $library->get_tags(utf8_encode($originalFilename), utf8_encode($filename), date("F d Y H:i:s.", filemtime($filename))));
+
+        $getTags = $library->get_tags(utf8_encode($originalFilename), utf8_encode($filename), date("F d Y H:i:s.", filemtime($filename)));
+        if(empty($url)) {
+            fputcsv($fp, $getTags);
+        } else {
+            $jsonGetTags = json_encode($getTags);
+            //echo $url . "library_add.php?username=" . $username . "&password=" . $password;
+            $ch = curl_init($url . "library_add.php?username=" . $username . "&password=" . $password);
+
+            $options = array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_CONNECTTIMEOUT => 120,      // timeout on connect
+                CURLOPT_TIMEOUT => 120,      // timeout on response
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $jsonGetTags,
+                //CURLOPT_HTTPHEADER => array(
+                //    'Content-Type: application/json',
+                //    'Content-Length: ' . strlen($jsonGetTags)
+                //)
+            );
+            curl_setopt_array($ch, $options);
+            echo curl_exec($ch) . "\n";
+            curl_close($ch);
+        }
     }
 }
 

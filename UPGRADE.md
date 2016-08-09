@@ -1,4 +1,8 @@
 # Upgrade #
+Okay, I mostly just push updates, without version number. To make things convenient, 
+whenever I change something that requires manual work, I'll increase the version number.
+
+**Current version: 2.0**
 
 ### From 1.x to 2.x ###
 Starting from version 2.0, WebDAV streamer supports a library. 
