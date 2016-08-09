@@ -423,4 +423,60 @@ CREATE TABLE IF NOT EXISTS `users` (
             die();
         }
     }
+
+    function search_library_advanced($album, $artist, $composer, $genre, $title, $year, $user){
+        try {
+            $conditions = array();
+            if(!empty($album)){
+                $conditions[] = "`album` LIKE :album";
+                $album = "%$album%";
+            }
+            if(!empty($artist)) {
+                $conditions[] = "`artist` LIKE :artist";
+                $artist = "%$artist%";
+            }
+            if(!empty($composer)){
+                $conditions[] = "`composer` LIKE :composer";
+                $composer = "%$composer%";
+            }
+            if(!empty($genre)){
+                $conditions[] = "`genre` LIKE :genre";
+                $genre = "%$genre%";
+            }
+            if(!empty($title)){
+                $conditions[] = "`title` LIKE :title";
+                $title = "%$title%";
+            }
+            if(!empty($year)){
+                $conditions[] = "`year` LIKE :year";
+                $year = "%$year%";
+            }
+
+            $stmt = $this->dbh->prepare("SELECT * FROM `library-" . $user . "` WHERE " . implode(" AND ", $conditions));
+            if(!empty($album)) {
+                $stmt->bindParam(':album', $album);
+            }
+            if(!empty($artist)) {
+                $stmt->bindParam(':artist', $artist);
+            }
+            if(!empty($composer)) {
+                $stmt->bindParam(':composer', $composer);
+            }
+            if(!empty($genre)) {
+                $stmt->bindParam(':genre', $genre);
+            }
+            if(!empty($title)) {
+                $stmt->bindParam(':title', $title);
+            }
+            if(!empty($year)) {
+                $stmt->bindParam(':year', $year);
+            }
+            $stmt->execute();
+            $stmtArray = $stmt->fetchAll();
+            return $stmtArray;
+        }catch (PDOException $e){
+            echo "search_library_advanced failed.";
+            die();
+        }
+    }
 }

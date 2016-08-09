@@ -52,6 +52,12 @@ $(document).ready(function() {
             return false;
         }
     });
+    $(document).on("keydown", "#dbsearch", function(e) {
+        if (e.which == 13) {
+            initialDbSearch();
+            return false;
+        }
+    });
     $(document).on("keydown", "#albumsearch", function(e) {
         if (e.which == 13) {
             loadPage('albums.php?search=' + $('#albumsearch').val());
@@ -164,12 +170,29 @@ function dbSearch(url){
 
 function initialSearch(folder) {
     $("#searchTable tbody").empty();
-    $("#databaseTable tbody").empty();
-    var filesearch = $("#filesearch").val();
+    var filesearch = encodeURIComponent($("#filesearch").val());
     search("search.php?folder=" + folder + "&search=" + filesearch);
-    dbSearch("search.php?dbSearch=" + filesearch);
     $("#searchLoader").show();
 }
+
+function initialDbSearch() {
+    $("#databaseTable tbody").empty();
+    var filesearch = encodeURIComponent($("#dbsearch").val());
+    dbSearch("db_search.php?search=" + filesearch);
+}
+
+function initialDbAdvancedSearch() {
+    $("#databaseTable tbody").empty();
+    var album = encodeURIComponent($("#asearchAlbum").val());
+    var artist = encodeURIComponent($("#asearchArtist").val());
+    var composer = encodeURIComponent($("#asearchComposer").val());
+    var genre = encodeURIComponent($("#asearchGenre").val());
+    var title= encodeURIComponent($("#asearchTitle").val());
+    var year = encodeURIComponent($("#asearchYear").val());
+    //console.log("db_search.php?search=1&album=" + album + "&artist=" + artist + "&composer=" + composer + "&genre=" + genre + "&title=" + title + "&year=" + year);
+    dbSearch("db_search.php?search=1&album=" + album + "&artist=" + artist + "&composer=" + composer + "&genre=" + genre + "&title=" + title + "&year=" + year);
+}
+
 $(document).ajaxStop(function() {
     $("#searchLoader").hide();
 });

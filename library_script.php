@@ -63,7 +63,7 @@ if (isset($argv[1])) {
     $fullPath = str_replace("\n", "", $fullPath);
 }
 
-echo "The path of this folder relative to the WebDAV root, or start folder with trailing slash: (For example /remote.php/webdav/Music/)\n";
+echo "Please enter where this folder can be found through WebDAV, with trailing slash: (For example /remote.php/webdav/Music/)\n";
 if (isset($argv[2])) {
     $prefix = $argv[2];
     echo "Using argument. Continuing";

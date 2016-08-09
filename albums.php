@@ -40,8 +40,9 @@ if(isset($_GET["album"])){
                 <tbody>
                 <?php
                 foreach($songs as $song){
-                    echo '<tr><td>' . $song['artist'] . '</td><td>' . $song['track'] . '</td><td>' . $song['title'] . '</td><td>' . gmdate('H:i:s', $song['duration']) . '</td>
-                    <td><a class="btn btn-xs btn-default" href="javascript:;" onclick="addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a></td></tr>';
+                    echo '<tr style="cursor:pointer;" onclick="playAudio(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\')"><td>' . $song['artist'] . '</td><td>' . $song['track'] . '</td><td>' . $song['title'] . '</td><td>' . gmdate('H:i:s', $song['duration']) . '</td>' .
+                        '<td><a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a> ' .
+                        '<a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addFavourite(\'' . urlencode(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\', \'audio\')"><span class="glyphicon glyphicon-star"></span></a></td></tr>';
                 }
                 ?>
                 </tbody>

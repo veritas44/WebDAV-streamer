@@ -11,46 +11,18 @@ session_write_close();
 
 $folder = "";
 $search = "";
-$dbSearch = "";
-$type = "file";
 
-if(isset($_GET["type"])) {
-    $type = urldecode($_GET["type"]);
-}
 if(isset($_GET["folder"])) {
     $folder = urldecode($_GET["folder"]);
 }
 if(isset($_GET["search"])) {
     $search = strtolower(urldecode($_GET["search"]));
 }
-if(isset($_GET["dbSearch"])) {
-    $dbSearch = strtolower(urldecode($_GET["dbSearch"]));
-}
 if(isset($_GET["timelimit"])){
     set_time_limit ($_GET["timelimit"]);
 }
 $folder = str_replace(' ', '%20', $folder);
 $scriptContent = array();
-
-if(!empty($dbSearch)) {
-    $database = new Database();
-    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
-    //var_dump($database->search_library(strtolower($dbSearch), $auth->username));
-
-    foreach($database->search_library(strtolower($dbSearch), $auth->username) as $item){
-        echo "<tr style='cursor: pointer;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($item['file'])) . "\", \"" . urlencode(readable_name($item['file'])) . "\")'>" .
-            "<td>" . $item["artist"] . "</td>" .
-            "<td>" . $item["composer"] . "</td>" .
-            "<td>" . $item["album"] . "</td>" .
-            "<td>" . $item["track"] . "</td>" .
-            "<td>" . $item["title"] . "</td>" .
-            "<td>" . gmdate('H:i:s', $item['duration']) . "</td>" .
-            "<td>" . $item["genre"] . "</td>" .
-            "<td>" . $item["year"] . "</td>" .
-            "</tr>";
-    }
-    die();
-}
 
 if(!empty($search)) {
     $times = 0;
@@ -138,9 +110,10 @@ if(!empty($search)) {
     foreach($scriptContent as $item){
         if($item["type"] == "audio") {
             echo "<tr><td width='25px' class='table-icon'><span class='glyphicon glyphicon-music'></span></td>
-            <td><a href='javascript:;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")'>" . readable_name($item["name"]) . "</a></td>
+            <td><a href='javascript:;' onclick='playAudio(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")'>" . readable_name($item["name"]) . "</a></td>
             <td>" . dirname(urldecode($item["file"])) . "</td>
             <td width='75px' class='table-icon' align=\"right\">
+                <a class='btn btn-xs btn-default' href='javascript:;' onclick='addToPlaylist(\"" . Sabre\HTTP\encodePath($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\")' title='Add to playlist'><span class='glyphicon glyphicon-plus-sign'></span></a> 
                 <a class='btn btn-xs btn-default' href='javascript:;' onclick='addFavourite(\"" . urlencode($item["file"]) . "\", \"" . urlencode(readable_name($item["name"])) . "\", \"audio\")' title='Favourite this audio'><span class='glyphicon glyphicon-star'></span></a>
             </td>
             </tr>";
@@ -178,28 +151,6 @@ if(!empty($search)) {
     </div>
 </div>
 <div>
-    <?php if($type == "database") {
-        ?>
-        <table id='databaseTable' class="table table-striped table-hover" style="width: 100%;">
-            <thead>
-            <tr>
-                <td>Artist</td>
-                <td>Composer</td>
-                <td>Album</td>
-                <td>Track</td>
-                <td>Title</td>
-                <td>Duration</td>
-                <td>Genre</td>
-                <td>Year</td>
-            </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-        <?php
-    } elseif ($type == "file") {
-        ?>
         <table id='searchTable' class="table table-striped table-hover" style="width: 100%;">
             <thead>
             <tr>
@@ -214,9 +165,6 @@ if(!empty($search)) {
             </tbody>
         </table>
         <div class="loader" id="searchLoader" style="display: none;"></div>
-        <?php
-    }
-    ?>
 </div>
 <script>
     var searchFolder = "<?php echo urlencode($folder); ?>";

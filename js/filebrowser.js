@@ -110,6 +110,7 @@ function addToPlaylist(file, name){
     added.fadeIn("fast", function() {
         added.fadeOut("slow");
     });
+    return jPlaylist.playlist.length - 1;
     //playlistArray.push(url);
     //playlistNamesArray.push(urldecode(name));
 
@@ -119,6 +120,10 @@ function addToPlaylist(file, name){
         setPlayerSource(url);
     }
     */
+}
+
+function playAudio(file, name) {
+    jPlaylist.play(addToPlaylist(file, name));
 }
 
 function youtube_parser(url){

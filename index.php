@@ -81,7 +81,7 @@ if(isset($_POST["newpass1"])){
                     <li class="active"><a href="#" onclick="getDirectories(currentDirectory)"><span class="glyphicon glyphicon-file"></span> Files</a></li>
                     <!--li><a href="#" onclick="loadPage('youtube.php')"><span class="glyphicon glyphicon-hd-video"></span> YouTube</a></li-->
                     <li><a href="#" onclick="loadPage('favourites.php')"><span class="glyphicon glyphicon-star"></span> Favourites</a></li>
-                    <li><a href="#" onclick="loadPage('search.php?type=database')"><span class="glyphicon glyphicon-search"></span> Search library</a></li>
+                    <li><a href="#" onclick="loadPage('db_search.php')"><span class="glyphicon glyphicon-search"></span> Search library</a></li>
                     <li><a href="#" onclick="loadPage('refresh_library.php')"><span class="glyphicon glyphicon-refresh"></span> Refresh library</a></li>
                     <li><a href="#" onclick="loadPage('manage_users.php')"><span class="glyphicon glyphicon-user"></span> Manage users</a></li>
                     <li><a href="#" onclick="loadPage('change_password.php')"><span class="glyphicon glyphicon-pencil"></span> Change password</a></li>

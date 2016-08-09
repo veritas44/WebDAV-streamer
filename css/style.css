@@ -45,6 +45,10 @@ table a {
     resize: none;
 }
 
+.input-group-addon {
+    background-color: #df691a;
+}
+
 .orange {
     color: #df691a;
     /*text-shadow: 0 0 1px #df691a;*/
