@@ -71,7 +71,7 @@ function checkValid($file, $modified, $overwrite = false){
                 $data = $library->get_file($file, $modified);
                 $database->add_library_item($data, $auth->username);
 
-        } elseif (strtotime($db_modified) != strtotime($modified)) {
+        } elseif (strtotime($db_modified) < strtotime($modified)) {
             if (empty($db_modified)) {
                 echo "NOTIME: " . $file . " (" . strtotime($db_modified) . " <> " . strtotime($modified) . ")<br>\r\n";
                 $database->library_set_modified($file, date("Y-m-d H:i:s", strtotime($modified)), $auth->username);

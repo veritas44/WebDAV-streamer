@@ -122,7 +122,7 @@ if(!empty($search)) {
             </div>
         </div>
         <div class="col-md-12">
-            <button class="btn btn-primary" type="button" onclick="initialDbAdvancedSearch()"><span class="glyphicon glyphicon-search"></span> Advanced search</button>
+            <button class="btn btn-default btn-dark" type="button" onclick="initialDbAdvancedSearch()"><span class="glyphicon glyphicon-search"></span> Advanced search</button>
         </div>
         &nbsp;
     </div>

@@ -46,7 +46,13 @@ table a {
 }
 
 .input-group-addon {
-    background-color: #df691a;
+    background-color: #2b3e50;
+}
+
+.btn-dark {
+    color: #ffffff;
+    background-color: #2b3e50;
+    border-color: transparent;
 }
 
 .orange {

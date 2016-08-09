@@ -88,6 +88,7 @@ if (isset($argv[3]) && isset($argv[4])){
 } elseif (!isset($argv[3])){
     echo "You can directly update the library on the server by entering the WebDAV streamer URL with trailing slash: (If you want to output to a file, leave empty):\n";
     $url = (string)fgets(STDIN);
+    $url = str_replace("\n", "", $url);
     $username = "";
     $password = "";
     if(empty($url)){
@@ -97,15 +98,15 @@ if (isset($argv[3]) && isset($argv[4])){
         $username = (string)fgets(STDIN);
         echo "Please enter the password you use to log onto WebDAV streamer: \n";
         $password = (string)fgets(STDIN);
+
+        $username = str_replace("\n", "", $username);
+        $password = str_replace("\n", "", $password);
     }
 } else {
     $url = "";
     $username = "";
     $password = "";
 }
-$url = str_replace("\n", "", $url);
-$username = str_replace("\n", "", $username);
-$password = str_replace("\n", "", $password);
 
 echo "\n==================================================================\n";
 echo "The script will now start...\n";
