@@ -12,7 +12,7 @@ if(isset($_GET["action"])) {
     if ($_GET["action"] == "open") {
         try {
             header('Content-Type: application/json');
-            $favourites = $database->get_data($username)["favourites"]["favourites"];
+            $favourites = $database->get_data($auth->username)["favourites"]["favourites"];
             if (empty($favourites)) {
                 echo "[]";
             } else {
@@ -24,7 +24,7 @@ if(isset($_GET["action"])) {
         die();
     } elseif ($_GET["action"] == "update") {
         try {
-            $database->update_favourites($username, file_get_contents('php://input'));
+            $database->update_favourites($auth->username, file_get_contents('php://input'));
             //file_put_contents(FAVOURITES_FOLDER . $fileFriendlyUsername, file_get_contents('php://input'));
             echo "success";
         } catch (Exception $e) {
@@ -45,7 +45,7 @@ if(isset($_GET["action"])) {
     <table class="table table-striped table-hover" id="favouriteTable">
         <tbody>
         <?php
-        $favourites = json_decode($database->get_data($username)["favourites"]["favourites"], true);
+        $favourites = json_decode($database->get_data($auth->username)["favourites"]["favourites"], true);
         if (is_array($favourites) || is_object($favourites)) {
             foreach ($favourites as $favourite) {
                 echo "<tr><td class='sorter' width='25px'></td>" .

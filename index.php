@@ -95,9 +95,9 @@ if(isset($_POST["newpass1"])){
     <div class="full-height" id="content">
         <!--div class="loader-background"><div class="loader">Loading&#8230;</div></div-->
     </div>
-    <div class="full-height" id="video">
-            <video id="videoPlayer" style="width: 100%; height: auto; max-height: 99%;" controls src='' autoplay></video>
-        <textarea id="videoProgress" class="shell" style="height: 50px; width: 100%;" readonly></textarea>
+    <div class="full-height" style="overflow-y: hidden; background-color: black;" id="video">
+            <video id="videoPlayer" style="width: 100%; height: 100%;" controls src='' autoplay></video>
+        <textarea id="videoProgress" class="shell" style="height: 50px; width: 100%; display: none;" readonly></textarea>
     </div>
 </div>
 
