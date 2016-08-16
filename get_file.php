@@ -18,6 +18,10 @@ $extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
 $supportedMimeTypes = json_decode($_GET["support"], true);
 $lockedFile = CONVERT_FOLDER . "/" . $md5name . ".lock";
 
+//Sleep while the lock file is still present:
+while (file_exists($lockedFile)){
+    sleep(1);
+}
 
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
     if(strpos(urldecode($requestURL), 'downloader.space') !== false){
@@ -39,11 +43,6 @@ if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
 
 //print_r($_GET);
 
-
-//Sleep while the lock file is still present:
-while (file_exists($lockedFile)){
-    sleep(1);
-}
 
 if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
     if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
