@@ -77,15 +77,16 @@ function refreshTitle() {
             jsmediatags.read(obj.mp3, {
                 onSuccess: function(tag) {
                     var fancyName = (tag.tags.album ? tag.tags.album : "") +
-                        (tag.tags.artist ? " / " + tag.tags.artist : "") +
-                        (tag.tags.title ? " / " + tag.tags.title : obj.title);
+                        (tag.tags.artist ? " - " + tag.tags.artist : "") +
+                        (tag.tags.title ? " - " + tag.tags.title : obj.title);
                     $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'> "
                         + fancyName +
                         "</span>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
                     jPlaylist.playlist[index].title = fancyName;
                     jPlaylist._refresh(true);
-                    jPlaylist._highlight(index);
+                    jPlaylist._highlight(jPlaylist.current);
+                    //jPlaylist._highlight(index);
                 },
                 onError: function(error) {
                     console.log(error);
