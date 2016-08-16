@@ -16,7 +16,7 @@ if(isset($_GET["genre"])){
     $genre = $_GET["genre"];
     $songs = $database->get_genre($genre, $auth->username);
     ?>
-    <button class="btn btn-primary btn-sm" onclick="jPlaylist.remove(); addAllToPlaylist('<?php echo urlencode($genre); ?>', 'genre');">Replace playlist</button>
+    <button class="btn btn-primary btn-sm" onclick="jPlaylist.remove(); addAllToPlaylist('<?php echo urlencode($genre); ?>', 'genre'); setTimeout(function() {jPlaylist.select(0); }, 2000);">Replace playlist</button>
     <button class="btn btn-primary btn-sm" onclick="addAllToPlaylist('<?php echo urlencode($genre); ?>', 'genre');">Add to playlist</button>
     <table class="table table-striped table-hover">
         <thead>
@@ -31,9 +31,9 @@ if(isset($_GET["genre"])){
         <tbody>
         <?php
         foreach ($songs as $song){
-            echo '<tr style="cursor:pointer;" onclick="playAudio(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\')"><td>' . $song['artist'] . '</td><td>' . $song['album'] . '</td><td>' . $song['track'] . '</td><td>' . $song['title'] . '</td><td>' . gmdate('H:i:s', $song['duration']) . '</td>' .
-        '<td><a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a> ' .
-                '<a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addFavourite(\'' . urlencode(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode(readable_name($song['file'])) . '\', \'audio\')"><span class="glyphicon glyphicon-star"></span></a></td></tr>';
+            echo '<tr style="cursor:pointer;" onclick="playAudio(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\')"><td>' . $song['artist'] . '</td><td>' . $song['album'] . '</td><td>' . $song['track'] . '</td><td>' . $song['title'] . '</td><td>' . gmdate('H:i:s', $song['duration']) . '</td>' .
+        '<td><a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a> ' .
+                '<a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addFavourite(\'' . urlencode(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\', \'audio\')"><span class="glyphicon glyphicon-star"></span></a></td></tr>';
         }
         ?>
         </tbody>

@@ -19,7 +19,7 @@ $auth = new Auth();
 if($auth->login($username, $password) == "success") {
 
 } else {
-    echo '{"status": "failed auth"}';
+    echo 'ERROR: FAILED AUTH';
     die();
 }
 
@@ -28,14 +28,14 @@ if(!empty($data)) {
     if ($database->library_item_exist($data["file"], $auth->username)) {
         if (strtotime($database->library_item_modified($data["file"], $auth->username)) < strtotime($data["last_modified"])) {
             $database->add_library_item($data, $auth->username);
-            echo '{"status": "added"}';
+            echo 'UPDATE: ' . $data["file"];
         } else {
-            echo '{"status": "skipped"}';
+            echo 'SAME: ' . $data["file"];
         }
     } else {
         $database->add_library_item($data, $auth->username);
-        echo '{"status": "new"}';
+        echo 'NEW: ' . $data["file"];
     }
 } else {
-    echo '{"status": "empty"}';
+    echo 'EMPTY REQUEST';
 }

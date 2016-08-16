@@ -45,21 +45,21 @@ if(isset($_GET["folder"])) {
     $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
     foreach($database->get_album($_GET["album"], $auth->username) as $item){
-        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode($item['album'] . ' - ' . $item['artist'] . ' - ' . $item['title']));
     }
 } elseif (isset($_GET["artist"])) {
     $database = new Database();
     $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
     foreach($database->get_artist($_GET["artist"], $auth->username) as $item){
-        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode($item['album'] . ' - ' . $item['artist'] . ' - ' . $item['title']));
     }
 } elseif (isset($_GET["genre"])) {
     $database = new Database();
     $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
     foreach($database->get_genre($_GET["genre"], $auth->username) as $item){
-        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode(readable_name($item['file'])));
+        $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode($item['album'] . ' - ' . $item['artist'] . ' - ' . $item['title']));
     }
 }
 header('Content-Type: application/json');

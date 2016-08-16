@@ -20,7 +20,9 @@ session_write_close();
         <label for="youtubeURL">YouTube URL: </label>
         <input type="text" class="form-control" id="youtubeURL" style="width: 100%">
     </div>
-    <button onclick='addYouTube(youtube_parser($("#youtubeURL").val())); $("#youtubeURL").val("");' class="btn btn-primary">Add to playlist</button>
-    <small class="text-right">This service is provided by <a href="https://youtubeinmp3.com" target="_blank">YouTubeInMP3.com</a>. Use at your own risk.</small>
+    <button onclick='addYouTube(youtube_parser($("#youtubeURL").val()), "play"); $("#youtubeURL").val("");' class="btn btn-primary">Play audio</button>
+    <button onclick='addYouTube(youtube_parser($("#youtubeURL").val()), "add"); $("#youtubeURL").val("");' class="btn btn-primary">Add to playlist</button>
+    <span id="youtubeProgress"></span><br>
+    <small class="text-right">This service is provided by <a href="https://convert2mp3.cc" target="_blank">Convert2mp3.cc</a>. </small>
 </div>
 <iframe id="youtubeIframe" style="display: none;"></iframe>

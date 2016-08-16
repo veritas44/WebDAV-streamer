@@ -69,6 +69,19 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `username` varchar(1000) NOT NULL,
+  `id` int(4) NOT NULL,
+  `name` varchar(1024) NOT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ";
 
         try {
@@ -476,6 +489,62 @@ CREATE TABLE IF NOT EXISTS `users` (
             return $stmtArray;
         }catch (PDOException $e){
             echo "search_library_advanced failed.";
+            die();
+        }
+    }
+
+    function session_exist($id){
+        try {
+            $stmt = $this->dbh->prepare("SELECT * FROM sessions WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+            if($stmt->rowCount() > 0) {
+                return true;
+            }else{
+                return false;
+            }
+        }catch(PDOException $e){
+            echo "session_exist failed.";
+            die();
+        }
+    }
+
+    function get_sessions(){
+        try {
+            $returnData = array();
+            $stmt = $this->dbh->prepare("SELECT * FROM sessions");
+            $stmt->execute();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $returnData[$row["id"]] = $row;
+            }
+            return $returnData;
+        }catch(PDOException $e){
+            echo "get_sessions failed.";
+            die();
+        }
+    }
+
+    function add_session($id, $name, $user){
+        try {
+            $updated = date('Y-m-d H:i:s', time());
+
+            if($this->session_exist($id)){
+                $stmt = $this->dbh->prepare("UPDATE `sessions` SET name=:name, username=:user, updated=:updated WHERE id=:id");
+            } else {
+                $stmt = $this->dbh->prepare("INSERT INTO `sessions` (username, id, name, updated)" .
+                    " VALUES (:user, :id, :name, :updated)");
+            }
+            $stmt->bindParam(':user', $user);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':updated', $updated);
+
+            $stmt->execute();
+            return true;
+        }catch(PDOException $e){
+            echo "add_session failed.";
             die();
         }
     }

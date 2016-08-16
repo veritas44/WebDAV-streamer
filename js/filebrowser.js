@@ -131,10 +131,30 @@ function youtube_parser(url){
     var match = url.match(regExp);
     return (match&&match[7].length==11)? match[7] : false;
 }
-
-function addYouTube(id) {
-    var YouTubeInMP3 = "https://www.youtubeinmp3.com/fetch/?format=JSON&video=http://www.youtube.com/watch?v=" + id;
-
+function addYouTube(id, action) {
+    $.get("https://api.convert2mp3.cc/check.php?api=true&v=" + id + "&h=" + Math.floor(35e5 * Math.random()), function (t) {
+        var o = t.split("|");
+        var url = "";
+        if(o[0] == "OK"){
+            url = "https://dl" + o[1] + ".downloader.space/dl.php?id=" + o[2];
+            if(action == "play"){
+                playAudio(encodeURIComponent(url), encodeURIComponent(o[3]));
+            } else {
+                addToPlaylist(encodeURIComponent(url), encodeURIComponent(o[3]));
+            }
+            $("#youtubeProgress").html("Successfully added YouTube URL");
+        } else if (o[0] == "ERROR" && o[1] == "PENDING") {
+            setTimeout(function(){addYouTube(id)}, 2000);
+        } else if (o[0] == "DOWNLOAD"){
+            $("#youtubeProgress").html(o[2]);
+            setTimeout(function(){addYouTube(id)}, 1000);
+        } else {
+            alert("Whoops, that URL could not be parsed or there is a server problem...");
+            $("#youtubeProgress").html("Failed to add YouTube URL");
+        }
+        console.log(t);
+    });
+    /*
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -148,7 +168,7 @@ function addYouTube(id) {
 
                 //alert("Could not add the YouTube video to the playlist!\n\n" + err);
             }
-            /*
+
             jPlaylist.add({
                 title: jsonResponse.title,
                 mp3: jsonResponse.link
@@ -157,13 +177,14 @@ function addYouTube(id) {
             added.fadeIn("fast", function() {
                 added.fadeOut("slow");
             });
-            */
+
         } else if(xhttp.readyState == 4){
             alert("Could not add the YouTube video to the playlist!");
         }
     };
     xhttp.open("GET", YouTubeInMP3, true);
     xhttp.send();
+    */
 }
 
 function addAllToPlaylist(currentPath, type) {

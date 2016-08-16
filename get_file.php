@@ -12,17 +12,33 @@ session_write_close();
 $requestURL = ($_GET["file"]);
 
 //die($requestURL);
+$md5name = md5($auth->username . $requestURL);
+$extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
+
+$supportedMimeTypes = json_decode($_GET["support"], true);
+$lockedFile = CONVERT_FOLDER . "/" . $md5name . ".lock";
+
+
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
-    header('Location: ' . urldecode($requestURL));
-    die();
+    if(strpos(urldecode($requestURL), 'downloader.space') !== false){
+        if(file_exists(CONVERT_FOLDER . "/" . $md5name . ".mp3") == false) {
+            file_put_contents($lockedFile, "locked");
+            $fileContent = file_get_contents(urldecode($requestURL));
+            file_put_contents(CONVERT_FOLDER . "/" . $md5name . ".download", $fileContent);
+            //The MP3 is malformed, and causes Firefox to massively increase the duration. "Convert" it with FFmpeg to fix it.
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . ".download -threads 0 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+            unlink($lockedFile);
+        }
+        $extension = ".mp3";
+    } else {
+        header('Location: ' . urldecode($requestURL));
+        die();
+    }
 }
 //die("Poor you");
 
-$md5name = md5($auth->username . $requestURL);
-$extension = "." . pathinfo(urldecode($requestURL), PATHINFO_EXTENSION);
 //print_r($_GET);
-$supportedMimeTypes = json_decode($_GET["support"], true);
-$lockedFile = CONVERT_FOLDER . "/" . $md5name . ".lock";
+
 
 //Sleep while the lock file is still present:
 while (file_exists($lockedFile)){

@@ -7,12 +7,12 @@ html, body {
 }
 
 .loader-background {
-    width: 100%;
+    width: 85%;
     height: 100%;
     background-color: rgba(0,0,0,0.6);
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
+    left: 15%;
 }
 
 .playlist-container {
@@ -172,6 +172,10 @@ table.sorting-table {
     }
     .jp-time {
         display: none !important;
+    }
+    .loader-background {
+        left: 0;
+        width: 100%;
     }
 }
 

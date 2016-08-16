@@ -281,3 +281,19 @@ function refreshCurrentProcesses(){
     $("#refreshCount").html(str);
     $("#refreshProgress").html(refreshProgress);
 }
+
+function getSessions() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            $("#devicesContent").html(response);
+        }
+        if(xhttp.readyState == 4){
+
+        }
+    };
+    xhttp.open("POST", "session.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=get");
+}

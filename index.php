@@ -79,7 +79,7 @@ if(isset($_POST["newpass1"])){
                     <li><a href="#" onclick="loadPage('artists.php')"><span class="glyphicon glyphicon-headphones"></span> Artists</a></li>
                     <li><a href="#" onclick="loadPage('genres.php')"><span class="glyphicon glyphicon-sunglasses"></span> Genres</a></li>
                     <li class="active"><a href="#" onclick="getDirectories(currentDirectory)"><span class="glyphicon glyphicon-file"></span> Files</a></li>
-                    <!--li><a href="#" onclick="loadPage('youtube.php')"><span class="glyphicon glyphicon-hd-video"></span> YouTube</a></li-->
+                    <li><a href="#" onclick="loadPage('youtube.php')"><span class="glyphicon glyphicon-expand"></span> YouTube</a></li>
                     <li><a href="#" onclick="loadPage('favourites.php')"><span class="glyphicon glyphicon-star"></span> Favourites</a></li>
                     <li><a href="#" onclick="loadPage('db_search.php')"><span class="glyphicon glyphicon-search"></span> Search library</a></li>
                     <li><a href="#" onclick="loadPage('refresh_library.php')"><span class="glyphicon glyphicon-refresh"></span> Refresh library</a></li>
@@ -87,6 +87,8 @@ if(isset($_POST["newpass1"])){
                     <li><a href="#" onclick="loadPage('change_password.php')"><span class="glyphicon glyphicon-pencil"></span> Change password</a></li>
                     <li><a href="#" onclick="window.location.href = 'login.php?logout=1';"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
                     <li><a href="#" onclick="loadPage('about.php')"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                    <!-- Don't worry, the likelihood that this'll be included is very, very small, and now that you've found it, you could easily remove it anyway :-) -->
+                    <!--li><a href="https://youtu.be/skW9ATNDfL4" style="text-align: center"><img src="http://3dprintingindustry.com/wp-content/uploads/2014/05/Piracy-1.jpg?611f67" style="height: 250px; width: 250px;"></a> </li-->
                 </ul>
                 <img id="preloadAudio" src="" style="display:none">
             </div><!-- /.navbar-collapse -->
@@ -143,6 +145,21 @@ if(isset($_POST["newpass1"])){
         </div>
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="devices">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Devices</h4>
+            </div>
+            <div class="modal-body" id="devicesContent">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="footer-whitespace"></div>
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -183,9 +200,11 @@ if(isset($_POST["newpass1"])){
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" onclick="jPlaylist.shuffle(true, false);">Reshuffle</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#savePlaylist">Save playlist</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm show-playlist" onclick="jPlaylist.remove()">Clear playlist</a></li>
+                    <!--li><button type="button" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#devices" onclick="getSessions();">Devices</button></li-->
                     <li><span id="added" style="display: none;">Added</span></li>
                     <li id="playInfo"></li>
                 </ul>
+
             </div>
             <div class="playlist-container">
                 <table class="jp-playlist table table-striped table-hover" id="jp-playlist" style="display: none">
@@ -218,6 +237,7 @@ if(isset($_POST["newpass1"])){
 <script src="js/index.js"></script>
 <script src="js/interface.js"></script>
 <script src="js/filebrowser.js"></script>
+<script src="js/remote-play.js"></script>
 
 <script>
     var currentUser = "";

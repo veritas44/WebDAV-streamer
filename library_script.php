@@ -115,7 +115,9 @@ echo "The script will now start...\n";
 $library = new Library();
 $list = array();
 
-$fp = fopen($outputFile, 'w');
+if(empty($url)) {
+    $fp = fopen($outputFile, 'w');
+}
 
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
 $di = new RecursiveDirectoryIterator($fullPath);
@@ -154,6 +156,7 @@ foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
         }
     }
 }
-
-fclose($fp);
+if(empty($url)) {
+    fclose($fp);
+}
 

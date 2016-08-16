@@ -6,7 +6,9 @@ It only requires PHP and ffmpeg, and setting it up should not take too long. (Su
 
  1. Go to http://your-url/install.php
  2. Fill in the variables with your own details
- 5. Enjoy
+ 3. Enjoy
+
+If you're upgrading WebDAV streamer (and you should), please look at UPGRADE.md.
 
 **Comparison between Spotify and WebDAV streamer:**
 

@@ -1,6 +1,8 @@
 //$(document).foundation();
 
 var jquery_jplayer_1 = $('#jquery_jplayer_1');
+var sessionID = null;
+
 function initialize() {
     try {
         if(localStorage.getItem(currentUser + "original") != "[]" && localStorage.getItem(currentUser + "playlist") != "[]") {
@@ -42,6 +44,18 @@ function initialize() {
     };
     xhttp.open("GET", "remove_old_files.php", true);
     xhttp.send();
+
+    if(localStorage.getItem(currentUser + "session") != null) {
+        sessionID = localStorage.getItem(currentUser + "session");
+        console.log("SessionID set: " + sessionID);
+    } else {
+        sessionID = Math.floor(1000 + Math.random() * 9000);
+        if(setSessionID(sessionID)){
+            //Hurray, it's set!
+            console.log("SessionID set: " + sessionID);
+        }
+    }
+    $("[data-toggle=popover]").popover();
 }
 
 $(window).unload(function() {
@@ -62,21 +76,46 @@ function refreshTitle() {
             jsmediatags.Config.setXhrTimeoutInSec(0);
             jsmediatags.read(obj.mp3, {
                 onSuccess: function(tag) {
-                    $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'> "
-                        + (tag.tags.title ? tag.tags.title : obj.title) +
-                        (tag.tags.album ? " / " + tag.tags.album : "") +
+                    var fancyName = (tag.tags.album ? tag.tags.album : "") +
                         (tag.tags.artist ? " / " + tag.tags.artist : "") +
+                        (tag.tags.title ? " / " + tag.tags.title : obj.title);
+                    $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'> "
+                        + fancyName +
                         "</span>");
                     $("title").html((tag.tags.title ? tag.tags.title : obj.title) + " - WebDAV streamer");
+                    jPlaylist.playlist[index].title = fancyName;
+                    jPlaylist._refresh(true);
+                    jPlaylist._highlight(index);
                 },
                 onError: function(error) {
                     console.log(error);
                     $("#playInfo").html("<span onclick='refreshTitle()' title='Click to refresh'>" + obj.title + "</span> ");
                     $("title").html(obj.title + " - WebDAV streamer");
+                    jPlaylist._refresh(true);
+                    jPlaylist._highlight(index);
                 }
             });
         } // if condition end
     });
+}
+
+function setSessionID(id) {
+    sessionID = id;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var response = xhttp.responseText;
+            localStorage.setItem(currentUser + "session", sessionID);
+            return true;
+        }
+        if(xhttp.readyState == 4 && xhttp.status == 409){
+            setSessionID(Math.floor(1000 + Math.random() * 9000));
+        }
+    };
+    xhttp.open("POST", "session.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("action=announce&id=" + encodeURIComponent(sessionID) + "&name=" + encodeURIComponent(sessionID));
+
 }
 
 jquery_jplayer_1.bind(jQuery.jPlayer.event.play, function (event)
@@ -102,7 +141,7 @@ jquery_jplayer_1.bind(jQuery.jPlayer.event.loadeddata, function (event)
     try {
         $("#preloadAudio").attr("src", jPlaylist.playlist[jPlaylist.current + 1].mp3);
     } catch (err) {
-        console.log(err);
+        //console.log(err);
     }
     //console.log(jPlaylist.playlist[jPlaylist.current + 1].mp3);
     //}
@@ -176,8 +215,8 @@ setInterval(function(){
     $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
 }, 2000);
 setInterval(function() {
-    $.post('refresh_session.php');
-},120000);
+    $.post( "session.php", { action: "update", id: sessionID, name: sessionID } );
+},15000);
 setInterval(function() {
     checkLoaded();
 }, 1000);
