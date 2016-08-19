@@ -9,6 +9,7 @@ var masterID = "";
 var isSlave = false;
 var isMaster = false;
 var isConnected = false;
+var lastVolume = 0.8;
 
 function changeOutput(id) {
     if (typeof id === 'undefined') { id = sessionID; }
@@ -22,6 +23,7 @@ function changeOutput(id) {
 
 function hideVolume() {
     isMaster = true;
+    lastVolume
     $("#jquery_jplayer_1").jPlayer("volume", 0);
     setTimeout(function() {
         $(".jp-volume-max,.jp-mute,.jp-unmute,.jp-volume-bar").hide(1, function () {
