@@ -2,14 +2,43 @@
 Okay, I mostly just push updates, without version number. To make things convenient, 
 whenever I change something that requires manual work, I'll increase the version number.
 
-**Current version: 2.1**
+**Current version: 2.2**
+
+### From 2.1 to 2.2 ###
+WebDAV streamer now has remote playing options... This requires you to execute the following SQL query:
+```sql
+CREATE TABLE IF NOT EXISTS `commands` (
+  `id` varchar(20) NOT NULL,
+  `username` varchar(1000) NOT NULL,
+  `sender` int(6) NOT NULL,
+  `receiver` int(6) NOT NULL,
+  `command` varchar(1023) NOT NULL,
+  `content` varchar(5000) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+ALTER TABLE `commands`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `id` (`id`);
+ ```
+
+Also change the maximum length of `id` in the `sessions` table from 4 to 6 (or more, though that will just be overhead):
+```sql
+ALTER TABLE `sessions` CHANGE `id` `id` INT(6) NOT NULL;
+```
+
+Also, YouTube support has changed from a website to youtube-dl. This option should be more reliable. 
+Please install youtube-dl, and add the following line to your `config.php`:
+
+```php
+const YOUTUBE_DL = 'location_of_youtube-dl';
+```
 
 ### From 2.0 to 2.1 ###
 Starting from version 2.1, WebDAV streamer keeps track of the sessions. Please execute the following SQL query:
 ```sql
 CREATE TABLE IF NOT EXISTS `sessions` (
   `username` varchar(1000) NOT NULL,
-  `id` int(4) NOT NULL,
+  `id` int(6) NOT NULL,
   `name` varchar(1024) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

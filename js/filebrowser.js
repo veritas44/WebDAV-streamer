@@ -131,60 +131,43 @@ function youtube_parser(url){
     var match = url.match(regExp);
     return (match&&match[7].length==11)? match[7] : false;
 }
+
 function addYouTube(id, action) {
-    $.get("https://api.convert2mp3.cc/check.php?api=true&v=" + id + "&h=" + Math.floor(35e5 * Math.random()), function (t) {
-        var o = t.split("|");
-        var url = "";
-        if(o[0] == "OK"){
-            url = "https://dl" + o[1] + ".downloader.space/dl.php?id=" + o[2];
-            if(action == "play"){
-                playAudio(encodeURIComponent(url), encodeURIComponent(o[3]));
-            } else {
-                addToPlaylist(encodeURIComponent(url), encodeURIComponent(o[3]));
-            }
-            $("#youtubeProgress").html("Successfully added YouTube URL");
-        } else if (o[0] == "ERROR" && o[1] == "PENDING") {
-            setTimeout(function(){addYouTube(id)}, 2000);
-        } else if (o[0] == "DOWNLOAD"){
-            $("#youtubeProgress").html(o[2]);
-            setTimeout(function(){addYouTube(id)}, 1000);
+    $("#youtubeProgress").html("<div class='loader'></div>");
+    //showLoader();
+    $.get("youtube.php?video=" + id, function (response) {
+        if(action == "play"){
+            playAudio(encodeURIComponent("#yt_" + id), encodeURIComponent(response));
         } else {
-            alert("Whoops, that URL could not be parsed or there is a server problem...");
-            $("#youtubeProgress").html("Failed to add YouTube URL");
+            addToPlaylist(encodeURIComponent("#yt_" + id), encodeURIComponent(response));
         }
-        console.log(t);
+        $("#youtubeProgress").html("");
+        //hideLoader();
+        console.log(response);
+        return true;
     });
-    /*
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            try {
-                var jsonResponse = JSON.parse(xhttp.responseText);
-                addToPlaylist(encodeURIComponent(jsonResponse.link), encodeURIComponent(jsonResponse.title));
-            } catch (err) {
-                var youtubeIframe =  $('#youtubeIframe');
-                youtubeIframe.contents().find('html').html(xhttp.responseText);
-                addToPlaylist(encodeURIComponent("https://www.youtubeinmp3.com" + youtubeIframe.contents().find("#download").attr("href")), encodeURIComponent(youtubeIframe.contents().find("#videoTitle").text()));
+}
 
-                //alert("Could not add the YouTube video to the playlist!\n\n" + err);
+function youtube_playlist_parser(url) {
+    var regExp = /^.*(youtu.be\/|list=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[2]){
+        return match[2];
+    }
+    return null;
+}
+
+function addYouTubePlaylist(id) {
+    console.log("youtube.php?playlist=" + id);
+    $.get("youtube.php?playlist=" + encodeURIComponent(id), function (t) {
+        var response = JSON.parse(t).video;
+        for(var i = 0; i < response.length; i++){
+            console.log(response[i].encrypted_id);
+            if(addYouTube(response[i].encrypted_id, "add")){
+                //Just add it as an if statement to prevent stacking.
             }
-
-            jPlaylist.add({
-                title: jsonResponse.title,
-                mp3: jsonResponse.link
-            });
-            var added = $("#added");
-            added.fadeIn("fast", function() {
-                added.fadeOut("slow");
-            });
-
-        } else if(xhttp.readyState == 4){
-            alert("Could not add the YouTube video to the playlist!");
         }
-    };
-    xhttp.open("GET", YouTubeInMP3, true);
-    xhttp.send();
-    */
+    });
 }
 
 function addAllToPlaylist(currentPath, type) {

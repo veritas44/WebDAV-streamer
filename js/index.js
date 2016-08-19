@@ -2,6 +2,7 @@
 
 var jquery_jplayer_1 = $('#jquery_jplayer_1');
 var sessionID = null;
+var sessionName = null;
 
 function initialize() {
     try {
@@ -49,13 +50,18 @@ function initialize() {
         sessionID = localStorage.getItem(currentUser + "session");
         console.log("SessionID set: " + sessionID);
     } else {
-        sessionID = Math.floor(1000 + Math.random() * 9000);
+        sessionID = Math.floor(100000 + Math.random() * 900000);
         if(setSessionID(sessionID)){
             //Hurray, it's set!
             console.log("SessionID set: " + sessionID);
         }
     }
-    $("[data-toggle=popover]").popover();
+    receiverID = sessionID;
+    if(localStorage.getItem(currentUser + "sessionName") != null) {
+        sessionName = localStorage.getItem(currentUser + "sessionName");
+    } else {
+        sessionName = sessionID;
+    }
 }
 
 $(window).unload(function() {
@@ -107,10 +113,11 @@ function setSessionID(id) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = xhttp.responseText;
             localStorage.setItem(currentUser + "session", sessionID);
+            localStorage.setItem(currentUser + "sessionName", sessionID);
             return true;
         }
         if(xhttp.readyState == 4 && xhttp.status == 409){
-            setSessionID(Math.floor(1000 + Math.random() * 9000));
+            setSessionID(Math.floor(100000 + Math.random() * 900000));
         }
     };
     xhttp.open("POST", "session.php", true);
@@ -215,8 +222,12 @@ setInterval(function(){
     //refreshTitle();
     $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
 }, 2000);
+
+function updateSession() {
+    $.post( "session.php", { action: "update", id: sessionID, name: sessionName } );
+}
 setInterval(function() {
-    $.post( "session.php", { action: "update", id: sessionID, name: sessionID } );
+    updateSession();
 },15000);
 setInterval(function() {
     checkLoaded();

@@ -295,5 +295,17 @@ function getSessions() {
     };
     xhttp.open("POST", "session.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("action=get");
+    xhttp.send("action=get&sessionID=" + sessionID + "&receiverID=" + receiverID);
+}
+
+function setSessionName() {
+    var newName = prompt("Please enter a new name for this session:", sessionName);
+    if (newName != null){
+        sessionName = newName;
+        localStorage.setItem(currentUser + "sessionName", sessionName);
+        updateSession();
+        setTimeout(function () {
+            getSessions();
+        }, 1000);
+    }
 }

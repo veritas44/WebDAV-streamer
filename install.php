@@ -50,11 +50,13 @@ $ff_success = false;
 $ffmpeg = (isset($_SESSION["ff_ffmpeg"]) ? $_SESSION["ff_ffmpeg"] : "");
 $convert_folder = (isset($_SESSION["ff_convert_folder"]) ? $_SESSION["ff_convert_folder"] : "");
 $convert_folder_relative = (isset($_SESSION["ff_convert_folder_relative"]) ? $_SESSION["ff_convert_folder_relative"] : "");
+$youtube_dl = (isset($_SESSION["youtube_dl"]) ? $_SESSION["youtube_dl"] : "");
 
 if(isset($_POST["ff-ffmpeg"])){
     $ffmpeg = $_SESSION["ff_ffmpeg"] = $_POST["ff-ffmpeg"];
     $convert_folder = $_SESSION["ff_convert_folder"] = $_POST["ff-convert-folder"];
     $convert_folder_relative = $_SESSION["ff_convert_folder_relative"] = $_POST["ff-convert-folder-relative"];
+    $youtube_dl = $_SESSION["youtube_dl"] = $_POST["youtube-dl"];
 
     $folder_writable = true;
 
@@ -91,7 +93,8 @@ if(isset($_POST["create-config"])){
         "const DB_PASSWORD = '$db_password';\n\n" .
         "const FFMPEG = '$ffmpeg';\n" .
         "const CONVERT_FOLDER = '$convert_folder';\n" .
-        "const CONVERT_FOLDER_RELATIVE = '$convert_folder_relative';\n";
+        "const CONVERT_FOLDER_RELATIVE = '$convert_folder_relative';\n\n" .
+        "const YOUTUBE_DL = '$youtube_dl';\n";
     //$config_writable = false;
     if($config_writable) {
         fwrite($config, $config_content);
@@ -203,7 +206,7 @@ if(isset($_POST["a-username-streamer"])){
                     }
                     ?>
                     <p>Welcome to WebDAV streamer, your WebDAV audio streamer. <br>WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser.
-                        It only requires PHP, PHP-cURL, PHP-PDO and ffmpeg, and setting it up should not take too long.</p>
+                        It only requires PHP, PHP-cURL, PHP-PDO, <a href="http://ffmpeg.org" target="_blank">ffmpeg</a> and <a href="http://youtube-dl.org" target="_blank">youtube-dl</a>, and setting it up should not take too long. </p>
                     <hr>
                     <a href="#step2" role="tab" data-toggle="tab" class="nav-tabs btn btn-primary wizard" style="float: right;">Next</a>
                 </div>
@@ -260,10 +263,13 @@ if(isset($_POST["a-username-streamer"])){
                                 <input class="form-control" type="text" name="ff-ffmpeg" placeholder="FFmpeg executable (for Linux, just use 'ffmpeg')" value="<?php echo $ffmpeg; ?>"/>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="text" name="ff-convert-folder" placeholder="Full path to the output folder (eg. '/var/www/output' or 'C:\\Web\\output')" value="<?php echo $convert_folder; ?>"/>
+                                <input class="form-control" type="text" name="ff-convert-folder" placeholder="Full path to the output folder (eg. '/var/www/output' or 'C:\Web\output')" value="<?php echo $convert_folder; ?>"/>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" type="text" name="ff-convert-folder-relative" placeholder="Relative path to the output folder (eg. 'output')" value="<?php echo $convert_folder_relative; ?>"/>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="youtube-dl" placeholder="youtube-dl executable (for Linux, just use 'youtube-dl')" value="<?php echo $youtube_dl; ?>"/>
                             </div>
                             <input type="submit" class="btn btn-md btn-block btn-success" value="Test & save settings">
                         </fieldset>

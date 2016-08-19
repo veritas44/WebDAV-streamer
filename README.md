@@ -68,3 +68,10 @@ This way you can run WebDAV streamer on a Pi without the need of a 1TB hard driv
 If you need any assistance or have a great idea, please contact me.
 
 Created by Koenvh - http://koenvh.nl
+
+**Common problems:**
+
+These are problems I've come across multiple times:
+* It only displays a white page > Make sure php-curl is installed and activated.
+* Some audio files don't work > Check whether they have a audio/* mime-type, and whether ffmpeg is configured correctly.
+* YouTube links don't work > Check whether youtube-dl is installed and up-to-date.

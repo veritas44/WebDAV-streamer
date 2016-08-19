@@ -76,12 +76,29 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 CREATE TABLE IF NOT EXISTS `sessions` (
   `username` varchar(1000) NOT NULL,
-  `id` int(4) NOT NULL,
+  `id` int(6) NOT NULL,
   `name` varchar(1024) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `commands`
+--
+
+CREATE TABLE IF NOT EXISTS `commands` (
+  `id` varchar(20) NOT NULL,
+  `username` varchar(1000) NOT NULL,
+  `sender` int(6) NOT NULL,
+  `receiver` int(6) NOT NULL,
+  `command` varchar(1023) NOT NULL,
+  `content` varchar(5000) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+ALTER TABLE `commands`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `id` (`id`);
 ";
 
         try {
@@ -510,10 +527,11 @@ CREATE TABLE IF NOT EXISTS `sessions` (
         }
     }
 
-    function get_sessions(){
+    function get_sessions($user){
         try {
             $returnData = array();
-            $stmt = $this->dbh->prepare("SELECT * FROM sessions");
+            $stmt = $this->dbh->prepare("SELECT * FROM sessions WHERE username=:username AND updated > NOW() - INTERVAL 15 MINUTE ORDER BY name ASC");
+            $stmt->bindParam(":username", $user);
             $stmt->execute();
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -545,6 +563,64 @@ CREATE TABLE IF NOT EXISTS `sessions` (
             return true;
         }catch(PDOException $e){
             echo "add_session failed.";
+            die();
+        }
+    }
+    function delete_command($id){
+        try {
+            $stmt = $this->dbh->prepare("DELETE FROM commands WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+
+        }catch(PDOException $e){
+            echo "delete_command failed.";
+            die();
+        }
+    }
+
+    function delete_old_commands(){
+        try {
+            $stmt = $this->dbh->prepare("DELETE FROM commands WHERE `timestamp` < (NOW() - INTERVAL 1 MINUTE)");
+            $stmt->execute();
+
+        }catch(PDOException $e){
+            echo "delete_old_commands failed.";
+            die();
+        }
+    }
+
+    function get_commands($user){
+        try {
+            $returnData = array();
+            $stmt = $this->dbh->prepare("SELECT * FROM commands WHERE username=:username");
+            $stmt->bindParam(':username', $user);
+            $stmt->execute();
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $returnData[] = $row;
+            }
+            return $returnData;
+        }catch(PDOException $e){
+            echo "get_commands failed.";
+            die();
+        }
+    }
+
+    function add_command($id, $sender, $receiver, $command, $content, $user){
+        try {
+            $stmt = $this->dbh->prepare("INSERT INTO `commands` (id, username, sender, receiver, command, content)" .
+                " VALUES (:id, :username, :sender, :receiver, :command, :content)");
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':username', $user);
+            $stmt->bindParam(':sender', $sender);
+            $stmt->bindParam(':receiver', $receiver);
+            $stmt->bindParam(':command', $command);
+            $stmt->bindParam(':content', $content);
+
+            $stmt->execute();
+            return true;
+        }catch(PDOException $e){
+            echo "add_command failed.";
             die();
         }
     }

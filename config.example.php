@@ -25,3 +25,5 @@ const FFMPEG = "ffmpeg"; //Linux: Just use ffmpeg. Debian: avconv. Windows: Full
 //Please make sure the convert folder is writable (chmod 0777):
 const CONVERT_FOLDER = ""; //Full system path, make sure it is reachable through your website. By default ""/your/path/to/www/output", no trailing slash
 const CONVERT_FOLDER_RELATIVE = ""; //Relative to the webpage, by default "output", no trailing slash
+
+const YOUTUBE_DL = "youtube-dl";

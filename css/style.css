@@ -15,6 +15,22 @@ html, body {
     left: 15%;
 }
 
+.remote-connect {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    position: fixed;
+    z-index: 9001;
+}
+.remote-connect-text {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 500%;
+}
+
 .playlist-container {
     max-height: 50vh;
     overflow-y: auto;

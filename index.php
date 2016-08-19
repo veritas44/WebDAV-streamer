@@ -57,7 +57,7 @@ if(isset($_POST["newpass1"])){
     <meta name="theme-color" content="#2b3e50">
 </head>
 <body>
-
+<div class="remote-connect" id="remoteConnected" style="display: none"><span class="remote-connect-text">Controlled remotely. <a href="#" onclick="disconnectMaster();">Disconnect</a>.</span></div>
 <div class="row full-height" style="width: 100%;">
     <div class="full-height menu-left">
         <nav class="menu-left navbar navbar-default" role="navigation">
@@ -151,7 +151,7 @@ if(isset($_POST["newpass1"])){
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Devices</h4>
+                <h4 class="modal-title">Choose a device to stream to:</h4>
             </div>
             <div class="modal-body" id="devicesContent">
                 <div class="loader"></div>
@@ -200,7 +200,7 @@ if(isset($_POST["newpass1"])){
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" onclick="jPlaylist.shuffle(true, false);">Reshuffle</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#savePlaylist">Save playlist</a></li>
                     <li><a href="javascript:;" class="playlist-controls btn btn-default btn-sm show-playlist" onclick="jPlaylist.remove()">Clear playlist</a></li>
-                    <!--li><button type="button" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#devices" onclick="getSessions();">Devices</button></li-->
+                    <li><button type="button" class="playlist-controls btn btn-default btn-sm" data-toggle="modal" data-target="#devices" onclick="getSessions();" id="devicesButton">Devices</button></li>
                     <li><span id="added" style="display: none;">Added</span></li>
                     <li id="playInfo"></li>
                 </ul>
