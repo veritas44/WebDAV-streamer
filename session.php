@@ -43,5 +43,5 @@ if($action == "get") {
     echo "<a href='javascript:;' class='btn btn-default' onclick='getSessions();'><span class='glyphicon glyphicon-refresh'></span> Refresh</a> ";
     echo "<a href='javascript:;' class='btn btn-default' onclick='setSessionName();'><span class='glyphicon glyphicon-pencil'></span> Edit this device's name</a> ";
     echo "<button type='button' class='btn btn-default' data-toggle='collapse' data-target='#devicesHelp'><span class='glyphicon glyphicon-question-sign'></span> Help</button> ";
-    echo "<div class='collapse' id='devicesHelp'>Streaming music to another WebDAV instance is easy. Just log onto WebDAV streamer with another device, click the 'Devices' button and select which device should play the music. The other device will display a 'Controlled remotely' message and the music will automatically start playing.</div>";
+    echo "<div class='collapse' id='devicesHelp'>Streaming music to another WebDAV instance is easy. Just log onto WebDAV streamer with another device, click the 'Remote play' button and select which device should play the music. The other device will display a 'Controlled remotely' message and the music will automatically start playing.</div>";
 }
