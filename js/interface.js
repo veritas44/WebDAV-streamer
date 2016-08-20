@@ -266,22 +266,6 @@ function openGenre(url) {
     xhttp.send();
 }
 
-var refreshCount = 0;
-var refreshDone = 0;
-var refreshArray = [];
-
-function refreshCurrentProcesses(){
-    var str = "Currently running processes: (" + refreshArray.length + ") <br>\n" + refreshArray.join("<br>\n");
-    var refreshProgress = "";
-    if(refreshArray.length > 0) {
-        refreshProgress = "<div class='progress'><div class='progress-bar progress-bar-striped active' role='progressbar' style='width:" + (refreshDone / refreshCount) * 100 + "%'>" + refreshDone + "/" + refreshCount + "</div></div>";
-    } else {
-        refreshProgress = "";
-    }
-    $("#refreshCount").html(str);
-    $("#refreshProgress").html(refreshProgress);
-}
-
 function getSessions() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {

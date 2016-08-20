@@ -160,7 +160,7 @@ function checkRemoved() {
 }
 
 function request_done($response, $url, $request_info, $user_data, $time) {
-    echo $url . ": " . $response . "<br>\n";
+    echo $url . ": <br>\n" . $response . "<br>\n";
 }
 
 if(isset($_GET["folder"])) {
@@ -185,9 +185,9 @@ if(isset($_GET["folder"])) {
         <div class="col-md-3">
             <h3 style="margin: 10px 0;">Refresh library</h3>
         </div>
-        <div class="col-md-9" id="refreshProgress" style="margin: 10px 0;">
+        <!--div class="col-md-9" id="refreshProgress" style="margin: 10px 0;">
 
-        </div>
+        </div-->
     </div>
     <div class="row col-xs-12">
         <div class="form-group">
@@ -203,16 +203,16 @@ if(isset($_GET["folder"])) {
         <button onclick='startRefresh();' class="btn btn-primary">Click to start!</button>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div>
                 <samp id='output'></samp>
             </div>
         </div>
-        <div class="col-md-6">
+        <!--div class="col-md-6">
             <div id="refreshCount">
 
             </div>
-        </div>
+        </div-->
     </div>
     <?php
 }

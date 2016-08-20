@@ -418,30 +418,15 @@ function crawlLibrary(url) {
     niceUrl = niceUrl.replace("&initial=1", "");
     niceUrl = decodeURIComponent(niceUrl);
 
-    refreshArray.push(niceUrl);
-    refreshCount++;
-    refreshCurrentProcesses();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             var response = xhttp.responseText;
             //console.log(response);
             //$(response).appendTo($("#searchTable")).slideDown("fast");
-            $("#output").prepend(niceUrl + "<br>\n" + response + "\n============================<br>\n");
-            var i = refreshArray.indexOf(niceUrl);
-            if(i != -1) {
-                refreshArray.splice(i, 1);
-            }
-            refreshDone++;
-            refreshCurrentProcesses();
+            $("#output").prepend(response + "\n============================<br>\n");
         } else if (xhttp.readyState == 4) {
-            $("#output").prepend(niceUrl + "<br>\n" + "Something went wrong" + xhttp.status + "\n============================<br>\n");
-            var i = refreshArray.indexOf(niceUrl);
-            if(i != -1) {
-                refreshArray.splice(i, 1);
-            }
-            refreshDone++;
-            refreshCurrentProcesses();
+            $("#output").prepend("Something went wrong" + xhttp.status + "\n============================<br>\n");
         }
     };
     xhttp.open("get", url, true);
@@ -459,5 +444,5 @@ function startRefresh(){
     var folder = encodeURIComponent($("#refreshFolder").val());
     crawlLibrary("refresh_library.php?folder=" + folder + "&overwrite=" +  checked + "&initial=1");
     crawlLibrary("refresh_library.php?folder=remove");
-    $("#output").prepend("<br>Start crawling... This might take a while, and WebDAV streamer might respond slower than usual. You can now close this browser window if you want to.");
+    $("#output").prepend("<br>Start crawling... This might take a while. WebDAV streamer might respond slower than usual. You can now close this browser window if you want to.");
 }
