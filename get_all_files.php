@@ -10,10 +10,6 @@ require_once("includes.php");
 
 $scriptContent = array();
 
-error_reporting( E_ALL );
-
-ini_set('display_errors', 1);
-
 function doPropfind($folder){
     global $client, $scriptContent;
     $folders = $client->propFind($folder, array(
@@ -61,6 +57,19 @@ if(isset($_GET["folder"])) {
     foreach($database->get_genre($_GET["genre"], $auth->username) as $item){
         $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode($item['album'] . ' - ' . $item['artist'] . ' - ' . $item['title']));
     }
+} elseif (isset($_GET["search"])) {
+    $database = new Database();
+    $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
+
+        $query = json_decode(urldecode($_GET["search"]), true);
+        if (array_key_exists("search", $query)) {
+            $searchResults = $database->search_library($query["search"], $auth->username);
+        } else {
+            $searchResults = $database->search_library_advanced($query["album"], $query["artist"], $query["composer"], $query["genre"], $query["title"], $query["year"], $auth->username);
+        }
+        foreach ($searchResults as $item) {
+            $scriptContent[] = array(urlencode(Sabre\HTTP\encodePath($item['file'])), urlencode($item['album'] . ' - ' . $item['artist'] . ' - ' . $item['title']));
+        }
 }
 header('Content-Type: application/json');
 echo json_encode($scriptContent, true);

@@ -17,7 +17,7 @@ Okay, you cannot really compare these two, but these are the key differences:
 * WebDAV streamer uses your own files, Spotify hosts its own music.
 * Spotify costs money, WebDAV streamer is free.
 * Spotify is better looking, and has more search options.
-* You can use WebDAV streamer for obscure music and audiobooks.
+* You can use WebDAV streamer for obscure music and audio books.
 * A lot more...
 
 Basically, if you already digitalised your CDs and put them nice and orderly in folders,
@@ -50,8 +50,12 @@ because it first downloads the file, and then streams it, so the bandwidth used 
 
 Initially, I got a 1TB private ownCloud. Great, but what more could I do with it than just storing files?
 I started looking for a web audio streamer for WebDAV, but I couldn't find one, so I made one myself.
-The advantage of WebDAV is that your storage is seperate from your actual server.
+The advantage of WebDAV is that your storage is separate from your actual server.
 This way you can run WebDAV streamer on a Pi without the need of a 1TB hard drive attached to it.
+
+*But I want to use my local files!*
+
+Well, look at a tutorial like [this (Linux)](https://www.digitalocean.com/community/tutorials/how-to-configure-webdav-access-with-apache-on-ubuntu-12-04) or [this (Windows)](http://www.iis.net/learn/install/installing-publishing-technologies/installing-and-configuring-webdav-on-iis). It's simple to set up :-)
 
 **Requirements:**
 

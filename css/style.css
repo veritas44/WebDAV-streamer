@@ -93,6 +93,20 @@ table.sorting-table {
     background-color: #4e5d6c;
 }
 
+th.tablesorter-headerAsc {
+    background-image: url(../img/asc.gif) !important;
+}
+
+th.tablesorter-headerDesc {
+    background-image: url(../img/desc.gif) !important;
+}
+
+th.tablesorter-header {
+    background-image: url(../img/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
 .album-title {
     text-overflow: ellipsis;
     text-align: center;

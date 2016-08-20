@@ -27,41 +27,12 @@ if(substr(urldecode($requestURL), 0, 4) === "#yt_"){
     $extension = ".mp4";
     if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
         file_put_contents($lockedFile, "locked");
-        //echo YOUTUBE_DL . " -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 -o '" . CONVERT_FOLDER . "/" . $md5name . $extension . "' https://www.youtube.com/watch?v=" . escapeshellcmd(str_replace("#yt_", "", urldecode($requestURL)));
-        //die();
-        $video = shell_exec(YOUTUBE_DL . " -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 -o '" . CONVERT_FOLDER . "/" . $md5name . $extension . "' https://www.youtube.com/watch?v=" . escapeshellcmd(str_replace("#yt_", "", urldecode($requestURL))));
+        $command = YOUTUBE_DL . " -f mp4 -o \"" . CONVERT_FOLDER . DIRECTORY_SEPARATOR . $md5name . $extension . "\" https://www.youtube.com/watch?v=" . escapeshellcmd(str_replace("#yt_", "", urldecode($requestURL)));
+        //echo $command;
+        $video = shell_exec($command);
         //file_put_contents(CONVERT_FOLDER . "/" . $md5name . $extension, $video);
         unlink($lockedFile);
     }
-    /*
-    //echo YOUTUBE_DL . " -g \"https://www.youtube.com/watch?v=" . escapeshellcmd(substr(urldecode($requestURL), 4)) . "\"";
-    //header('Content-Type: video/mp4');
-
-    die($videoURL);
-    //echo file_get_contents($videoURL);
-    //error_reporting(E_ALL); ini_set('display_errors', 'On');
-    $videoURL = str_replace("\r", "", $videoURL);
-    $videoURL = str_replace("\n", "", $videoURL);
-    //header("Access-Control-Allow-Origin: *");
-    //readfile($videoURL);
-    //header('Location: ' . ($videoURL));
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $videoURL);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    $out = curl_exec($ch);
-    curl_close($ch);
-
-
-    header('Content-type: video/mp4');
-    header('Content-type: video/mpeg');
-    header('Content-disposition: inline');
-    header("Content-Transfer-Encoding:­ binary");
-    header("Content-Length: ".filesize($out));
-    echo $out;
-    exit();
-    */
 }
 
 if(filter_var(urldecode($requestURL), FILTER_VALIDATE_URL)){
@@ -98,7 +69,7 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
             //die(print_r($response));
             $extension = ".mp3";
             file_put_contents(CONVERT_FOLDER . "/" . $md5name, $response["body"]);
-            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . "/" . $md5name . " -threads 0 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . "/" . $md5name . ".mp3");
+            shell_exec(FFMPEG . " -i " . CONVERT_FOLDER . DIRECTORY_SEPARATOR . $md5name . " -threads 0 -map_metadata 0 -id3v2_version 3 -vn " . CONVERT_FOLDER . DIRECTORY_SEPARATOR . $md5name . ".mp3");
         }
         unlink($lockedFile);
     } else {

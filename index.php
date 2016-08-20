@@ -232,6 +232,7 @@ if(isset($_POST["newpass1"])){
 <script src="js/jsmediatags.js"></script>
 
 <script src="js/RowSorter.js"></script>
+<script src="js/jquery.tablesorter.js"></script>
 <script src="js/playlist.js"></script>
 
 <script src="js/index.js"></script>

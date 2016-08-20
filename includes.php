@@ -24,6 +24,7 @@ require_once("class/auth.php");
 require_once("class/playlist.php");
 require_once("class/url_to_absolute.php");
 require_once("class/simple_html_dom.php");
+require_once("class/rollingcurl.php");
 require_once("class/library.php");
 
 $username = $_SESSION["username"];

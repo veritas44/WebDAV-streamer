@@ -29,6 +29,7 @@ if(!empty($search)) {
     $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
     //var_dump($database->search_library(strtolower($dbSearch), $auth->username));
     $searchResults = null;
+    $searchTerms = null;
 
     $album = (isset($_GET["album"]) ? urldecode($_GET["album"]) : "");
     $artist = (isset($_GET["artist"]) ? urldecode($_GET["artist"]) : "");
@@ -39,8 +40,16 @@ if(!empty($search)) {
 
     if(!empty($album) || !empty($artist) || !empty($composer) || !empty($genre) || !empty($title) || !empty($year)){
         $searchResults = $database->search_library_advanced($album, $artist, $composer, $genre, $title, $year, $auth->username);
+
+        $searchTerms["album"] = $album;
+        $searchTerms["artist"] = $artist;
+        $searchTerms["composer"] = $composer;
+        $searchTerms["genre"] = $genre;
+        $searchTerms["title"] = $title;
+        $searchTerms["year"] = $year;
     } else {
         $searchResults = $database->search_library(strtolower($search), $auth->username);
+        $searchTerms["search"] = $search;
     }
 
     foreach($searchResults as $item){
@@ -59,6 +68,8 @@ if(!empty($search)) {
             "</td>" .
             "</tr>";
     }
+
+    echo "<script>$(document).ready(function() { $('#databaseTable').tablesorter({headers: {3: {sorter: false}, 8: {sorter: false}}}); $('#databaseAddAll').show(); }); searchTerms = '" . urlencode(json_encode($searchTerms)) ."'</script></td></tr>";
     die();
 }
 ?>
@@ -128,18 +139,18 @@ if(!empty($search)) {
     </div>
 </div>
 <div>
-    <table id='databaseTable' class="table table-striped table-hover" style="width: 100%;">
+    <table id='databaseTable' class="table table-striped table-hover tablesorter" style="width: 100%;">
         <thead>
         <tr>
-            <td>Artist</td>
-            <td>Composer</td>
-            <td>Album</td>
-            <td>Track</td>
-            <td>Title</td>
-            <td>Duration</td>
-            <td>Genre</td>
-            <td>Year</td>
-            <td></td>
+            <th>Artist</th>
+            <th>Composer</th>
+            <th>Album</th>
+            <th>Track</th>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Genre</th>
+            <th>Year</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -147,6 +158,10 @@ if(!empty($search)) {
         </tbody>
     </table>
 </div>
+<div class="row col-xs-12">
+    <button type="button" class="btn btn-primary" onclick="addAllToPlaylist(searchTerms, 'search')" style="display: none;" id="databaseAddAll">Add all to playlist</button>
+</div>
 <script>
     var searchFolder = "<?php echo urlencode($folder); ?>";
+    var searchTerms = "";
 </script>

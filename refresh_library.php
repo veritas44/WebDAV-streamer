@@ -8,8 +8,7 @@
 
 require_once("includes.php");
 session_write_close();
-set_time_limit (3600);
-ini_set('max_execution_time', 3600);
+set_time_limit (0);
 ini_set("memory_limit", "-1");
 
 $library = new Library();
@@ -18,9 +17,20 @@ $library->connect_db();
 $database = new Database();
 $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
 
+$domain = $_SERVER['HTTP_HOST'];
+$prefix = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] ? 'https://' : 'http://';
+
 $overwrite = false;
 if(isset($_GET["overwrite"]) && $_GET["overwrite"] == "1"){
     $overwrite = true;
+}
+$initial = false;
+if(isset($_GET["initial"]) && $_GET["initial"] == "1"){
+    $initial = true;
+}
+
+if($initial) {
+    $RCX = new RollingCurlX(10);
 }
 //$data = get_file("/remote.php/webdav/Music/NFSU2/14 - Killing Joke - The Death & Resurrection Show .mp3");
 //print_r($data);
@@ -29,30 +39,38 @@ if(isset($_GET["overwrite"]) && $_GET["overwrite"] == "1"){
 //$data = $library->get_tags("/remote.php/webdav/Music/SimCity OST/01 - SimCity Theme.flac");
 //$library->add_to_database($data);
 
-function doPropfind($folder){
-    global $client, $overwrite;
+function doPropfind($folder, $initial = false){
+    global $client, $overwrite, $RCX, $prefix, $domain, $initial;
+
     $folders = $client->propFind($folder, array(
         '{DAV:}getcontenttype',
         '{DAV:}getlastmodified',
         '{DAV:}getcontentlength'
     ), 1);
     array_shift($folders);
-    foreach($folders as $key => $value){
-        if(!array_key_exists('{DAV:}getcontenttype', $value)){
-            //doPropfind($key);
-            if($overwrite){
-                echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "&overwrite=1');</script>";
-            } else {
-                echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "');</script>";
+    if($initial) {
+        if ($overwrite) {
+            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder . "&overwrite=1", null, "request_done");
+            //echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "&overwrite=1');</script>";
+        } else {
+            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder, null, "request_done");
+            //echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "');</script>";
+        }
+        foreach ($folders as $key => $value) {
+            if (!array_key_exists('{DAV:}getcontenttype', $value)) {
+                doPropfind($key, $initial);
             }
         }
-        if (array_key_exists('{DAV:}getcontenttype', $value)) {
-            if(strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
-                if(pathinfo(urldecode($key), PATHINFO_EXTENSION) != "pls" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u8") {
-                    if($value["{DAV:}getcontentlength"] < 100000000) { //If smaller than 100MB
-                        checkValid(Sabre\HTTP\decodePath($key), $value["{DAV:}getlastmodified"], $overwrite);
-                    } else {
-                        echo "TOO LARGE: " . Sabre\HTTP\decodePath($key) . " (" . $value["{DAV:}getcontentlength"] . " bytes > 100000000 bytes)<br>\r\n";
+    } else {
+        foreach ($folders as $key => $value) {
+            if (array_key_exists('{DAV:}getcontenttype', $value)) {
+                if (strpos($value["{DAV:}getcontenttype"], "audio") !== false) {
+                    if (pathinfo(urldecode($key), PATHINFO_EXTENSION) != "pls" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u" && pathinfo(urldecode($key), PATHINFO_EXTENSION) != "m3u8") {
+                        if ($value["{DAV:}getcontentlength"] < 100000000) { //If smaller than 100MB
+                            checkValid(Sabre\HTTP\decodePath($key), $value["{DAV:}getlastmodified"], $overwrite);
+                        } else {
+                            echo "TOO LARGE: " . Sabre\HTTP\decodePath($key) . " (" . $value["{DAV:}getcontentlength"] . " bytes > 100000000 bytes)<br>\r\n";
+                        }
                     }
                 }
             }
@@ -141,14 +159,23 @@ function checkRemoved() {
     echo "Done removing items<br>\r\n";
 }
 
+function request_done($response, $url, $request_info, $user_data, $time) {
+    echo $url . ": " . $response . "<br>\n";
+}
+
 if(isset($_GET["folder"])) {
     global $startFolder;
     if ($_GET["folder"] == "initial") {
-        doPropfind(Sabre\HTTP\encodePath($startFolder));
+        doPropfind(Sabre\HTTP\encodePath($startFolder), $initial);
     } elseif ($_GET["folder"] == "remove") {
         checkRemoved();
     } else {
-        doPropfind(Sabre\HTTP\encodePath($_GET["folder"]));
+        doPropfind(Sabre\HTTP\encodePath($_GET["folder"]), $initial);
+    }
+    if($initial){
+        //print_r($RCX->requests);
+        $RCX->setTimeout(1800000000);
+        $RCX->execute();
     }
     die();
 

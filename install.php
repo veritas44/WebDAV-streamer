@@ -251,7 +251,7 @@ if(isset($_POST["a-username-streamer"])){
                         if($ff_response != "none") {
                             if($ff_response == "success"){
                                 echo    '<div class="alert alert-info">Please try to play the following audio file to verify that FFmpeg works:' .
-                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls autoplay></audio>'.
+                                        '<audio src="' . $convert_folder_relative . '/demo.mp3" controls autoplay></audio><br>'.
                                         '<small>(If nothing shows, it has probably failed to load it. You can check it by manually seeing whether the output folder has a file called "demo.mp3")</small></div>';
                             }else {
                                 echo '<div class="alert alert-danger">' . $ff_response . '</div>';

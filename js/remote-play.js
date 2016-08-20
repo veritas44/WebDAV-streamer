@@ -2,7 +2,6 @@
  * Created by Koen on 15-8-2016.
  */
 
-//Currently not used:
 
 var receiverID = sessionID;
 var masterID = "";
@@ -23,7 +22,6 @@ function changeOutput(id) {
 
 function hideVolume() {
     isMaster = true;
-    lastVolume
     $("#jquery_jplayer_1").jPlayer("volume", 0);
     setTimeout(function() {
         $(".jp-volume-max,.jp-mute,.jp-unmute,.jp-volume-bar").hide(1, function () {

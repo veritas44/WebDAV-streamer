@@ -110,6 +110,7 @@ function addToPlaylist(file, name){
     added.fadeIn("fast", function() {
         added.fadeOut("slow");
     });
+    initSorting();
     return jPlaylist.playlist.length - 1;
     //playlistArray.push(url);
     //playlistNamesArray.push(urldecode(name));
@@ -414,6 +415,7 @@ function crawlLibrary(url) {
     var niceUrl = url.replace("refresh_library.php?folder=", "");
     niceUrl = niceUrl.replace("&overwrite=0", "");
     niceUrl = niceUrl.replace("&overwrite=1", "");
+    niceUrl = niceUrl.replace("&initial=1", "");
     niceUrl = decodeURIComponent(niceUrl);
 
     refreshArray.push(niceUrl);
@@ -455,7 +457,7 @@ function startRefresh(){
         checked = 1;
     }
     var folder = encodeURIComponent($("#refreshFolder").val());
-    crawlLibrary("refresh_library.php?folder=" + folder + "&overwrite=" +  checked);
+    crawlLibrary("refresh_library.php?folder=" + folder + "&overwrite=" +  checked + "&initial=1");
     crawlLibrary("refresh_library.php?folder=remove");
-    $("#output").prepend("<br>Start crawling... Keep this window open<br>\nIt might take up to 30 minutes to see any progress!");
+    $("#output").prepend("<br>Start crawling... This might take a while, and WebDAV streamer might respond slower than usual. You can now close this browser window if you want to.");
 }

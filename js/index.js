@@ -62,6 +62,7 @@ function initialize() {
     } else {
         sessionName = sessionID;
     }
+    updateSession();
 }
 
 $(window).unload(function() {
