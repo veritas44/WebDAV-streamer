@@ -46,6 +46,7 @@
     cursor: pointer;
     height: 8px;
     margin-bottom: 0;
+    z-index: 110;
 }
 
 .jp-progress .progess,

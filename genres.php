@@ -18,14 +18,14 @@ if(isset($_GET["genre"])){
     ?>
     <button class="btn btn-primary btn-sm" onclick="jPlaylist.remove(); addAllToPlaylist('<?php echo urlencode($genre); ?>', 'genre'); setTimeout(function() {jPlaylist.select(0); }, 2000);">Replace playlist</button>
     <button class="btn btn-primary btn-sm" onclick="addAllToPlaylist('<?php echo urlencode($genre); ?>', 'genre');">Add to playlist</button>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover tablesorter" id="genreTable">
         <thead>
         <tr>
-            <td>Artist</td>
-            <td>Album</td>
-            <td>Track</td>
-            <td>Title</td>
-            <td>Duration</td>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Track</th>
+            <th>Title</th>
+            <th>Duration</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +38,7 @@ if(isset($_GET["genre"])){
         ?>
         </tbody>
     </table>
+    <script>$(document).ready(function() { $('#genreTable').tablesorter(); });</script>
     <?php
     die();
 }

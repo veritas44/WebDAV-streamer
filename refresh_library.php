@@ -6,10 +6,19 @@
  * Time: 12:59
  */
 
+if(php_sapi_name() === 'cli'){
+    set_time_limit (0);
+    ini_set("memory_limit", "-1");
+    ini_set('default_socket_timeout', 3600);
+    $extras = "&username=" . $argv[2] . "&password=" . $argv[3];
+    echo file_get_contents($argv[1] . "refresh_library.php?folder=" . urlencode($argv[4]) . "&initial=1" . $extras);
+    echo file_get_contents($argv[1] . "refresh_library.php?folder=remove" . $extras);
+    die();
+}
 require_once("includes.php");
-session_write_close();
 set_time_limit (0);
 ini_set("memory_limit", "-1");
+session_write_close();
 
 $library = new Library();
 $library->connect_db();
@@ -28,6 +37,10 @@ $initial = false;
 if(isset($_GET["initial"]) && $_GET["initial"] == "1"){
     $initial = true;
 }
+$extras = "";
+if(isset($_GET["username"])){
+    $extras = "&username=" . $_GET["username"] . "&password=" . $_GET["password"];
+}
 
 if($initial) {
     $RCX = new RollingCurlX(10);
@@ -40,7 +53,7 @@ if($initial) {
 //$library->add_to_database($data);
 
 function doPropfind($folder, $initial = false){
-    global $client, $overwrite, $RCX, $prefix, $domain, $initial;
+    global $client, $overwrite, $RCX, $prefix, $domain, $initial, $extras;
 
     $folders = $client->propFind($folder, array(
         '{DAV:}getcontenttype',
@@ -50,10 +63,10 @@ function doPropfind($folder, $initial = false){
     array_shift($folders);
     if($initial) {
         if ($overwrite) {
-            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder . "&overwrite=1", null, "request_done");
+            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder . "&overwrite=1" . $extras, null, "request_done");
             //echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "&overwrite=1');</script>";
         } else {
-            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder, null, "request_done");
+            $RCX->addRequest($prefix . $domain . $_SERVER['PHP_SELF'] . "?folder=" . $folder . $extras, null, "request_done");
             //echo "<script>crawlLibrary('refresh_library.php?folder=" . $key . "');</script>";
         }
         foreach ($folders as $key => $value) {

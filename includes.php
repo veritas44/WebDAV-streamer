@@ -27,8 +27,8 @@ require_once("class/simple_html_dom.php");
 require_once("class/rollingcurl.php");
 require_once("class/library.php");
 
-$username = $_SESSION["username"];
-$password = $_SESSION["password"];
+$username = isset($_GET["username"]) ? $_GET["username"] : $_SESSION["username"];
+$password = isset($_GET["password"]) ? $_GET["password"] : $_SESSION["password"];
 
 $auth = new Auth();
 if($auth->login($username, $password) == "success") {

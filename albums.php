@@ -28,13 +28,13 @@ if(isset($_GET["album"])){
             <button class="btn btn-primary btn-sm" onclick="addAllToPlaylist('<?php echo urlencode($album); ?>', 'album'); $('#albumModal').modal('hide');">Add to playlist</button>
         </div>
         <div class="col-md-8">
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover tablesorter" id="albumTable">
                 <thead>
                 <tr>
-                    <td>Artist</td>
-                    <td>Track</td>
-                    <td>Title</td>
-                    <td>Duration</td>
+                    <th>Artist</th>
+                    <th>Track</th>
+                    <th>Title</th>
+                    <th>Duration</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,8 +48,9 @@ if(isset($_GET["album"])){
                 </tbody>
             </table>
         </div>
-            </div>
+        </div>
     </div>
+    <script>$(document).ready(function() { $('#albumTable').tablesorter(); });</script>
     <?php
     die();
 }

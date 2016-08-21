@@ -57,12 +57,31 @@ This way you can run WebDAV streamer on a Pi without the need of a 1TB hard driv
 
 Well, look at a tutorial like [this (Linux)](https://www.digitalocean.com/community/tutorials/how-to-configure-webdav-access-with-apache-on-ubuntu-12-04) or [this (Windows)](http://www.iis.net/learn/install/installing-publishing-technologies/installing-and-configuring-webdav-on-iis). It's simple to set up :-)
 
+**Automatically update library:**
+
+You can automatically update your library. This can be done on the server or on the client that has the same files.
+How it works:
+
+*Client:*
+
+Every step in the library script can be replaced by an argument, just use the same order.
+
+*Server:*
+
+Run the refresh_library.php script through the command line, with the following arguments:
+`php /path/to/refresh_library.php https://my_webdavstreamer_url/ username password folder`
+
+Keep in mind to use the URL with trailing slash. If you want, you can enter "initial" for folder to use the default folder.
+
+Be aware that the log files might show your password in plain text!
+
 **Requirements:**
 
 * PHP 5.5 with curl and PDO
 * A modern browser
 * ffmpeg or avconv
 * Some database that works with PDO. (Tested with MySQL)
+* youtube-dl
 
 **Screenshots:**
 

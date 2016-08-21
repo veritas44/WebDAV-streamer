@@ -69,7 +69,7 @@ if(!empty($search)) {
             "</tr>";
     }
 
-    echo "<script>$(document).ready(function() { $('#databaseTable').tablesorter({headers: {3: {sorter: false}, 8: {sorter: false}}}); $('#databaseAddAll').show(); }); searchTerms = '" . urlencode(json_encode($searchTerms)) ."'</script></td></tr>";
+    echo "<script>$(document).ready(function() { $('#databaseTable').tablesorter(); $('#databaseAddAll').show(); }); searchTerms = '" . urlencode(json_encode($searchTerms)) ."'</script>";
     die();
 }
 ?>
@@ -150,16 +150,13 @@ if(!empty($search)) {
             <th>Duration</th>
             <th>Genre</th>
             <th>Year</th>
-            <th></th>
+            <th><button class="btn btn-default btn-xs" type="button" onclick="addAllToPlaylist(searchTerms, 'search')" style="display: none;" id="databaseAddAll" title="Add all to playlist">Add all</button></th>
         </tr>
         </thead>
         <tbody>
 
         </tbody>
     </table>
-</div>
-<div class="row col-xs-12">
-    <button type="button" class="btn btn-primary" onclick="addAllToPlaylist(searchTerms, 'search')" style="display: none;" id="databaseAddAll">Add all to playlist</button>
 </div>
 <script>
     var searchFolder = "<?php echo urlencode($folder); ?>";
