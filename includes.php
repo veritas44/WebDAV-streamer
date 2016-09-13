@@ -40,6 +40,10 @@ if($auth->login($username, $password) == "success") {
 //require_once ("FFMpeg/FFMpeg.php");
 //require_once ("FFMpeg/FFProbe.php");
 
+$locale = 'en_GB.utf-8';
+setlocale(LC_ALL, $locale);
+putenv('LC_ALL='.$locale);
+
 use Sabre\DAV\Client;
 
 $settings = array(
