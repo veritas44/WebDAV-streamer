@@ -9,6 +9,7 @@ var isSlave = false;
 var isMaster = false;
 var isConnected = false;
 var lastVolume = 0.8;
+var commandTimeout = 10000;
 
 function changeOutput(id) {
     if (typeof id === 'undefined') { id = sessionID; }
@@ -54,7 +55,7 @@ function sendCommand(command, content, id) {
     xhttp.open("POST", "api.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("command=" + command + "&content=" + encodeURIComponent(JSON.stringify(content)) + "&sender=" + sessionID +  "&receiver=" + id);
-    console.log("command=" + command + "&content=" + encodeURIComponent(JSON.stringify(content)) + "&sender=" + sessionID +  "&receiver=" + id);
+    //console.log("command=" + command + "&content=" + encodeURIComponent(JSON.stringify(content)) + "&sender=" + sessionID +  "&receiver=" + id);
 }
 
 function connectCommand() {
@@ -101,17 +102,6 @@ jquery_jplayer_1.bind(jQuery.jPlayer.event.pause, function (event) {
         sendCommand("pause", "");
     }
 });
-setInterval(function() {
-    if(isMaster) {
-        var jPlayerData = $("#jquery_jplayer_1").data();
-        sendCommand("timeupdate", {
-            sender: sessionID,
-            time: jPlayerData.jPlayer.status.currentTime,
-            paused: jPlayerData.jPlayer.status.paused,
-            mp3: jPlaylist.playlist[jPlaylist.current].mp3
-        });
-    }
-}, 600);
 
 var remotePlayer = document.createElement("AUDIO");
 remotePlayer.volume = 1;
@@ -125,6 +115,7 @@ function receiveCommand() {
                 var commandObject = response[i];
                 //console.log(commandObject);
                 if(typeof commandObject !== "undefined" && commandObject.receiver == sessionID){
+                    //commandTimeout = 500;
                     var content = {};
                     if(commandObject.content != ""){ content = JSON.parse(commandObject.content)}
                     if(commandObject.command == "connect"){
@@ -152,7 +143,7 @@ function receiveCommand() {
                                 if(remotePlayer.src != content.mp3){
                                     remotePlayer.src = content.mp3;
                                 }
-                                if(content.time > remotePlayer.currentTime + 7 || content.time < remotePlayer.currentTime - 7){
+                                if(content.time > remotePlayer.currentTime + 4 || content.time < remotePlayer.currentTime - 4){
                                     remotePlayer.currentTime = content.time;
                                 }
                                 if(remotePlayer.paused && content.paused == false){
@@ -180,12 +171,31 @@ function receiveCommand() {
                 }
             }
         }
+        if(xhttp.readyState == 4){
+            setTimeout(function () {
+                receiveCommand();
+            }, 100);
+        }
     };
     xhttp.open("POST", "api.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.timeout = commandTimeout;
     xhttp.send("");
+
+    //console.log("Receiving command");
 }
 
-setInterval(function() {
+$(document).ready(function () {
     receiveCommand();
+});
+setInterval(function() {
+    if(isMaster) {
+        var jPlayerData = $("#jquery_jplayer_1").data();
+        sendCommand("timeupdate", {
+            sender: sessionID,
+            time: jPlayerData.jPlayer.status.currentTime,
+            paused: jPlayerData.jPlayer.status.paused,
+            mp3: jPlaylist.playlist[jPlaylist.current].mp3
+        });
+    }
 }, 400);

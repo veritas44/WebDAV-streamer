@@ -76,6 +76,9 @@ $(document).ready(function() {
             return false;
         }
     });
+    $(".sorter").click(function () {
+        initSorting();
+    });
 
     //Set on document load:
     $(".playlist-container").hide();

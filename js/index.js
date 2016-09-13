@@ -219,10 +219,20 @@ function checkLoaded() {
         $(".buffer-bar").hide();
     }
 }
+/*
 setInterval(function(){
     //refreshTitle();
-    $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
-}, 2000);
+
+}, 5000);
+*/
+
+var rowSize;
+$(window).resize(function () {
+    clearInterval(rowSize);
+    rowSize = setTimeout(function () {
+        $(".row.full-height").css("padding-bottom", $(".navbar-fixed-bottom").css('height'));
+    }, 1000);
+});
 
 function updateSession() {
     $.post( "session.php", { action: "update", id: sessionID, name: sessionName } );

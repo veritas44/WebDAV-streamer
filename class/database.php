@@ -580,7 +580,7 @@ ALTER TABLE `commands`
 
     function delete_old_commands(){
         try {
-            $stmt = $this->dbh->prepare("DELETE FROM commands WHERE `timestamp` < (NOW() - INTERVAL 1 MINUTE)");
+            $stmt = $this->dbh->prepare("DELETE FROM commands WHERE `timestamp` < (NOW() - INTERVAL 15 SECOND)");
             $stmt->execute();
 
         }catch(PDOException $e){

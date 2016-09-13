@@ -7,6 +7,7 @@
  */
 
 require_once ("includes.php");
+session_write_close();
 
 $database = new Database();
 $database->connect(DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD);
@@ -21,12 +22,16 @@ $remove = (isset($_POST["remove"]) ? $_POST["remove"] : "");
 
 if(!empty($command) && !empty($sender) && !empty($receiver)){
     $database->add_command(uniqid(), $sender, $receiver, $command, $content, $auth->username);
-} else {
-    echo json_encode($database->get_commands($auth->username));
-}
-
-if(!empty($remove)){
+} elseif(!empty($remove)){
     $database->delete_command($remove);
     $database->delete_old_commands();
+} else {
+    $database->delete_old_commands();
+    while(count($database->get_commands($auth->username)) == 0){
+        sleep(1);
+    }
+    echo json_encode($database->get_commands($auth->username));
+
 }
+
 

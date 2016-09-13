@@ -20,7 +20,7 @@ if(isset($_GET["video"])){
     //print_r($videoArray);
     //echo $videoArray["title"];
 
-    echo shell_exec(YOUTUBE_DL . " -e https://www.youtube.com/watch?v=" . escapeshellcmd($_GET["video"]));
+    echo utf8_encode(shell_exec(YOUTUBE_DL . " -e https://www.youtube.com/watch?v=" . escapeshellcmd($_GET["video"])));
     die();
 }
 ?>

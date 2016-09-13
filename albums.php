@@ -41,7 +41,7 @@ if(isset($_GET["album"])){
                 <?php
                 foreach($songs as $song){
                     echo '<tr style="cursor:pointer;" onclick="playAudio(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\')"><td>' . $song['artist'] . '</td><td>' . $song['track'] . '</td><td>' . $song['title'] . '</td><td>' . gmdate('H:i:s', $song['duration']) . '</td>' .
-                        '<td><a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a> ' .
+                        '<td width="70px"><a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addToPlaylist(\'' . Sabre\HTTP\encodePath(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\')"><span class="glyphicon glyphicon-plus-sign"></span></a>' .
                         '<a class="btn btn-xs btn-default" href="javascript:;" onclick="event.stopPropagation(); addFavourite(\'' . urlencode(Sabre\HTTP\encodePath($song['file'])) . '\', \'' . urlencode($song['album'] . ' - ' . $song['artist'] . ' - ' . $song['title']) . '\', \'audio\')"><span class="glyphicon glyphicon-star"></span></a></td></tr>';
                 }
                 ?>

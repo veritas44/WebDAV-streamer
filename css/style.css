@@ -28,7 +28,8 @@ html, body {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 500%;
+    font-size: 450%;
+    line-height: 100%;
 }
 
 .playlist-container {
