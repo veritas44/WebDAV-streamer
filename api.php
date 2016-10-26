@@ -27,8 +27,10 @@ if(!empty($command) && !empty($sender) && !empty($receiver)){
     $database->delete_old_commands();
 } else {
     $database->delete_old_commands();
-    while(count($database->get_commands($auth->username)) == 0){
+    $times = 0;
+    while(count($database->get_commands($auth->username)) == 0 && $times < 10){
         sleep(1);
+        $times++;
     }
     echo json_encode($database->get_commands($auth->username));
 

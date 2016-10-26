@@ -10,7 +10,7 @@ class Database{
         try
         {
             $this->dbh = new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass, array(
-                PDO::ATTR_PERSISTENT => true
+                //PDO::ATTR_PERSISTENT => true
             ));
         } catch (PDOException $e) {
             echo "Database connection failed.";

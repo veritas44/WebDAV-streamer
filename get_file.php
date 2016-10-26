@@ -53,12 +53,12 @@ if(file_exists(CONVERT_FOLDER . "/" . $md5name . $extension) == false) {
             //echo print_r($response);
             //die();
         }
-        header("HTTP/1.0 " . $response["statusCode"]);
+        //header("HTTP/1.0 " . $response["statusCode"]);
         //header('Content-Type: audio/mpeg');
         //header('Content-Disposition: filename="'. end(explode('/', $requestURL)) . '"');
-        header('Content-length: ' . $response["headers"]["content-length"][0]);
+        //header('Content-length: ' . $response["headers"]["content-length"][0]);
         //header('Cache-Control: no-cache');
-        header("Content-Transfer-Encoding: binary");
+        //header("Content-Transfer-Encoding: binary");
 
         //var_dump(array_key_exists($response["headers"]["content-type"][0], $supportedMimeTypes));
         //echo $supportedMimeTypes[$response["headers"]["content-type"][0]];
