@@ -1,3 +1,7 @@
+# This project has been abandoned
+
+I started from scratch to have a much more solid basis. The new version can be found on https://asti.ga
+
 ## WebDAV streamer ##
 WebDAV streamer is a simple PHP web application for streaming music and video from a WebDAV share (like ownCloud) to the browser.
 It only requires PHP and ffmpeg, and setting it up should not take too long. (Suggestions are welcome, just contact me)
